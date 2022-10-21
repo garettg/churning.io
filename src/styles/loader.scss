@@ -1,0 +1,18 @@
+.loader {
+    border-top-color: rgb(2, 132, 199);
+    -webkit-animation: spinner 1.5s linear infinite;
+    animation: spinner 1.5s linear infinite;
+}
+@media (prefers-color-scheme: dark) {
+    .loader {
+        border-top-color: rgb(8, 145, 178);
+    }
+}
+@-webkit-keyframes spinner {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

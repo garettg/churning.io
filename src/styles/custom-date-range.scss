@@ -1,0 +1,41 @@
+.custom-date-range {
+    .rdrCalendarWrapper {
+        font-size: 0.875rem;
+        border-radius: 0.25rem;
+    }
+
+    .rdrDateDisplayWrapper {
+        border-radius: 0.25rem;
+    }
+
+    .rdrDateDisplay {
+        margin: 0.75rem;
+    }
+
+    .rdrMonthAndYearWrapper,
+    .rdrMonths {
+        font-size: 0.75rem;
+    }
+
+    .rdrMonthAndYearWrapper {
+        padding: 0.25rem 0;
+        height: auto;
+    }
+
+    .rdrMonth {
+        padding: 0 0.75rem 0.5rem 0.75rem;
+        width: 100%;
+    }
+
+    .rdrMonthAndYearPickers select {
+        padding: 0.5rem 1.5rem 0.5rem 0.75rem;
+    }
+
+    .rdrDateDisplayItem + .rdrDateDisplayItem {
+        margin-left: 0.75rem;
+    }
+
+    .rdrCalendarWrapper.rdrDateRangeWrapper {
+        width: 100%;
+    }
+}
