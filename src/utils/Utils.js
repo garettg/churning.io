@@ -48,8 +48,7 @@ export const isDevMode = () => {
 }
 
 export const gaEvent = (eventName, eventParams) => {
-    if (isDevMode()) {
+    if (!isDevMode()) {
         event(eventName, eventParams, Config.appAnalyticsId);
-        console.log("Event fired!")
     }
 }

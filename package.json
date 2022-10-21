@@ -24,6 +24,7 @@
     "next": "latest",
     "next-themes": "~0.2.1",
     "nextjs-google-analytics": "~2.1.0",
+    "next-i18next": "~12.1.0",
     "prop-types": "~15.8.1",
     "react": "~18.2.0",
     "react-copy-to-clipboard": "~5.1.0",
