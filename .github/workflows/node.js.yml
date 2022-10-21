@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Build Application 🧱
-        run: npm run build && npm run export && touch ./dist/.nojekyll
+        run: npm run build && npm run export && touch ./out/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.0
