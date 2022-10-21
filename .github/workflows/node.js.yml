@@ -29,6 +29,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FOLDER: dist # The folder the action should deploy
+          FOLDER: out # The folder the action should deploy
           CLEAN: true
           CLEAN-EXCLUDE: CNAME
