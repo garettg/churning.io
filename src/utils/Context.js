@@ -80,6 +80,13 @@ const SearchContextProvider = (props) => {
     };
 
     useEffect(() => {
+        const localStorageOptions = decompress(localStorage.getItem(idOptions));
+        if (!isEmpty(localStorageOptions)) {
+            // Load stored form data if exists
+            setOptions({...defaultOptions, ...localStorageOptions});
+            console.log("Loaded options from local storage");
+        }
+
         if (window.location.hash) {
             const formData = decompress(window.location.hash.slice(1));
             loadSavedState(formData, true);
@@ -94,13 +101,6 @@ const SearchContextProvider = (props) => {
             // Load stored form data if exists
             loadSavedState(localStorageData);
             console.log("Loaded state from local storage");
-        }
-
-        const localStorageOptions = decompress(localStorage.getItem(idOptions));
-        if (!isEmpty(localStorageOptions)) {
-            // Load stored form data if exists
-            setOptions({...defaultOptions, ...localStorageOptions});
-            console.log("Loaded options from local storage");
         }
     }, []);
 
