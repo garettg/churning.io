@@ -67,8 +67,8 @@ const SearchContextProvider = (props) => {
                 formData.selectionRange.startDate = new Date(formData.selectionRange.startDate);
                 formData.selectionRange.endDate = new Date(formData.selectionRange.endDate);
             }
-            if (formData.threadType && !isEmpty(formData.threadType)) {
-                setThreadFilters(formData.threadType);
+            if (formData.hasOwnProperty("threadFilters") && formData.threadFilters && !isEmpty(formData.threadFilters)) {
+                setThreadFilters(formData.threadFilters);
             }
 
             setState({ ...defaultState, ...formData });
@@ -115,7 +115,7 @@ const SearchContextProvider = (props) => {
             const threadsList = Array.from(new Set(data.map((c) => c.thread))).sort();
             for (let thread of threadsList) {
                 thread ||= "None";
-                if (!isEmpty(threadFilters) && "thread" in prevThreadFilters) {
+                if (!isEmpty(prevThreadFilters) && thread in prevThreadFilters) {
                     threadsOptions[thread] = prevThreadFilters[thread];
                 } else {
                     threadsOptions[thread] = true;
@@ -137,7 +137,7 @@ const SearchContextProvider = (props) => {
         });
     }, [threadFilters, data]);
 
-    const shareUrl = `${typeof window === "undefined" ? "/" : window.location.href}#${compress(state)}`;
+    const shareUrl = `${typeof window === "undefined" ? "/" : window.location.href}#${compress({...state, threadFilters: threadFilters})}`;
 
     let searched = data !== undefined
 
