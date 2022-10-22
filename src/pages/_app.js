@@ -4,8 +4,6 @@ import "../styles/index.scss";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleAnalytics, usePageViews, event } from "nextjs-google-analytics";
-import { Suspense } from "react";
-import { Spinner } from "flowbite-react";
 import { ThemeProvider } from 'next-themes'
 
 import {Config} from "../../app.config";
@@ -45,16 +43,9 @@ export default function App({ Component, pageProps }) {
                 <GoogleAnalytics gaMeasurementId={Config.appAnalyticsId}/>
                 <QueryClientProvider client={client}>
                     <SearchContextProvider>
-                        <Suspense
-                            fallback={
-                                <div className="flex items-center justify-center">
-                                    <Spinner size="lg"/> Loading..
-                                </div>
-                            }>
-                            <ThemeProvider attribute="class">
-                                <Component {...pageProps} />
-                            </ThemeProvider>
-                        </Suspense>
+                        <ThemeProvider attribute="class">
+                            <Component {...pageProps} />
+                        </ThemeProvider>
                     </SearchContextProvider>
                 </QueryClientProvider>
             </div>
