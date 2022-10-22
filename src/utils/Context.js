@@ -12,6 +12,11 @@ const api = new PushshiftAPI();
 const idOptions = Config.appId + "-options";
 const idData = Config.appId + "-data";
 
+let prefersDarkMode = false;
+if (typeof window !== "undefined") {
+    prefersDarkMode = window.matchMedia("(prefers-color-scheme:dark)").matches;
+}
+
 const defaultState = {
     query: "",
     author: "",
@@ -27,7 +32,7 @@ const defaultState = {
 const defaultOptions = {
     oldReddit: false,
     showDate: false,
-    darkMode: false,
+    darkMode: prefersDarkMode,
     addAwardTravel: false
 }
 
