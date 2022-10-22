@@ -66,7 +66,7 @@ const ResultItem = (props) => {
     }
 
     let subredditBadge;
-    if (options.addAwardTravel) {
+    if (options.addAwardTravel && props.showSub) {
         subredditBadge = <Badge icon={FaFolder} color="success" size="xs"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
     }
 
@@ -113,7 +113,8 @@ ResultItem.propTypes = {
     id: PropTypes.string,
     permalink: PropTypes.string,
     thread: PropTypes.string,
-    subreddit: PropTypes.string
+    subreddit: PropTypes.string,
+    showSub: PropTypes.bool.isRequired
 }
 
 const Results = () => {
@@ -158,8 +159,9 @@ const Results = () => {
                 </div>
         } else {
             if (comments.length !== 0) {
+                const subs = Array.from(new Set(comments.map((c) => c.subreddit)));
                 resultsContent = [
-                    comments.map((comment, index) => <ResultItem key={index} {...comment} />),
+                    comments.map((comment, index) => <ResultItem key={index} {...comment} showSub={subs.length > 1} />),
                     <div key={9999} className="font-semibold text-center my-4">
                         End of Results
                     </div>
