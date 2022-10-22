@@ -60,12 +60,19 @@ const Options = () => {
     return (
         <>
             <button type="button"
+                    aria-label={`${Config.appName} Options`}
+                    title={`${Config.appName} Options`}
+                    aria-haspopup={true}
                     onClick={toggleShow}
                     className={ButtonClasses}>
                 <TbAdjustmentsHorizontal className="h-5 w-5" />
             </button>
-            <Modal show={show} onClose={handleClose} size="sm">
-                <Modal.Header>
+            <Modal
+                show={show}
+                aria-labelledby="options-modal"
+                onClose={handleClose}
+                size="sm">
+                <Modal.Header id="options-modal">
                     {Config.appName} Options
                 </Modal.Header>
                 <Modal.Body>
@@ -76,7 +83,9 @@ const Options = () => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleClose}>
+                    <Button
+                        aria-label="Close"
+                        onClick={handleClose}>
                         OK
                     </Button>
                 </Modal.Footer>

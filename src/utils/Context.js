@@ -148,9 +148,6 @@ const SearchContextProvider = (props) => {
     }
 
     const search = () => {
-        if (isDevMode()) {
-            console.log(state);
-        }
         for (const [key, value] of Object.entries(state)) {
             if (value !== "") {
                 let eventValue = value;

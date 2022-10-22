@@ -54,7 +54,14 @@ const Share = () => {
             <CopyToClipboard
                 text={shareUrl}
                 onCopy={onSuccess}>
-                <button type="button" className={`${ButtonClasses} text-xs`}><FiShare className="mr-2 h-5 w-5" /> Share</button>
+                <button
+                    type="button"
+                    aria-label="Share Search Results"
+                    title="Share Search Results"
+                    className={`${ButtonClasses} text-xs`}>
+                    <FiShare className="md:mr-2 h-5 w-5" />
+                    <span className="hidden md:inline">Share</span>
+                </button>
             </CopyToClipboard>
             <Toaster />
         </>

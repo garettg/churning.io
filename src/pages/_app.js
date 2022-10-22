@@ -39,6 +39,15 @@ export default function App({ Component, pageProps }) {
             <>
                 <Head>
                     <title>{Config.appName}</title>
+                    <meta charSet="UTF-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                    <meta http-equiv="cache-control" content="max-age=0"/>
+                    <meta http-equiv="cache-control" content="no-cache"/>
+                    <meta http-equiv="expires" content="0"/>
+                    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
+                    <meta http-equiv="pragma" content="no-cache"/>
+                    <meta name="msapplication-TileColor" content="#2d89ef"/>
+                    <meta name="msapplication-config" content="/public/icons/browserconfig.xml"/>
                     <link rel="shortcut icon" href="favicon.ico"/>
                     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png"/>
                     <link rel="icon" type="image/svg+xml" href="icons/favicon.svg"/>
@@ -46,10 +55,6 @@ export default function App({ Component, pageProps }) {
                     <link rel="alternate icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png"/>
                     <link rel="alternate shortcut icon" href="icons/favicon.ico"/>
                     <link rel="manifest" href="icons/site.webmanifest"/>
-                    <meta name="msapplication-TileColor" content="#2d89ef"/>
-                    <meta name="msapplication-config" content="/public/icons/browserconfig.xml"/>
-                    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
-                    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)"/>
                 </Head>
                 <div className="app-root">
                     <GoogleAnalytics gaMeasurementId={Config.appAnalyticsId} trackPageViews={{ignoreHashChange: true}}/>

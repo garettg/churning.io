@@ -15,8 +15,8 @@ const Facets = (props) => {
     if (searching) {
         return (
             <div className="mt-8 md:mt-0 lg:mt-8 md:w-1/2 lg:w-full md:pl-4 lg:pl-0">
-                <div className="flex flex-col text-center">
-                    <Spinner aria-label="Searching..." size="lg" />
+                <div className="hidden md:flex flex-col text-center ">
+                    <Spinner aria-label="Searching..." size="md" />
                 </div>
             </div>
         );

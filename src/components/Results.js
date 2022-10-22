@@ -70,23 +70,26 @@ const ResultItem = (props) => {
         subredditBadge = <Badge icon={FaFolder} color="success" size="xs"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
     }
 
-    const postedBadge = <div className="ml-auto"><Badge icon={FaClock} color="warning" size="xs"><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge></div>;
+    const postedBadge = <Badge icon={FaClock} color="warning" size="xs"><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>;
 
     return (
         <Card>
-            <div className="flex items-center flex-wrap gap-3">
-                <Avatar rounded={true} size="sm" />
-                <a href={`${redditDomain}/user/${props.author}`}
-                   onClick={(e) => handleAuthorClick(e, props.author)}
-                   className={`font-semibold text-lg ${LinkClasses}`}
-                   target="_blank">
-                    <span className="sr-only">Comment Author:</span> {props.author}
-                </a>
+            <div className="flex flex-wrap items-center justify-between">
+                <div className="flex flex-wrap items-center gap-3">
+                    <Avatar rounded={true} size="xs" />
+                    <a href={`${redditDomain}/user/${props.author}`}
+                       onClick={(e) => handleAuthorClick(e, props.author)}
+                       className={`font-semibold text-lg ${LinkClasses}`}
+                       target="_blank">
+                        <span className="sr-only">Comment Author:</span> {props.author}
+                    </a>
+                </div>
+                {postedBadge}
             </div>
             <div>
                 <a href={commentLink}
                    onClick={(e) => handleResultClick(e, props)}
-                   className="block text-sm leading-snug reddit-comment"
+                   className="block text-sm leading-snug reddit-comment text-ellipsis overflow-hidden"
                    target="_blank">
                 <ReactMarkdown
                     disallowedElements={['a']}
@@ -99,7 +102,6 @@ const ResultItem = (props) => {
             <div className="flex flex-wrap gap-4 items-center">
                 {subredditBadge}
                 {threadBadge}
-                {postedBadge}
             </div>
         </Card>
     )
@@ -180,7 +182,7 @@ const Results = () => {
                         <Reset />
                     </div>
                 </div>
-                <main id="results-list" role="region" aria-label="Search Results" className="flex-1 overflow-y-scroll p-4 lg:px-8 xl:px-10">
+                <main id="results-list" role="region" aria-label="Search Results" className="flex-1 overflow-y-scroll py-4 px-3 md:px-6 lg:px-9 xl:px-12">
                     <div className="flex flex-col gap-4">
                         {resultsContent}
                     </div>

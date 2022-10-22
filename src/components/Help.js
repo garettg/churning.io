@@ -1,6 +1,6 @@
 const Help = (props) => {
     return (
-        <div className="p-8 w-full">
+        <div className="md:pt-6 px-4 md:px-6 lg:px-8 pb-6 w-full">
             <table className="table-auto text-sm mx-auto">
                 <thead>
                     <tr>

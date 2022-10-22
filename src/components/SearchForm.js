@@ -118,6 +118,7 @@ const SearchForm = () => {
             </div>
             <div className="mt-4">
                 <button
+                    aria-label="Search"
                     className="text-white bg-blue-700 border border-transparent hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 disabled:hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:disabled:hover:bg-blue-600 focus:!ring-2 group flex h-min w-full items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg"
                     type="submit">
                     <span className="flex items-center rounded-md text-sm px-4 py-2">{searchButtonLabel}</span>

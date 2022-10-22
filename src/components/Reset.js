@@ -9,8 +9,14 @@ const Reset = () => {
     } = useSearchContext();
 
     return (
-        <button type="button" className={`${ButtonClasses} text-xs`} onClick={reset}>
-            <MdRefresh className="mr-2 h-5 w-5" /> Reset
+        <button
+            type="button"
+            aria-label="Reset Search"
+            title="Reset Search"
+            className={`${ButtonClasses} text-xs`}
+            onClick={reset}>
+            <MdRefresh className="md:mr-2 h-5 w-5" />
+            <span className="hidden md:inline">Reset</span>
         </button>
     )
 }
