@@ -50,7 +50,7 @@ const SearchForm = () => {
     }
 
     return (
-        <form onSubmit={searchSubmit} className="flex flex-col gap-4 mt-4" role="search" aria-label="Search Form">
+        <form onSubmit={searchSubmit} className="flex flex-col gap-3 lg:gap-4 mt-3 md:mt-4" role="search" aria-label="Search Form">
             <div>
                 <div className="mb-1 block">
                     <Label htmlFor="query" value="Search" />
