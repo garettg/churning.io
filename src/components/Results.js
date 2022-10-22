@@ -99,7 +99,7 @@ const ResultItem = (props) => {
                 </ReactMarkdown>
                 </a>
             </div>
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className={`flex flex-wrap justify-${subredditBadge ? 'between':'end'} items-center`}>
                 {subredditBadge}
                 {threadBadge}
             </div>
@@ -177,7 +177,7 @@ const Results = () => {
                     <div id="results-title" aria-live="polite" aria-atomic="true" className="font-semibold text-lg text-gray-700 dark:text-gray-50">
                         Showing {filteredCount < totalCount ? `${filteredCount} of ` : ''}{totalCount} result{totalCount === 1 ? '':'s'}
                     </div>
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-3 md:gap-4">
                         <Share />
                         <Reset />
                     </div>

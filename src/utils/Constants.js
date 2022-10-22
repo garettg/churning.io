@@ -49,8 +49,8 @@ export const ButtonClasses = classNames(
     "h-min",
     "items-center",
     "justify-center",
-    "py-2",
-    "px-3",
+    "py-1 md:py-2",
+    "px-2 md:px-3",
 
     "rounded-lg"
 );
