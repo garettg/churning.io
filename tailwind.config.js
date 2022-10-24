@@ -1,4 +1,5 @@
 const colors = require("tailwindcss/colors");
+const iOSHeight = require('@rvxlab/tailwind-plugin-ios-full-height');
 
 module.exports = {
     content: [
@@ -35,6 +36,7 @@ module.exports = {
     darkMode: "class",
     plugins: [
         require("@tailwindcss/forms"),
-        require('flowbite/plugin')
+        require('flowbite/plugin'),
+        iOSHeight
     ],
 };

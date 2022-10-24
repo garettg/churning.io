@@ -17,10 +17,3 @@ body {
 @import "facet";
 @import "custom-date-range";
 @import "reddit-comment";
-
-// Fix for tailwind h-screen on safari - https://benborgers.com/posts/tailwind-h-screen
-@supports (-webkit-touch-callout: none) {
-    .h-screen {
-        height: -webkit-fill-available !important;
-    }
-}
