@@ -1,13 +1,13 @@
+import {Button} from "flowbite-react";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import {FiShare} from "react-icons/fi";
-import {MdOutlineClose} from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
 import classNames from "classnames";
+import {FiShare} from "react-icons/fi";
+import {MdOutlineClose} from "react-icons/md";
 
 import styles from "../styles/Share.module.css";
 
 import {useSearchContext} from "../utils/Context";
-import {ButtonClasses} from "../utils/Constants";
 import {decompress, gaEvent} from "../utils/Utils";
 
 // https://dev.to/franciscomendes10866/how-to-create-a-notificationtoast-using-react-and-tailwind-545o
@@ -54,14 +54,13 @@ const Share = () => {
             <CopyToClipboard
                 text={shareUrl}
                 onCopy={onSuccess}>
-                <button
-                    type="button"
+                <Button
+                    size="sm"
                     aria-label="Share Search Results"
-                    title="Share Search Results"
-                    className={`${ButtonClasses} text-xs`}>
+                    title="Share Search Results">
                     <FiShare className="md:mr-2 h-5 w-5" />
                     <span className="hidden md:inline">Share</span>
-                </button>
+                </Button>
             </CopyToClipboard>
             <Toaster />
         </>

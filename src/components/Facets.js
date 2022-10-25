@@ -1,4 +1,4 @@
-import {Checkbox, Label, ListGroup, Button, Spinner} from "flowbite-react";
+import {Checkbox, Label, ListGroup, Spinner} from "flowbite-react";
 
 import {useSearchContext} from "../utils/Context";
 import {LinkClasses} from "../utils/Constants";

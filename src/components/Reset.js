@@ -1,7 +1,7 @@
+import {Button} from "flowbite-react";
 import {MdRefresh} from "react-icons/md";
 
 import {useSearchContext} from "../utils/Context";
-import {ButtonClasses} from "../utils/Constants";
 
 const Reset = () => {
     const {
@@ -9,15 +9,14 @@ const Reset = () => {
     } = useSearchContext();
 
     return (
-        <button
-            type="button"
+        <Button
+            size="sm"
             aria-label="Reset Search"
             title="Reset Search"
-            className={`${ButtonClasses} text-xs`}
             onClick={reset}>
             <MdRefresh className="md:mr-2 h-5 w-5" />
             <span className="hidden md:inline">Reset</span>
-        </button>
+        </Button>
     )
 }
 

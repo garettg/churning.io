@@ -125,6 +125,9 @@ export class PushshiftAPI {
                         case /(question_thread_|newbie_question_weekly_|newbie_weekly_question_)/.test(permalink):
                             datum.thread = "Daily Question";
                             break;
+                        case /weekly_discussion_thread_/.test(permalink):
+                            datum.thread = "Weekly Discussion";
+                            break;
                         case /(discussion_thread_|daily_discussion_)/.test(permalink):
                             datum.thread = "Daily Discussion";
                             break;
@@ -149,8 +152,6 @@ export class PushshiftAPI {
                         case /(trip_report_and_churning_success_|trip_reports_and_churning_success_|storytime_weekly_|trip_report_weekly_)/.test(permalink):
                             datum.thread = "Trip Report/Success";
                             break;
-                        case /weekly_discussion_thread_/.test(permalink):
-                            datum.thread = "Weekly Discussion";
                         default:
                             datum.thread = "";
                     }

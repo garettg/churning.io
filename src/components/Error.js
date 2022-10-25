@@ -1,5 +1,5 @@
 import {Alert} from "flowbite-react";
-import {TbFaceIdError} from "react-icons/tb";
+import {BiErrorAlt} from "react-icons/bi";
 
 import {Config} from "../../app.config";
 import {LinkClasses} from "../utils/Constants";
@@ -25,7 +25,7 @@ const Error = () => {
         <div className="p-12 w-full">
             <Alert
                 color="failure"
-                icon={TbFaceIdError}
+                icon={BiErrorAlt}
                 additionalContent={additionalContent}>
                 <h2 className="text-xl font-medium text-red-700 dark:text-red-800">An Error Has Occurred</h2>
             </Alert>

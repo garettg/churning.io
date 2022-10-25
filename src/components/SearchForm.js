@@ -1,6 +1,7 @@
+import {Label, TextInput, Select, Button, Spinner} from "flowbite-react";
 import {DateRange} from "react-date-range";
 import {format, parseISO, subDays} from 'date-fns';
-import {Label, TextInput, Select, Button, Spinner} from "flowbite-react";
+import classNames from "classnames";
 
 import {SearchRange} from "../utils/Constants";
 import {Config} from "../../app.config";
@@ -42,30 +43,31 @@ const SearchForm = () => {
     if (searching) {
         searchButtonLabel =
             <>
-                <div className="mr-3">
+                <span className="mr-3">
                     <Spinner size="sm" light={true} />
-                </div>
+                </span>
                 Searching ...
             </>;
     }
 
+    let searchButtonDisabled = (query === "" && author === "");
+
     return (
         <form onSubmit={searchSubmit} className="flex flex-col gap-3 lg:gap-4 mt-3 md:mt-4" role="search" aria-label="Search Form">
             <div>
-                <div className="mb-1 block">
+                <div className="lg:mb-1">
                     <Label htmlFor="query" value="Search" />
                 </div>
                 <TextInput
                     id="query"
                     name="query"
                     type="search"
-                    required={true}
                     value={query}
                     onChange={handleChange}
                 />
             </div>
             <div>
-                <div className="mb-1 block">
+                <div className="lg:mb-1">
                     <Label htmlFor="author" value="Author" />
                 </div>
                 <TextInput
@@ -77,7 +79,7 @@ const SearchForm = () => {
                 />
             </div>
             <div>
-                <div className="mb-1 block">
+                <div className="lg:mb-1">
                     <Label htmlFor="time" value="Time Range" />
                 </div>
                 <Select
@@ -90,7 +92,7 @@ const SearchForm = () => {
                     <option value="">Custom</option>
                 </Select>
             </div>
-            <div className={`custom-date-range ${time === "" ? "block":"hidden"}`}>
+            <div className={classNames('custom-date-range', {"hidden": time !== ""})}>
                 <Label htmlFor="date-range" value="Custom Time Range" className="sr-only" />
                 <DateRange
                     id="date-range"
@@ -104,7 +106,7 @@ const SearchForm = () => {
                 />
             </div>
             <div>
-                <div className="mb-1 block">
+                <div className="lg:mb-1">
                     <Label htmlFor="sort" value="Sort By" />
                 </div>
                 <Select
@@ -117,12 +119,14 @@ const SearchForm = () => {
                 </Select>
             </div>
             <div className="mt-4">
-                <button
+                <Button
+                    disabled={searchButtonDisabled}
+                    aria-disabled={searchButtonDisabled}
                     aria-label="Search"
-                    className="text-white bg-blue-700 border border-transparent hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 disabled:hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:disabled:hover:bg-blue-600 focus:!ring-2 group flex h-min w-full items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg"
-                    type="submit">
-                    <span className="flex items-center rounded-md text-sm px-4 py-2">{searchButtonLabel}</span>
-                </button>
+                    type="submit"
+                    fullSized>
+                    {searchButtonLabel}
+                </Button>
             </div>
         </form>
     );

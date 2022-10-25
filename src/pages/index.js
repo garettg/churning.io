@@ -17,7 +17,7 @@ export default function Home() {
                 </div>
                 <Facets />
             </div>
-            <div id="results-panel" className="mt-8 lg:mt-0 flex flex-1 flex-col bg-white dark:bg-slate-900 overflow-hidden">
+            <div id="results-panel" className="mt-8 lg:mt-0 flex flex-1 flex-col bg-white dark:bg-slate-900 overflow-y-scroll">
                 <Results />
             </div>
         </div>

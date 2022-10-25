@@ -6,7 +6,6 @@ import { useTheme } from 'next-themes'
 import {Config} from "../../app.config";
 import {useSearchContext} from "../utils/Context";
 import {compress} from "../utils/Utils";
-import {ButtonClasses} from "../utils/Constants";
 
 const Options = () => {
     const {
@@ -59,14 +58,14 @@ const Options = () => {
 
     return (
         <>
-            <button type="button"
-                    aria-label={`${Config.appName} Options`}
-                    title={`${Config.appName} Options`}
-                    aria-haspopup={true}
-                    onClick={toggleShow}
-                    className={ButtonClasses}>
+            <Button
+                size="sm"
+                title={`${Config.appName} Options`}
+                aria-label={`${Config.appName} Options`}
+                aria-haspopup={true}
+                onClick={toggleShow}>
                 <TbAdjustmentsHorizontal className="h-5 w-5" />
-            </button>
+            </Button>
             <Modal
                 show={show}
                 aria-labelledby="options-modal"
@@ -85,7 +84,8 @@ const Options = () => {
                 <Modal.Footer>
                     <Button
                         aria-label="Close"
-                        onClick={handleClose}>
+                        onClick={handleClose}
+                        fullSized>
                         OK
                     </Button>
                 </Modal.Footer>

@@ -74,7 +74,7 @@ const SearchContextProvider = (props) => {
             setState({ ...defaultState, ...formData });
 
             if (shouldSearch) {
-                setTimeout(refetch, 250);
+                setTimeout(search, 250);
             }
         }
     };

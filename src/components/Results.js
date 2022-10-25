@@ -1,11 +1,11 @@
+import {Card, Badge, Spinner, Avatar} from "flowbite-react";
 import PropTypes from "prop-types";
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import format from 'date-fns/format';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import {Card, Badge, Spinner, Avatar} from "flowbite-react";
-import {ImPriceTag} from 'react-icons/im';
-import {FaFolder, FaClock} from 'react-icons/fa';
+import {ImPriceTag, ImClock2} from 'react-icons/im';
+import {TbBrandReddit} from 'react-icons/tb';
 
 import {useSearchContext} from "../utils/Context";
 import {Config} from "../../app.config";
@@ -67,10 +67,10 @@ const ResultItem = (props) => {
 
     let subredditBadge;
     if (options.addAwardTravel && props.showSub) {
-        subredditBadge = <Badge icon={FaFolder} color="success" size="xs"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
+        subredditBadge = <Badge icon={TbBrandReddit} color="success" size="xs"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
     }
 
-    const postedBadge = <Badge icon={FaClock} color="warning" size="xs"><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>;
+    const postedBadge = <Badge icon={ImClock2} color="warning" size="xs"><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>;
 
     return (
         <Card>
@@ -163,7 +163,7 @@ const Results = () => {
             if (comments.length !== 0) {
                 const subs = Array.from(new Set(comments.map((c) => c.subreddit)));
                 resultsContent = [
-                    comments.map((comment, index) => <ResultItem key={index} {...comment} showSub={subs.length > 1} />),
+                    comments.map((comment, index) => <ResultItem key={index} {...comment} showSub={subs.includes('awardtravel')} />),
                     <div key={9999} className="font-semibold text-center my-4">
                         End of Results
                     </div>
