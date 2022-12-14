@@ -5,9 +5,8 @@ export const Config = {
     appHosts: [
         "churning.io",
         "garettg.github.io"
-    ], // github and custom domain (if there is one)
+    ], // GitHub and custom domain (if there is one)
     appAuthor: "garettg", // reddit username of app author
     appSubreddit: "churning", // subreddit name
-    appSubredditDate: "2012-12-11", // start date of the subreddit
-    useBeta: false, // beta not providing reliable data currently and ids are not the same as prod
+    appSubredditDate: "2012-12-11" // start date of the subreddit
 }

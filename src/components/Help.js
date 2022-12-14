@@ -1,4 +1,4 @@
-const Help = (props) => {
+const Help = () => {
     return (
         <div className="md:pt-6 px-4 md:px-6 lg:px-8 pb-6 w-full">
             <table className="table-auto text-sm mx-auto">
@@ -15,12 +15,12 @@ const Help = (props) => {
                             <dl>
                                 <dt className="font-bold">Multiple terms (AND operation)</dt>
                                 <dd className="pl-4">
-                                    <p>To find comments that match two different words, seperate using a "+".</p>
+                                    <p>To find comments that match two different words, separate using a "+".</p>
                                     <p className="italic">Example: amex+bonus</p>
                                 </dd>
                                 <dt className="mt-2 font-bold">Multiple terms (OR operation)</dt>
                                 <dd className="pl-4">
-                                    <p>To find comments that match either of two different words, seperate using a "|".</p>
+                                    <p>To find comments that match either of two different words, separate using a "|".</p>
                                     <p className="italic">Example: barclays|citi</p>
                                 </dd>
                                 <dt className="mt-2 font-bold">Negation</dt>
@@ -58,7 +58,7 @@ const Help = (props) => {
                                 </dd>
                                 <dt className="mt-2 font-bold">Combination</dt>
                                 <dd className="pl-4">
-                                    <p>You can combined both inclusive and exclusive by seperating them with a comma.</p>
+                                    <p>You can combined both inclusive and exclusive by separating them with a comma.</p>
                                     <p className="italic">Example: username1,!username2</p>
                                 </dd>
                             </dl>

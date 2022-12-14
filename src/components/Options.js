@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Modal, Checkbox, Label, ToggleSwitch} from 'flowbite-react';
+import {Button, Modal, ToggleSwitch} from 'flowbite-react';
 import {TbAdjustmentsHorizontal} from "react-icons/tb";
 import { useTheme } from 'next-themes'
 

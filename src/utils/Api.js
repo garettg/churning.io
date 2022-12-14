@@ -1,13 +1,13 @@
-import {subDays} from "date-fns";
 import {useQuery} from "@tanstack/react-query";
-
-import {SearchRange} from "./Constants";
-import {compress, decompress} from "./Utils";
-import {Config} from "../../app.config";
+import querystring from "querystring";
 import {isEmpty} from "underscore";
+import { toDate, parseISO, getUnixTime } from 'date-fns';
+
+import {Config} from "../../app.config";
+import {compress} from "./Utils";
 
 export class PushshiftAPI {
-    constructUrl(formData, options, beta = false) {
+    constructUrl(formData, options) {
         let subreddit = Config.appSubreddit;
         if (!isEmpty(options) && options.hasOwnProperty("addAwardTravel") && options.addAwardTravel) {
             subreddit = `${Config.appSubreddit},awardtravel`;
@@ -16,17 +16,12 @@ export class PushshiftAPI {
         const params = {
             subreddit: subreddit,
             filter: "permalink,link_id,id,body,author,created_utc,subreddit",
-            sort: "created_utc"
+            sort: "created_utc",
+            html_decode: true,
+            user_removed: true,
+            mod_removed: false,
+            size: 250
         };
-
-        if (!beta) {
-            params.html_decode = true;
-            params.user_removed = false;
-            params.mod_removed = false;
-            params.size = 250;
-        } else {
-            params.limit = 250;
-        }
 
         if (formData.hasOwnProperty("query") && formData.query) {
             params.q = formData.query;
@@ -38,37 +33,26 @@ export class PushshiftAPI {
 
         if (formData.time !== "") {
             if (formData.time !== "all") {
-                if (beta) {
-                    params.since = Math.floor((subDays(new Date().setHours(0, 0, 0, 0), SearchRange[formData.time].beta).getTime()) / 1000);
-                } else {
-                    params.after = formData.time;
-                }
+                params.after = formData.time;
+            } else {
+                // Convert subreddit start date to unix time stamp
+                params.after = getUnixTime(toDate(parseISO(Config.appSubredditDate)));
             }
         } else {
             const startDate = Math.floor(formData.selectionRange.startDate.getTime() / 1000);
             const endDate = Math.floor(formData.selectionRange.endDate.setHours(23, 59, 59, 999) / 1000);
-            if (beta) {
-                params.since = startDate
-                params.until = endDate;
-            } else {
-                params.after = startDate;
-                params.before = endDate;
-            }
+
+            params.after = startDate;
+            params.before = endDate;
         }
 
         if (formData.sort) {
-            if (beta) {
-                params.order = formData.sort;
-            } else {
-                params.order = formData.sort;
-            }
+            params.order = formData.sort;
         }
-
-        const paramString = Object.entries(params).map(([k, v]) => `${k}=${v}`).join('&');
 
         // For testing error handling
         // return 'https://httpstat.us/521';
-        return `https://${beta ? 'beta':'api'}.pushshift.io/${beta ? 'search/reddit/comments':'reddit/comment/search'}?${paramString}`;
+        return `https://api.pushshift.io/reddit/comment/search?${querystring.stringify(params)}`;
     }
 
     async query(url) {
@@ -97,7 +81,7 @@ export class PushshiftAPI {
         return useQuery(
             ["pushshift", state],
             async () => {
-                const urlProd = this.constructUrl(state, options, false);
+                const urlProd = this.constructUrl(state, options);
 
                 localStorage.setItem(Config.appId + "-data", compress(state));
                 console.log("Updated state to local storage");

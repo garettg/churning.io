@@ -1,6 +1,6 @@
 import {Label, TextInput, Select, Button, Spinner} from "flowbite-react";
 import {DateRange} from "react-date-range";
-import {format, parseISO, subDays} from 'date-fns';
+import {parseISO} from 'date-fns';
 import classNames from "classnames";
 
 import {SearchRange} from "../utils/Constants";
@@ -33,9 +33,9 @@ const SearchForm = () => {
         setState((oldState) => ({ ...oldState, selectionRange: item.selection }))
     }
 
-    const timeRangeOptions = Object.entries(SearchRange).map(([key, obj], index) => {
+    const timeRangeOptions = Object.entries(SearchRange).map(([key, value], index) => {
         return (
-            <option value={key} key={index}>{obj.name}</option>
+            <option value={key} key={index}>{value}</option>
         );
     });
 

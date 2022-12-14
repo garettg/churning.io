@@ -1,10 +1,10 @@
-import {Checkbox, Label, ListGroup, Spinner} from "flowbite-react";
+import {Checkbox, Label, Spinner} from "flowbite-react";
 
 import {useSearchContext} from "../utils/Context";
 import {LinkClasses} from "../utils/Constants";
 import {gaEvent} from "../utils/Utils";
 
-const Facets = (props) => {
+const Facets = () => {
     const {
         threadFilters,
         setThreadFilters,

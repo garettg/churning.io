@@ -2,7 +2,6 @@ import {Alert} from "flowbite-react";
 import {BiErrorAlt} from "react-icons/bi";
 
 import {Config} from "../../app.config";
-import {LinkClasses} from "../utils/Constants";
 import {useSearchContext} from "../utils/Context";
 
 const Error = () => {

@@ -1,13 +1,13 @@
 import classNames from "classnames";
 
 export const SearchRange = {
-    "1d": { "name": "1 Day", "beta": 1 },
-    "7d": { "name": "1 Week", "beta": 7 },
-    "31d": { "name": "1 Month", "beta": 31 },
-    "90d": { "name": "3 Months", "beta": 90 },
-    "182d": { "name": "6 Months", "beta": 182 },
-    "1y": { "name": "1 Year", "beta": 366 },
-    "2y": { "name": "2 Years", "beta": 732 }
+    "1d": "1 Day",
+    "7d": "1 Week",
+    "31d": "1 Month",
+    "90d": "3 Months",
+    "182d": "6 Months",
+    "1y": "1 Year",
+    "2y": "2 Years"
 };
 
 export const GaDateFormat = "yyyy-MM-dd";

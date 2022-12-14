@@ -3,7 +3,7 @@ import {format, subDays} from "date-fns";
 import { isEmpty } from "underscore";
 
 import {Config} from "../../app.config";
-import {compress, decompress, gaEvent, isDevMode} from "./Utils";
+import {compress, decompress, gaEvent} from "./Utils";
 import { PushshiftAPI } from "./Api";
 import {GaDateFormat, KeywordsRegex} from "./Constants";
 
@@ -59,7 +59,7 @@ const SearchContextProvider = (props) => {
     const [state, setState] = useState(defaultState);
     const [threadFilters, setThreadFilters] = useState({});
     const [options, setOptions] = useState(defaultOptions);
-    const { refetch, error, data, isLoading, isFetching, isRefetching, fetchStatus } = api.usePushshiftQuery(state, options);
+    const { refetch, error, data, isRefetching, fetchStatus } = api.usePushshiftQuery(state, options);
 
     const loadSavedState = (formData = {}, shouldSearch = false) => {
         if (!isEmpty(formData)) {
