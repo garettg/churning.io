@@ -15,17 +15,16 @@ export class PushshiftAPI {
 
         const params = {
             subreddit: subreddit,
-            filter: "permalink,link_id,id,body,author,created_utc,subreddit"
+            filter: "permalink,link_id,id,body,author,created_utc,subreddit",
+            sort: "created_utc"
         };
 
         if (!beta) {
             params.html_decode = true;
             params.user_removed = false;
             params.mod_removed = false;
-            params.sortType = "created_utc";
-            params.size = 100;
+            params.size = 250;
         } else {
-            params.sort = "created_utc";
             params.limit = 250;
         }
 
@@ -61,7 +60,7 @@ export class PushshiftAPI {
             if (beta) {
                 params.order = formData.sort;
             } else {
-                params.sort = formData.sort;
+                params.order = formData.sort;
             }
         }
 
