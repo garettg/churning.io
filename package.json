@@ -14,7 +14,7 @@
     "export": "next export"
   },
   "dependencies": {
-    "@tanstack/react-query": "~4.20.3",
+    "@tanstack/react-query": "~4.20.4",
     "@tailwindcss/forms": "~0.5.3",
     "classnames": "~2.3.2",
     "date-fns": "~2.29.3",
@@ -43,6 +43,6 @@
     "@rvxlab/tailwind-plugin-ios-full-height": "~1.1.0",
     "autoprefixer": "~10.4.13",
     "postcss": "~8.4.20",
-    "sass": "~1.56.2"
+    "sass": "~1.57.1"
   }
 }

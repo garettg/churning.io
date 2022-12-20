@@ -60,7 +60,11 @@ const ResultItem = (props) => {
         threadBadge = <Badge icon={ImPriceTag} color="info" size="xs"><span className="sr-only">Comment Thread:</span>{props.thread}</Badge>;
     }
 
-    let commentPosted = formatDistanceToNow(new Date(props.created_utc * 1000), {addSuffix: true});
+    let commentPosted =
+        <>
+            <span className="inline md:hidden">{formatDistanceToNow(new Date(props.created_utc * 1000), {addSuffix: false})}</span>
+            <span className="hidden md:inline">{formatDistanceToNow(new Date(props.created_utc * 1000), {addSuffix: true})}</span>
+        </>;
     if (options.showDate) {
         commentPosted = format(new Date(props.created_utc * 1000), "M/d/yy h:mm aaa");
     }
@@ -74,19 +78,19 @@ const ResultItem = (props) => {
 
     return (
         <Card>
-            <div className="flex flex-wrap items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between -mx-2 md:mx-0">
                 <div className="flex flex-wrap items-center gap-3">
                     <Avatar rounded={true} size="xs" />
                     <a href={`${redditDomain}/user/${props.author}`}
                        onClick={(e) => handleAuthorClick(e, props.author)}
-                       className={`font-semibold text-lg ${LinkClasses}`}
+                       className={`font-semibold text-base md:text-lg ${LinkClasses}`}
                        target="_blank">
                         <span className="sr-only">Comment Author:</span> {props.author}
                     </a>
                 </div>
                 {postedBadge}
             </div>
-            <div>
+            <div className="-mx-2 md:mx-0">
                 <a href={commentLink}
                    onClick={(e) => handleResultClick(e, props)}
                    className="block text-sm leading-snug reddit-comment text-ellipsis overflow-hidden"
@@ -99,7 +103,7 @@ const ResultItem = (props) => {
                 </ReactMarkdown>
                 </a>
             </div>
-            <div className={`flex flex-wrap justify-${subredditBadge ? 'between':'end'} items-center`}>
+            <div className={`flex flex-wrap justify-${subredditBadge ? 'between':'end'} items-center -mx-2 md:mx-0`}>
                 {subredditBadge}
                 {threadBadge}
             </div>
@@ -182,7 +186,7 @@ const Results = () => {
                         <Reset />
                     </div>
                 </div>
-                <main id="results-list" role="region" aria-label="Search Results" className="flex-1 overflow-y-scroll py-4 px-3 md:px-6 lg:px-9 xl:px-12">
+                <main id="results-list" role="region" aria-label="Search Results" className="flex-1 overflow-y-scroll py-4 px-2 md:px-6 lg:px-10 xl:px-12">
                     <div className="flex flex-col gap-4">
                         {resultsContent}
                     </div>

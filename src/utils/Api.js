@@ -20,7 +20,7 @@ export class PushshiftAPI {
             html_decode: true,
             user_removed: true,
             mod_removed: false,
-            size: 250
+            size: 200
         };
 
         if (formData.hasOwnProperty("query") && formData.query) {
