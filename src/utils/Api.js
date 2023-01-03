@@ -1,10 +1,11 @@
 import {useQuery} from "@tanstack/react-query";
 import querystring from "querystring";
 import {isEmpty} from "underscore";
-import { toDate, parseISO, getUnixTime } from 'date-fns';
+import { toDate, parseISO, getUnixTime, subDays } from 'date-fns';
 
 import {Config} from "../../app.config";
-import {compress} from "./Utils";
+import {compress, fetchWithTimeout} from "./Utils";
+
 
 export class PushshiftAPI {
     constructUrl(formData, options) {
@@ -33,7 +34,7 @@ export class PushshiftAPI {
 
         if (formData.time !== "") {
             if (formData.time !== "all") {
-                params.after = formData.time;
+                params.after = getUnixTime(subDays(new Date(), parseInt(formData.time)));
             } else {
                 // Convert subreddit start date to unix time stamp
                 params.after = getUnixTime(toDate(parseISO(Config.appSubredditDate)));
@@ -57,7 +58,7 @@ export class PushshiftAPI {
 
     async query(url) {
         try {
-            const response = await fetch(url, {
+            const response = await fetchWithTimeout(url, {
                 referrerPolicy: "no-referrer",
             });
 
@@ -148,7 +149,8 @@ export class PushshiftAPI {
                 refetchOnWindowFocus: false,
                 refetchOnReconnect: false,
                 enabled: false, // disable this query from automatically running,
-                notifyOnChangeProps: ['data', 'error', 'isLoading', 'fetchStatus']
+                notifyOnChangeProps: ['data', 'error', 'isLoading', 'fetchStatus'],
+                retry: false
             },
         );
     }

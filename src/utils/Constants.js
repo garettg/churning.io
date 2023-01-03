@@ -1,13 +1,13 @@
 import classNames from "classnames";
 
 export const SearchRange = {
-    "1d": "1 Day",
-    "7d": "1 Week",
-    "31d": "1 Month",
-    "90d": "3 Months",
-    "182d": "6 Months",
-    "1y": "1 Year",
-    "2y": "2 Years"
+    "1": "1 Day",
+    "7": "1 Week",
+    "31": "1 Month",
+    "90": "3 Months",
+    "182": "6 Months",
+    "366": "1 Year",
+    "732": "2 Years"
 };
 
 export const GaDateFormat = "yyyy-MM-dd";
