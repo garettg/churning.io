@@ -4,21 +4,6 @@ import { event } from "nextjs-google-analytics";
 
 import {Config} from "../../app.config";
 
-export const combineComponents = (...components) => {
-    return components.reduce(
-        (AccumulatedComponents, CurrentComponent) => {
-            return ({ children }) => {
-                return (
-                    <AccumulatedComponents>
-                        <CurrentComponent>{children}</CurrentComponent>
-                    </AccumulatedComponents>
-                );
-            };
-        },
-        ({ children }) => <>{children}</>,
-    );
-};
-
 export const compress = (obj) => {
     try {
         return LZString.compressToEncodedURIComponent(JSON.stringify(obj));

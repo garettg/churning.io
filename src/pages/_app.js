@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }) {
                     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
                     <meta http-equiv="pragma" content="no-cache"/>
                     <meta name="msapplication-TileColor" content="#2d89ef"/>
-                    <meta name="msapplication-config" content="/public/icons/browserconfig.xml"/>
+                    <meta name="msapplication-config" content="none"/>
                     <link rel="shortcut icon" href="favicon.ico"/>
                     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png"/>
                     <link rel="icon" type="image/svg+xml" href="icons/favicon.svg"/>

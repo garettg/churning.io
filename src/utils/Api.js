@@ -6,7 +6,6 @@ import { toDate, parseISO, getUnixTime, subDays } from 'date-fns';
 import {Config} from "../../app.config";
 import {compress, fetchWithTimeout} from "./Utils";
 
-
 export class PushshiftAPI {
     constructUrl(formData, options) {
         let subreddit = Config.appSubreddit;
@@ -148,9 +147,10 @@ export class PushshiftAPI {
                 refetchOnMount: false,
                 refetchOnWindowFocus: false,
                 refetchOnReconnect: false,
-                enabled: false, // disable this query from automatically running,
+                enabled: false, // disable this query from automatically running
                 notifyOnChangeProps: ['data', 'error', 'isLoading', 'fetchStatus'],
-                retry: false
+                retry: false, // disable retries for query failure
+                retryOnMount: false
             },
         );
     }

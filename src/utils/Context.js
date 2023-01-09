@@ -20,7 +20,7 @@ if (typeof window !== "undefined") {
 const defaultState = {
     query: "",
     author: "",
-    time: "7d",
+    time: "7",
     selectionRange: {
         startDate: subDays(new Date(), 7),
         endDate: new Date(),
