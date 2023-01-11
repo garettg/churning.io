@@ -22,13 +22,21 @@
         height: auto;
     }
 
+    .rdrPprevButton i {
+        border-width: 6px 8px 6px 6px;
+    }
+
+    .rdrNextButton i {
+        border-width: 6px 6px 6px 8px;
+    }
+
     .rdrMonth {
         padding: 0 0.75rem 0.5rem 0.75rem;
         width: 100%;
     }
 
     .rdrMonthAndYearPickers select {
-        padding: 0.5rem 1.5rem 0.5rem 0.75rem;
+        padding: 0.5rem 2.5rem 0.5rem 0.75rem;
     }
 
     .rdrDateDisplayItem + .rdrDateDisplayItem {

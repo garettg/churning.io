@@ -83,7 +83,7 @@ const Help = () => {
                         </td>
                     </tr>
                     <tr>
-                        <td className="border px-4 py-2 align-top whitespace-nowrap font-bold border-gray-200 dark:border-gray-700">Sort Order</td>
+                        <td className="border px-4 py-2 align-top whitespace-nowrap font-bold border-gray-200 dark:border-gray-700">Sort By</td>
                         <td className="border px-4 py-2 align-top border-gray-200 dark:border-gray-700">
                             <p>Select a sort order by date, options are newest and oldest.</p>
                         </td>

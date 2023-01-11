@@ -1,6 +1,6 @@
 {
   "name": "churning.io",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Churning subreddit search using the Pushshift API",
   "repository": "https://github.com/garettg/churning.io.git",
   "homepage": "https://churning.io",
@@ -18,7 +18,7 @@
     "@tailwindcss/forms": "~0.5.3",
     "classnames": "~2.3.2",
     "date-fns": "~2.29.3",
-    "flowbite": "~1.6.0",
+    "flowbite": "~1.6.1",
     "flowbite-react": "~0.3.7",
     "lz-string": "~1.4.4",
     "next": "latest",

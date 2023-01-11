@@ -12,7 +12,7 @@ const SearchForm = () => {
         query,
         author,
         selectionRange,
-        sort,
+        order,
         time,
         search,
         setState,
@@ -102,17 +102,17 @@ const SearchForm = () => {
                     minDate={parseISO(`${Config.appSubredditDate}T00:00:00`)}
                     maxDate={new Date()}
                     ranges={[selectionRange]}
-                    rangeColors={['#3182ce', '#3ecf8e', '#fed14c']}
+                    rangeColors={['#1B5DE7', '#3ecf8e', '#fed14c']}
                 />
             </div>
             <div>
                 <div className="lg:mb-1">
-                    <Label htmlFor="sort" value="Sort By" />
+                    <Label htmlFor="order" value="Sort By" />
                 </div>
                 <Select
-                    id="sort"
-                    name="sort"
-                    value={sort}
+                    id="order"
+                    name="order"
+                    value={order}
                     onChange={handleChange}>
                     <option value="desc">Newest</option>
                     <option value="asc">Oldest</option>

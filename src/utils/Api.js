@@ -20,7 +20,7 @@ export class PushshiftAPI {
             html_decode: true,
             user_removed: true,
             mod_removed: false,
-            size: 200
+            size: 250
         };
 
         if (formData.hasOwnProperty("query") && formData.query) {
@@ -46,8 +46,8 @@ export class PushshiftAPI {
             params.before = endDate;
         }
 
-        if (formData.sort) {
-            params.order = formData.sort;
+        if (formData.order) {
+            params.order = formData.order;
         }
 
         // For testing error handling
@@ -76,7 +76,7 @@ export class PushshiftAPI {
     }
 
     usePushshiftQuery(state, options) {
-        const { sort } = state;
+        const { order } = state;
 
         return useQuery(
             ["pushshift", state],
@@ -89,7 +89,7 @@ export class PushshiftAPI {
                 const dataResults = await this.query(urlProd);
 
                 const data = dataResults.sort((a, b) => {
-                    if (sort === "asc") {
+                    if (order === "asc") {
                         return a.created_utc - b.created_utc;
                     } else {
                         return b.created_utc - a.created_utc;
@@ -150,7 +150,8 @@ export class PushshiftAPI {
                 enabled: false, // disable this query from automatically running
                 notifyOnChangeProps: ['data', 'error', 'isLoading', 'fetchStatus'],
                 retry: false, // disable retries for query failure
-                retryOnMount: false
+                retryOnMount: false,
+                initialData: undefined
             },
         );
     }
