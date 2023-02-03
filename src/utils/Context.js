@@ -114,7 +114,7 @@ const SearchContextProvider = (props) => {
             const threadsOptions = {};
             const threadsList = Array.from(new Set(data.map((c) => c.thread))).sort();
             for (let thread of threadsList) {
-                thread ||= "None";
+                thread ||= "none";
                 if (!isEmpty(prevThreadFilters) && thread in prevThreadFilters) {
                     threadsOptions[thread] = prevThreadFilters[thread];
                 } else {
@@ -130,7 +130,7 @@ const SearchContextProvider = (props) => {
         return (data || []).filter((comment) => {
             const selected = Object.keys(threadFilters).filter((x) => threadFilters[x]);
             if (!comment.thread) {
-                return selected.includes("None");
+                return selected.includes("none");
             } else {
                 return selected.includes(comment.thread);
             }

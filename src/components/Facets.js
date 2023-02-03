@@ -97,7 +97,7 @@ const Facets = () => {
                     checked={value}
                     onChange={handleChange}
                 />
-                <Label htmlFor={checkboxId} className="cursor-pointer">{ThreadTypes[key].name}</Label>
+                <Label htmlFor={checkboxId} className="cursor-pointer">{ThreadTypes.hasOwnProperty(key) ? ThreadTypes[key].name : "None"}</Label>
                 <button
                     className={`text-xs ${LinkClasses}`}
                     aria-label={`show only ${key} thread results`}
