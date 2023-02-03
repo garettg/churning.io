@@ -3,6 +3,7 @@ import LZString from "lz-string";
 import { event } from "nextjs-google-analytics";
 
 import {Config} from "../../app.config";
+import {ThreadTypes} from "./Constants";
 
 export const compress = (obj) => {
     try {
@@ -49,4 +50,14 @@ export const fetchWithTimeout = async (resource, options = {}) => {
     });
     clearTimeout(id);
     return response;
+}
+
+export const getThreadType = (permalink) => {
+    for (const [key, thread] of Object.entries(ThreadTypes)) {
+        if (thread.regex.test(permalink)) {
+            return key;
+        }
+    }
+
+    return "";
 }

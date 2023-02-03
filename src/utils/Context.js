@@ -148,6 +148,9 @@ const SearchContextProvider = (props) => {
     }
 
     const search = () => {
+        searched = false;
+        setThreadFilters({});
+
         for (const [key, value] of Object.entries(state)) {
             if (value !== "") {
                 let eventValue = value;

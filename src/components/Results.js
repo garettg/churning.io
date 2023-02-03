@@ -9,7 +9,7 @@ import {TbBrandReddit} from 'react-icons/tb';
 
 import {useSearchContext} from "../utils/Context";
 import {Config} from "../../app.config";
-import {LinkClasses} from "../utils/Constants";
+import {LinkClasses, ThreadTypes} from "../utils/Constants";
 import Help from "./Help";
 import Reset from "./Reset";
 import Share from "./Share";
@@ -57,7 +57,7 @@ const ResultItem = (props) => {
 
     let threadBadge;
     if (props.thread) {
-        threadBadge = <Badge icon={ImPriceTag} color="info" size="xs"><span className="sr-only">Comment Thread:</span>{props.thread}</Badge>;
+        threadBadge = <Badge icon={ImPriceTag} color={ThreadTypes[props.thread].color} size="xs" className="pr-1.5"><span className="sr-only">Comment Thread:</span>{ThreadTypes[props.thread].name}</Badge>;
     }
 
     let commentPosted =
@@ -71,10 +71,10 @@ const ResultItem = (props) => {
 
     let subredditBadge;
     if (options.addAwardTravel && props.showSub) {
-        subredditBadge = <Badge icon={TbBrandReddit} color="success" size="xs"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
+        subredditBadge = <Badge icon={TbBrandReddit} color="success" size="xs" className="pr-1.5"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
     }
 
-    const postedBadge = <Badge icon={ImClock2} color="warning" size="xs"><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>;
+    const postedBadge = <Badge icon={ImClock2} color="warning" size="xs" className="pr-1.5"><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>;
 
     return (
         <Card>
@@ -88,7 +88,7 @@ const ResultItem = (props) => {
                         <span className="sr-only">Comment Author:</span> {props.author}
                     </a>
                 </div>
-                {postedBadge}
+                {threadBadge}
             </div>
             <div className="-mx-2 md:mx-0">
                 <a href={commentLink}
@@ -105,7 +105,7 @@ const ResultItem = (props) => {
             </div>
             <div className={`flex flex-wrap justify-${subredditBadge ? 'between':'end'} items-center -mx-2 md:mx-0`}>
                 {subredditBadge}
-                {threadBadge}
+                {postedBadge}
             </div>
         </Card>
     )

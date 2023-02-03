@@ -5,9 +5,11 @@ import {useEffect, useState} from "react";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleAnalytics, event } from "nextjs-google-analytics";
-import { ThemeProvider } from 'next-themes'
+import { ThemeProvider } from 'next-themes';
+import { Flowbite } from "flowbite-react";
 
 import {Config} from "../../app.config";
+import {FlowbiteTheme} from "../utils/Constants";
 import {SearchContextProvider} from "../utils/Context";
 
 export function reportWebVitals({ id, name, label, value }) {
@@ -40,7 +42,7 @@ export default function App({ Component, pageProps }) {
                 <Head>
                     <title>{Config.appName}</title>
                     <meta charSet="UTF-8"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
                     <meta http-equiv="cache-control" content="max-age=0"/>
                     <meta http-equiv="cache-control" content="no-cache"/>
                     <meta http-equiv="expires" content="0"/>
@@ -61,7 +63,9 @@ export default function App({ Component, pageProps }) {
                     <QueryClientProvider client={client}>
                         <SearchContextProvider>
                             <ThemeProvider attribute="class">
-                                <Component {...pageProps} />
+                                <Flowbite theme={{theme: FlowbiteTheme}}>
+                                    <Component {...pageProps} />
+                                </Flowbite>
                             </ThemeProvider>
                         </SearchContextProvider>
                     </QueryClientProvider>

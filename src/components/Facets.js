@@ -1,7 +1,7 @@
 import {Checkbox, Label, Spinner} from "flowbite-react";
 
 import {useSearchContext} from "../utils/Context";
-import {LinkClasses} from "../utils/Constants";
+import {LinkClasses, ThreadTypes} from "../utils/Constants";
 import {gaEvent} from "../utils/Utils";
 
 const Facets = () => {
@@ -97,7 +97,7 @@ const Facets = () => {
                     checked={value}
                     onChange={handleChange}
                 />
-                <Label htmlFor={checkboxId} className="cursor-pointer">{key}</Label>
+                <Label htmlFor={checkboxId} className="cursor-pointer">{ThreadTypes[key].name}</Label>
                 <button
                     className={`text-xs ${LinkClasses}`}
                     aria-label={`show only ${key} thread results`}

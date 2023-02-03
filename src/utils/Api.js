@@ -4,7 +4,7 @@ import {isEmpty} from "underscore";
 import { toDate, parseISO, getUnixTime, subDays } from 'date-fns';
 
 import {Config} from "../../app.config";
-import {compress, fetchWithTimeout} from "./Utils";
+import {compress, fetchWithTimeout, getThreadType} from "./Utils";
 
 export class PushshiftAPI {
     constructUrl(formData, options) {
@@ -97,47 +97,7 @@ export class PushshiftAPI {
                 });
 
                 for (const datum of data) {
-                    let permalink = datum.permalink;
-                    switch (true) {
-                        case /_megathread/.test(permalink):
-                            datum.thread = "Megathread";
-                            break;
-                        case /(bank_account_bonus_week_|bank_bonus_weekly_)/.test(permalink):
-                            datum.thread = "Bank Account Bonus";
-                            break;
-                        case /(question_thread_|newbie_question_weekly_|newbie_weekly_question_)/.test(permalink):
-                            datum.thread = "Daily Question";
-                            break;
-                        case /weekly_discussion_thread_/.test(permalink):
-                            datum.thread = "Weekly Discussion";
-                            break;
-                        case /(discussion_thread_|daily_discussion_)/.test(permalink):
-                            datum.thread = "Daily Discussion";
-                            break;
-                        case /manufactured_spending_weekly_/.test(permalink):
-                            datum.thread = "Manufactured Spend";
-                            break;
-                        case /(data_points_central_|data_points_weekly_|dq_thread_)/.test(permalink):
-                            datum.thread = "Data Points";
-                            break;
-                        case /what_card_should_i_get_/.test(permalink):
-                            datum.thread = "What Card Should I Get";
-                            break;
-                        case /frustration_friday_/.test(permalink):
-                            datum.thread = "Frustration";
-                            break;
-                        case /mods_choice_/.test(permalink):
-                            datum.thread = "Mod's Choice";
-                            break;
-                        case /(weekly_offtopic_thread_|weekly_off_topic_thread_|anything_goes_thread_)/.test(permalink):
-                            datum.thread = "Off Topic";
-                            break;
-                        case /(trip_report_and_churning_success_|trip_reports_and_churning_success_|storytime_weekly_|trip_report_weekly_)/.test(permalink):
-                            datum.thread = "Trip Report/Success";
-                            break;
-                        default:
-                            datum.thread = "";
-                    }
+                    datum.thread = getThreadType(datum.permalink);
                 }
 
                 return data;
