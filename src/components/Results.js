@@ -21,11 +21,12 @@ const ResultItem = (props) => {
         options
     } = useSearchContext();
 
+/*
     const [authorData, setAuthorData] = useState({});
-
     useEffect( () => {
         getAuthorData(props.author).then(user => setAuthorData(user)).catch(error => console.error(error));
     }, []);
+ */
 
     const handleAuthorClick = (event, author) => {
         gaEvent("author", {
@@ -83,10 +84,13 @@ const ResultItem = (props) => {
 
     const postedBadge = <Badge icon={ImClock2} color="warning" size="xs" className="pr-1.5" title={commentFormattedDate}><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>
 
-    let authorAvatar = <Avatar size="xs" />
+    let authorAvatar = <Avatar size="xs" img={`https://www.redditstatic.com/avatars/defaults/v2/avatar_default_${Math.floor(Math.random() * 7)}.png`} />
+
+    /*
     if (authorData.hasOwnProperty("icon_img") && authorData.icon_img) {
         authorAvatar = <Avatar size="xs" img={authorData.icon_img.replace(/&amp;/g, "&")} />
     }
+    */
 
     return (
         <Card>
