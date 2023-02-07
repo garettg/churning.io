@@ -1,6 +1,6 @@
 {
   "name": "churning.io",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Churning subreddit search using the Pushshift API",
   "repository": "https://github.com/garettg/churning.io.git",
   "homepage": "https://churning.io",
@@ -24,7 +24,7 @@
     "next": "latest",
     "next-themes": "~0.2.1",
     "nextjs-google-analytics": "~2.3.0",
-    "next-i18next": "~13.1.4",
+    "next-i18next": "~13.1.5",
     "prop-types": "~15.8.1",
     "querystring": "~0.2.1",
     "react": "~18.2.0",

@@ -1,25 +1,31 @@
+import React, {useState, useEffect} from "react"
 import {Card, Badge, Spinner, Avatar} from "flowbite-react";
 import PropTypes from "prop-types";
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import format from 'date-fns/format';
+import { format, formatDistanceToNow } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {ImPriceTag, ImClock2} from 'react-icons/im';
 import {TbBrandReddit} from 'react-icons/tb';
 
-import {useSearchContext} from "../utils/Context";
 import {Config} from "../../app.config";
+import {useSearchContext} from "../utils/Context";
+import {gaEvent, getAuthorData} from "../utils/Utils";
 import {LinkClasses, ThreadTypes} from "../utils/Constants";
 import Help from "./Help";
 import Reset from "./Reset";
 import Share from "./Share";
 import Error from "./Error";
-import {gaEvent} from "../utils/Utils";
 
 const ResultItem = (props) => {
     const {
         options
     } = useSearchContext();
+
+    const [authorData, setAuthorData] = useState({});
+
+    useEffect( () => {
+        getAuthorData(props.author).then(user => setAuthorData(user)).catch(error => console.error(error));
+    }, []);
 
     const handleAuthorClick = (event, author) => {
         gaEvent("author", {
@@ -57,16 +63,17 @@ const ResultItem = (props) => {
 
     let threadBadge;
     if (props.thread) {
-        threadBadge = <Badge icon={ImPriceTag} color={ThreadTypes[props.thread].color} size="xs" className="pr-1.5"><span className="sr-only">Comment Thread:</span>{ThreadTypes[props.thread].name}</Badge>;
+        threadBadge = <Badge icon={ImPriceTag} color={ThreadTypes[props.thread].color} size="xs" className="pr-1.5"><span className="sr-only">Comment Thread:</span>{ThreadTypes[props.thread].name}</Badge>
     }
 
+    let commentFormattedDate = format(new Date(props.created_utc * 1000), "M/d/yy h:mm aaa")
     let commentPosted =
         <>
             <span className="inline md:hidden">{formatDistanceToNow(new Date(props.created_utc * 1000), {addSuffix: false})}</span>
             <span className="hidden md:inline">{formatDistanceToNow(new Date(props.created_utc * 1000), {addSuffix: true})}</span>
-        </>;
+        </>
     if (options.showDate) {
-        commentPosted = format(new Date(props.created_utc * 1000), "M/d/yy h:mm aaa");
+        commentPosted = commentFormattedDate;
     }
 
     let subredditBadge;
@@ -74,13 +81,18 @@ const ResultItem = (props) => {
         subredditBadge = <Badge icon={TbBrandReddit} color="success" size="xs" className="pr-1.5"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
     }
 
-    const postedBadge = <Badge icon={ImClock2} color="warning" size="xs" className="pr-1.5"><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>;
+    const postedBadge = <Badge icon={ImClock2} color="warning" size="xs" className="pr-1.5" title={commentFormattedDate}><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>
+
+    let authorAvatar = <Avatar size="xs" />
+    if (authorData.hasOwnProperty("icon_img") && authorData.icon_img) {
+        authorAvatar = <Avatar size="xs" img={authorData.icon_img.replace(/&amp;/g, "&")} />
+    }
 
     return (
         <Card>
             <div className="flex flex-wrap items-center justify-between -mx-2 md:mx-0">
                 <div className="flex flex-wrap items-center gap-3">
-                    <Avatar rounded={true} size="xs" />
+                    {authorAvatar}
                     <a href={`${redditDomain}/user/${props.author}`}
                        onClick={(e) => handleAuthorClick(e, props.author)}
                        className={`font-semibold text-base md:text-lg ${LinkClasses}`}

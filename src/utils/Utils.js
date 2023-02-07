@@ -61,3 +61,13 @@ export const getThreadType = (permalink) => {
 
     return "";
 }
+
+export const getAuthorData = async (author) => {
+    const response = await fetch(`https://api.reddit.com/user/${author}/about`);
+    if (!response.ok) {
+        const message = `An error has occurred: ${response.status}`;
+        throw new Error(message);
+    }
+    const user = await response.json();
+    return user.data;
+}
