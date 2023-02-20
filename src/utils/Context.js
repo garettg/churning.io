@@ -147,9 +147,11 @@ const SearchContextProvider = (props) => {
         setState(defaultState);
     }
 
-    const search = () => {
+    const search = (resetFilters = false) => {
         searched = false;
-        setThreadFilters({});
+        if (resetFilters) {
+            Object.keys(threadFilters).map(thread => threadFilters[thread] = true);
+        }
 
         for (const [key, value] of Object.entries(state)) {
             if (value !== "") {

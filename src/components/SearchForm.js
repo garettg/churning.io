@@ -22,7 +22,7 @@ const SearchForm = () => {
     const searchSubmit = async (e) => {
         // Update state
         e.preventDefault();
-        search();
+        search(true);
     };
 
     const handleChange = (e) => {

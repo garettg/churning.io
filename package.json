@@ -1,6 +1,6 @@
 {
   "name": "churning.io",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Churning subreddit search using the Pushshift API",
   "repository": "https://github.com/garettg/churning.io.git",
   "homepage": "https://churning.io",
@@ -14,7 +14,7 @@
     "export": "next export"
   },
   "dependencies": {
-    "@tanstack/react-query": "~4.24.4",
+    "@tanstack/react-query": "~4.24.9",
     "@tailwindcss/forms": "~0.5.3",
     "classnames": "~2.3.2",
     "date-fns": "~2.29.3",
@@ -36,13 +36,13 @@
     "react-icons": "~4.7.1",
     "react-markdown": "~8.0.5",
     "remark-gfm": "~3.0.1",
-    "tailwindcss": "~3.2.4",
+    "tailwindcss": "~3.2.7",
     "underscore": "~1.13.6"
   },
   "devDependencies": {
     "@rvxlab/tailwind-plugin-ios-full-height": "~1.1.0",
     "autoprefixer": "~10.4.13",
     "postcss": "~8.4.21",
-    "sass": "~1.58.0"
+    "sass": "~1.58.3"
   }
 }
