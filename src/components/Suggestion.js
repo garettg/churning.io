@@ -5,13 +5,22 @@ import {FaBookOpen} from "react-icons/fa";
 import {HiEye} from "react-icons/hi2";
 
 import {Suggestions} from "../utils/Constants";
-import {testMatches} from "../utils/Utils";
+import {testMatches, gaEvent} from "../utils/Utils";
 import {useSearchContext} from "../utils/Context";
 
 const Suggestion = (props) => {
     const {
         options
     } = useSearchContext();
+
+    const onClick = (name, query) => {
+        gaEvent("suggestion", {
+            category: "Suggestion",
+            label: name,
+            value: query,
+            nonInteraction: true
+        });
+    }
 
     if (props.query && options.showSuggestions) {
         const matches = Suggestions.filter(suggestion => testMatches(props.query, suggestion.matches));
@@ -24,6 +33,7 @@ const Suggestion = (props) => {
                         <div className="flex flex-wrap items-center gap-2">
                             <Button
                                 href={suggestion.link}
+                                onClick={() => onClick(suggestion.name, props.query)}
                                 target="_blank"
                                 color="teal"
                                 size="xs"

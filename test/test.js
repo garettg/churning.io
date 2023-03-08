@@ -10,6 +10,8 @@ const {DisqualifyAcronymsCharacters, Suggestions} = require('../src/utils/Consta
  * matches = boolean as to whether query should match a suggestion
  */
 const queries = [
+    {query:`amex au`, convert:`(amex|"american express") (au|"authorized user")`, matches: false},
+    {query:`american express authorized user`, convert:`("american express"|amex) ("authorized user"|au)`, matches: false},
     {query:`american express annual fee success`, convert:`("american express"|amex) ("annual fee"|af) success`, matches: false},
     {query:`chase 5/24`, convert:`chase 5/24`, matches: true},
     {query:`does amex allow au`, convert:`does (amex|"american express") allow (au|"authorized user")`, matches: false},
@@ -24,6 +26,7 @@ const queries = [
     {query:`SW CP`, convert:`(sw|southwest) (cp|"companion pass")`, matches: true},
     {query:`"as cp"`, convert:`"as cp"`, matches: false},
     {query:`amex plat retention -biz`, convert:`(amex|"american express") (plat|platinum) retention -(biz|business)`, matches: false},
+    {query:`flyertalk united amex airline credit`, convert:`(flyertalk|ft) (united|ua) (amex|"american express") airline credit`, matches: false}
 ]
 
 describe('Test - Query to Acronym Query', () => {
