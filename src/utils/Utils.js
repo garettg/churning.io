@@ -3,7 +3,7 @@ import LZString from "lz-string";
 import { event } from "nextjs-google-analytics";
 
 import {Config} from "../../app.config";
-import {ThreadTypes} from "./Constants";
+import {ThreadTypes, Acronyms} from "./Constants";
 
 export const compress = (obj) => {
     try {
@@ -70,4 +70,39 @@ export const getAuthorData = async (author) => {
     }
     const user = await response.json();
     return user.data;
+}
+
+export const hasWhiteSpace = (string) => {
+    return (/\s/).test(string);
+}
+
+export const convertAcronymQuery = (query) => {
+    // build object of data that has original and reverse of data, e.g. {A:B, B:A}
+    const acronymData = {
+        ...Acronyms,
+        ...Object.fromEntries(Object.entries(Acronyms).map(a => a.reverse()))
+    };
+
+    // build regex of all the data
+    const acronymRegEx = new RegExp(`\\b(${Object.entries(acronymData).map(entry => `${entry[0]}`).join("|")})\\b`, "gi");
+
+    return query.toLowerCase().replace(acronymRegEx, (match, key) => {
+        if (acronymData.hasOwnProperty(match)) {
+            let matched = hasWhiteSpace(match) ? `"${match}"` : match;
+            let converted = hasWhiteSpace(acronymData[match]) ? `"${acronymData[match]}"` : acronymData[match];
+
+            return `(${matched}|${converted})`;
+        } else {
+            return match;
+        }
+    });
+}
+
+export const testMatches = (query, matches) => {
+    return (
+        matches.every(match => {
+            const regEx = new RegExp(`\\b(${match})\\b`, "gi");
+            return regEx.test(query.toLowerCase())
+        })
+    );
 }

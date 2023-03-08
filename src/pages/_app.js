@@ -1,7 +1,7 @@
 // import css file
 import "../styles/index.scss";
 
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleAnalytics, event } from "nextjs-google-analytics";

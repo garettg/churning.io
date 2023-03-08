@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {Config} from "../../app.config";
 import Options from "../components/Options";
 import SearchForm from "../components/SearchForm";

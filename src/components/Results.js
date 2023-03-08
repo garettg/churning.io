@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {Card, Badge, Spinner, Avatar} from "flowbite-react";
 import PropTypes from "prop-types";
-import { format, formatDistanceToNow } from 'date-fns';
+import {format, formatDistanceToNow} from 'date-fns';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {ImPriceTag, ImClock2} from 'react-icons/im';
@@ -15,6 +15,7 @@ import Help from "./Help";
 import Reset from "./Reset";
 import Share from "./Share";
 import Error from "./Error";
+import Suggestion from "./Suggestion";
 
 const ResultItem = (props) => {
     const {
@@ -148,7 +149,8 @@ const Results = () => {
         searching,
         options,
         searched,
-        error
+        error,
+        query
     } = useSearchContext();
 
     if (error) {
@@ -202,7 +204,8 @@ const Results = () => {
                         <Reset />
                     </div>
                 </div>
-                <main id="results-list" role="region" aria-label="Search Results" className="flex-1 overflow-y-scroll py-4 px-2 md:px-6 lg:px-10 xl:px-12">
+                <main id="results-list" role="region" aria-label="Search Results" className="flex-1 overflow-y-scroll py-4 px-2 md:px-6 lg:px-10 xl:px-12 space-y-6">
+                    <Suggestion query={query} />
                     <div className="flex flex-col gap-4">
                         {resultsContent}
                     </div>

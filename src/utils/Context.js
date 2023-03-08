@@ -20,9 +20,9 @@ if (typeof window !== "undefined") {
 const defaultState = {
     query: "",
     author: "",
-    time: "7",
+    time: `${Config.defaultTimeRange}`,
     selectionRange: {
-        startDate: subDays(new Date(), 7),
+        startDate: subDays(new Date(), Config.defaultTimeRange),
         endDate: new Date(),
         key: "selection"
     },
@@ -33,7 +33,8 @@ const defaultOptions = {
     oldReddit: false,
     showDate: false,
     darkMode: prefersDarkMode,
-    addAwardTravel: false
+    addAwardTravel: false,
+    showSuggestions: true
 }
 
 const SearchContext = createContext({

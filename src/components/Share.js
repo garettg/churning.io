@@ -1,3 +1,4 @@
+import React from 'react';
 import {Button} from "flowbite-react";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import toast, { Toaster } from "react-hot-toast";
@@ -55,10 +56,10 @@ const Share = () => {
                 text={shareUrl}
                 onCopy={onSuccess}>
                 <Button
-                    size="sm"
+                    size="xs"
                     aria-label="Share Search Results"
                     title="Share Search Results">
-                    <FiShare className="md:mr-2 h-5 w-5" />
+                    <FiShare className="md:mr-2 h-4 w-4" />
                     <span className="hidden md:inline">Share</span>
                 </Button>
             </CopyToClipboard>

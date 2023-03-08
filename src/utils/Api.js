@@ -4,7 +4,7 @@ import {isEmpty} from "underscore";
 import { toDate, parseISO, getUnixTime, subDays } from 'date-fns';
 
 import {Config} from "../../app.config";
-import {compress, fetchWithTimeout, getThreadType} from "./Utils";
+import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery} from "./Utils";
 
 export class PushshiftAPI {
     constructUrl(formData, options) {
@@ -24,7 +24,7 @@ export class PushshiftAPI {
         };
 
         if (formData.hasOwnProperty("query") && formData.query) {
-            params.q = formData.query;
+            params.q = Config.enableAcronymSearch ? convertAcronymQuery(formData.query) : formData.query;
         }
 
         if (formData.hasOwnProperty("author") && formData.author) {

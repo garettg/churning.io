@@ -47,7 +47,7 @@ export const ThreadTypes = {
     "dd": {
         name: "Daily Discussion",
         color: "orange",
-        regex: /(discussion_thread_|daily_discussion_)/
+        regex: /(discussion_thread_|daily_discussion_thread_)/
     },
     "ms": {
         name: "Manufactured Spend",
@@ -97,5 +97,94 @@ export const FlowbiteTheme = {
                 lime: 'bg-lime-100 text-lime-800 dark:bg-lime-200 dark:text-lime-900 group-hover:bg-lime-200 dark:group-hover:bg-lime-300',
             }
         }
+    },
+    alert: {
+        root: {
+            color: {
+                teal: 'text-teal-700 bg-teal-100 border-teal-500 dark:bg-teal-200 dark:text-teal-800'
+            }
+        }
+    },
+    button: {
+        color: {
+            teal: 'text-white bg-teal-700 border border-transparent hover:bg-teal-800 focus:ring-4 focus:ring-teal-300 disabled:hover:bg-teal-700 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 dark:disabled:hover:bg-teal-600'
+        }
     }
 };
+
+export const DisqualifyAcronymsCharacters = /[\(\)\|\'\"]/g
+
+export const Acronyms = {
+    "annual fee": "af",
+    "american express": "amex",
+    "authorized user": "au",
+    "bank of america": "boa",
+    "direct deposit": "dd",
+    "data point": "dp",
+    "equifax": "eq",
+    "experian": "ex",
+    "transunion": "tu",
+    "gift card": "gc",
+    "global entry": "ge",
+    "hard pull": "hp",
+    "money order": "mo",
+    "membership rewards": "mr",
+    "manufactured spend": "ms",
+    "no lifetime language": "nll",
+    "product change": "pc",
+    "signup bonus": "sub",
+    "business": "biz",
+    "credit card": "cc",
+    "platinum": "plat",
+    "paypal": "pp",
+    "alaska": "as",
+    "delta": "dl",
+    "american airlines": "aa",
+    "southwest": "sw",
+    "united": "ua",
+    "application": "app",
+    "chase sapphire reserve": "csr",
+    "chase sapphire preferred": "csp",
+    "chase ink preferred": "cip",
+    "chase ink cash": "cic",
+    "chase ink unlimited": "ciu",
+    "chase freedom flex": "cff",
+    "chase freedom unlimited": "cfu",
+    "pay yourself back": "pyb",
+    "modified double dip": "mdd",
+    "companion pass": "cp",
+    "travelbank": "tb",
+    "secure message": "sm"
+}
+
+export const Suggestions = [
+    {
+        matches: [
+            "sw|southwest",
+            "cp|companion pass"
+        ],
+        name: "Southwest Companion Pass",
+        link: "https://www.reddit.com/r/churning/comments/pgph18/2021_southwest_companion_pass_megathread/"
+    },
+    {
+        matches: [
+            "mdd|modified double dip|double dip"
+        ],
+        name: "Modified Double Dip",
+        link: "https://www.reddit.com/r/churning/comments/nq1082/the_missing_modified_double_dip_mdd_reference/"
+    },
+    {
+        matches: [
+            "sapphire|csr|csp|cs"
+        ],
+        name: "Chase Sapphire Cards",
+        link: "https://www.reddit.com/user/garettg/comments/u6ss7u/sapphire_fyis/"
+    },
+    {
+        matches: [
+            "1\/90|2\/90|1\/30|2\/30|1\/5|1\/8|2\/65|1\/95|5\/24|1\/24|1\/48"
+        ],
+        name: "Anti-Churning Rules",
+        link: "https://www.reddit.com/r/churning/comments/819r08/list_of_antichurning_rules/"
+    }
+]

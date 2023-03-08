@@ -1,3 +1,4 @@
+import React from 'react';
 import {Button} from "flowbite-react";
 import {MdRefresh} from "react-icons/md";
 
@@ -10,11 +11,11 @@ const Reset = () => {
 
     return (
         <Button
-            size="sm"
+            size="xs"
             aria-label="Reset Search"
             title="Reset Search"
             onClick={reset}>
-            <MdRefresh className="md:mr-2 h-5 w-5" />
+            <MdRefresh className="md:mr-2 h-4 w-4" />
             <span className="hidden md:inline">Reset</span>
         </Button>
     )

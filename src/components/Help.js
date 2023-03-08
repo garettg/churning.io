@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Help = () => {
     return (
         <div className="md:pt-6 px-4 md:px-6 lg:px-8 pb-6 w-full">

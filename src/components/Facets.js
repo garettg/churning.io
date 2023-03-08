@@ -1,3 +1,4 @@
+import React from 'react';
 import {Checkbox, Label, Spinner} from "flowbite-react";
 
 import {useSearchContext} from "../utils/Context";

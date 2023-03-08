@@ -39,9 +39,10 @@ const Options = () => {
     }
 
     const optionAvailable = [
+        {id:'dark-mode', label: "Dark Mode", name:"darkMode", checked: options.darkMode},
         {id:'old-reddit', label: "Old Reddit", name:"oldReddit", checked: options.oldReddit},
         {id:'show-date', label: "Show Date", name:"showDate", checked: options.showDate},
-        {id:'dark-mode', label: "Dark Mode", name:"darkMode", checked: options.darkMode},
+        {id:'show-suggestions', label: "Show Suggestions", name: "showSuggestions", checked: options.showSuggestions},
         {id:'add-award-travel', label: "Add Award Travel", name: "addAwardTravel", checked: options.addAwardTravel}
     ];
 
