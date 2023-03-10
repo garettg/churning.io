@@ -3,7 +3,7 @@ import {format, subDays} from "date-fns";
 import { isEmpty } from "underscore";
 
 import {Config} from "../../app.config";
-import {compress, decompress, gaEvent} from "./Utils";
+import {compress, decompress, gaEvent, keenEvent} from "./Utils";
 import { PushshiftAPI } from "./Api";
 import {GaDateFormat, KeywordsRegex} from "./Constants";
 
@@ -185,6 +185,14 @@ const SearchContextProvider = (props) => {
                 }
             }
         }
+
+        let eventData = Object.assign({}, state, {
+            selectionRange: state.time === "" ? `${format(state.selectionRange.startDate, GaDateFormat)} - ${format(state.selectionRange.endDate, GaDateFormat)}`: "",
+            keywords: state.query.replace(KeywordsRegex, ' ').replace(/\s\s+/g, ' ').trim().toLowerCase().split(" ")
+        });
+
+        keenEvent("search", eventData);
+
         refetch();
     }
 

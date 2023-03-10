@@ -4,6 +4,7 @@ import { event } from "nextjs-google-analytics";
 
 import {Config} from "../../app.config";
 import {ThreadTypes, Acronyms} from "./Constants";
+import KeenTracking from "keen-tracking";
 
 export const compress = (obj) => {
     try {
@@ -36,6 +37,26 @@ export const isDevMode = () => {
 export const gaEvent = (eventName, eventParams) => {
     if (!isDevMode()) {
         event(eventName, eventParams, Config.appAnalyticsId);
+    }
+}
+
+export const keenEvent = (eventName, eventData) => {
+    if (!isDevMode()) {
+        const keenClient = new KeenTracking({
+            projectId: Config.keenProjectId,
+            writeKey: Config.keenWriteKey
+        });
+
+        keenClient.recordEvent(eventName, eventData, (err, res) => {
+            if (isDevMode()) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log("Keen", res)
+                }
+            }
+
+        });
     }
 }
 

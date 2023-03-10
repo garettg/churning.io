@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes'
 
 import {Config} from "../../app.config";
 import {useSearchContext} from "../utils/Context";
-import {compress} from "../utils/Utils";
+import {compress, keenEvent} from "../utils/Utils";
 
 const Options = () => {
     const {
@@ -36,6 +36,10 @@ const Options = () => {
                 setTheme('light');
             }
         }
+        keenEvent("options", {
+            option: name,
+            enabled: checked ? "Yes":"No"
+        })
     }
 
     const optionAvailable = [

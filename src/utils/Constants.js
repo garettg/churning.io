@@ -121,6 +121,7 @@ export const Acronyms = {
     "bank of america": "boa",
     "us bank": "usb",
     "capital one": "c1",
+    "barclays": "barclay",
     "cash back": "cb",
     "direct deposit": "dd",
     "data point": "dp",

@@ -5,7 +5,7 @@ import {FaBookOpen} from "react-icons/fa";
 import {HiEye} from "react-icons/hi2";
 
 import {Suggestions} from "../utils/Constants";
-import {testMatches, gaEvent} from "../utils/Utils";
+import {testMatches, gaEvent, keenEvent} from "../utils/Utils";
 import {useSearchContext} from "../utils/Context";
 
 const Suggestion = (props) => {
@@ -19,6 +19,10 @@ const Suggestion = (props) => {
             label: name,
             value: query,
             nonInteraction: true
+        });
+        keenEvent("suggestion", {
+            suggest: name,
+            query: query
         });
     }
 
@@ -44,7 +48,6 @@ const Suggestion = (props) => {
                     </>;
 
                 return (
-                    // mx-auto w-5/6 md:w-2/3 xl:w-1/2
                     <Alert
                         key={index}
                         color="teal"

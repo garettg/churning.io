@@ -26,7 +26,8 @@ const queries = [
     {query:`SW CP`, convert:`(sw|southwest) (cp|"companion pass")`, matches: true},
     {query:`"as cp"`, convert:`"as cp"`, matches: false},
     {query:`amex plat retention -biz`, convert:`(amex|"american express") (plat|platinum) retention -(biz|business)`, matches: false},
-    {query:`flyertalk united amex airline credit`, convert:`(flyertalk|ft) (united|ua) (amex|"american express") airline credit`, matches: false}
+    {query:`flyertalk united amex airline credit`, convert:`(flyertalk|ft) (united|ua) (amex|"american express") airline credit`, matches: false},
+    {query:`barclay aa biz`, convert:`(barclay|barclays) (aa|"american airlines") (biz|business)`, matches: false}
 ]
 
 describe('Test - Query to Acronym Query', () => {

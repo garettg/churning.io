@@ -9,7 +9,7 @@ import {TbBrandReddit} from 'react-icons/tb';
 
 import {Config} from "../../app.config";
 import {useSearchContext} from "../utils/Context";
-import {gaEvent, getAuthorData} from "../utils/Utils";
+import {gaEvent, getAuthorData, keenEvent} from "../utils/Utils";
 import {LinkClasses, ThreadTypes} from "../utils/Constants";
 import Help from "./Help";
 import Reset from "./Reset";
@@ -50,7 +50,12 @@ const ResultItem = (props) => {
             label: "author",
             value: comment.author,
             nonInteraction: true
-        })
+        });
+        keenEvent("result", {
+            resultNumber: props.resultNumber,
+            author: comment.author,
+            thread: comment.thread
+        });
     }
 
     const redditDomain = `https://${options.oldReddit ? 'old' : 'www'}.reddit.com`;
@@ -137,7 +142,8 @@ ResultItem.propTypes = {
     permalink: PropTypes.string,
     thread: PropTypes.string,
     subreddit: PropTypes.string,
-    showSub: PropTypes.bool.isRequired
+    showSub: PropTypes.bool.isRequired,
+    resultNumber: PropTypes.number
 }
 
 const Results = () => {
@@ -185,7 +191,7 @@ const Results = () => {
             if (comments.length !== 0) {
                 const subs = Array.from(new Set(comments.map((c) => c.subreddit)));
                 resultsContent = [
-                    comments.map((comment, index) => <ResultItem key={index} {...comment} showSub={subs.includes('awardtravel')} />),
+                    comments.map((comment, index) => <ResultItem key={index} {...comment} showSub={subs.includes('awardtravel')} resultNumber={(index+1)} />),
                     <div key={9999} className="font-semibold text-center my-4">
                         End of Results
                     </div>

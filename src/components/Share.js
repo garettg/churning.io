@@ -5,11 +5,13 @@ import toast, { Toaster } from "react-hot-toast";
 import classNames from "classnames";
 import {FiShare} from "react-icons/fi";
 import {MdOutlineClose} from "react-icons/md";
+import {format} from "date-fns";
 
 import styles from "../styles/Share.module.css";
 
 import {useSearchContext} from "../utils/Context";
-import {decompress, gaEvent} from "../utils/Utils";
+import {decompress, gaEvent, keenEvent} from "../utils/Utils";
+import {GaDateFormat} from "../utils/Constants";
 
 // https://dev.to/franciscomendes10866/how-to-create-a-notificationtoast-using-react-and-tailwind-545o
 const Share = () => {
@@ -48,6 +50,12 @@ const Share = () => {
             value: formData.query,
             nonInteraction: true
         });
+
+        let eventData = Object.assign({}, formData, {
+            selectionRange: formData.time === "" ? `${format(formData.selectionRange.startDate, GaDateFormat)} - ${format(formData.selectionRange.endDate, GaDateFormat)}`: "",
+        });
+
+        keenEvent("share", eventData);
     }
 
     return (
