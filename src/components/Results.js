@@ -36,6 +36,9 @@ const ResultItem = (props) => {
             value: author,
             nonInteraction: true
         });
+        keenEvent("author", {
+            username: author
+        })
     }
 
     const handleResultClick = (event, comment) => {
@@ -54,7 +57,8 @@ const ResultItem = (props) => {
         keenEvent("result", {
             resultNumber: props.resultNumber,
             author: comment.author,
-            thread: comment.thread
+            thread: comment.thread,
+            link: event.currentTarget.href.replace(event.currentTarget.host, "reddit.com")
         });
     }
 
