@@ -37,7 +37,7 @@ const Facets = () => {
             nonInteraction: true
         });
         keenEvent("filter", {
-            thread: e.target.name,
+            thread: ThreadTypes[e.target.name].name,
             action: (e.target.checked ? 'Show' : 'Hide')
         });
     }
