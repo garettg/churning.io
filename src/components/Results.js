@@ -57,7 +57,7 @@ const ResultItem = (props) => {
         keenEvent("result", {
             resultNumber: props.resultNumber,
             author: comment.author,
-            thread: comment.thread,
+            thread: ThreadTypes[comment.thread].name,
             link: event.currentTarget.href.replace(event.currentTarget.host, "reddit.com")
         });
     }
