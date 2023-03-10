@@ -54,7 +54,7 @@ const Facets = () => {
             nonInteraction: true
         });
         keenEvent("filter", {
-            thread: key,
+            thread: ThreadTypes[key].name,
             action: "Only"
         });
     }
