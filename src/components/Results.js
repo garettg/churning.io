@@ -41,7 +41,7 @@ const ResultItem = (props) => {
         })
     }
 
-    const handleResultClick = (event, comment) => {
+    const handleResultClick = (event, comment, link) => {
         gaEvent("result", {
             category: "Result",
             label: "thread",
@@ -58,7 +58,7 @@ const ResultItem = (props) => {
             resultNumber: props.resultNumber,
             author: comment.author,
             thread: ThreadTypes[comment.thread].name,
-            link: event.currentTarget.href.replace(event.currentTarget.host, "reddit.com")
+            link: `https://reddit.com${link}`
         });
     }
 
@@ -118,7 +118,7 @@ const ResultItem = (props) => {
             </div>
             <div className="-mx-2 md:mx-0">
                 <a href={commentLink}
-                   onClick={(e) => handleResultClick(e, props)}
+                   onClick={(e) => handleResultClick(e, props, permalink)}
                    className="block text-sm leading-snug reddit-comment text-ellipsis overflow-hidden"
                    target="_blank">
                 <ReactMarkdown
