@@ -33,7 +33,7 @@ export class PushshiftAPI {
 
         if (formData.time !== "") {
             if (formData.time !== "all") {
-                params.after = getUnixTime(subDays(new Date(), parseInt(formData.time)));
+                params.after = getUnixTime(subDays((new Date()).setHours(0, 0, 0, 0), parseInt(formData.time)));
             } else {
                 // Convert subreddit start date to unix time stamp
                 params.after = getUnixTime(toDate(parseISO(Config.appSubredditDate)));

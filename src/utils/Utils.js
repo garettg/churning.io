@@ -1,10 +1,10 @@
 import React from 'react';
 import LZString from "lz-string";
 import { event } from "nextjs-google-analytics";
+import KeenTracking from "keen-tracking";
 
 import {Config} from "../../app.config";
 import {ThreadTypes, Acronyms} from "./Constants";
-import KeenTracking from "keen-tracking";
 
 export const compress = (obj) => {
     try {
@@ -42,21 +42,25 @@ export const gaEvent = (eventName, eventParams) => {
 
 export const keenEvent = (eventName, eventData) => {
     if (!isDevMode()) {
-        const keenClient = new KeenTracking({
-            projectId: Config.keenProjectId,
-            writeKey: Config.keenWriteKey
-        });
+        try {
+            const keenClient = new KeenTracking({
+                projectId: Config.keenProjectId,
+                writeKey: Config.keenWriteKey
+            });
 
-        keenClient.recordEvent(eventName, eventData, (err, res) => {
-            if (isDevMode()) {
-                if (err) {
-                    console.error(err);
-                } else {
-                    console.log("Keen", res)
-                }
-            }
-
-        });
+            keenClient
+                .recordEvent(eventName, eventData)
+                .then((response) => {
+                    // handle successful responses
+                    console.log(`[${eventName}] event: success`);
+                })
+                .catch(error => {
+                    // handle errors
+                    console.error(`[${eventName}] event: failure`, error);
+                });
+        } catch (error) {
+            console.error(error)
+        }
     }
 }
 
