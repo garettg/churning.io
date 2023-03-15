@@ -3,7 +3,7 @@ import {Checkbox, Label, Spinner} from "flowbite-react";
 
 import {useSearchContext} from "../utils/Context";
 import {LinkClasses, ThreadTypes} from "../utils/Constants";
-import {gaEvent, keenEvent} from "../utils/Utils";
+import {gaEvent, customEvent} from "../utils/Utils";
 
 const Facets = () => {
     const {
@@ -36,7 +36,7 @@ const Facets = () => {
             value: e.target.name,
             nonInteraction: true
         });
-        keenEvent("filter", {
+        customEvent("filter", {
             thread: ThreadTypes[e.target.name].name,
             action: (e.target.checked ? 'Show' : 'Hide')
         });
@@ -53,7 +53,7 @@ const Facets = () => {
             value: key,
             nonInteraction: true
         });
-        keenEvent("filter", {
+        customEvent("filter", {
             thread: ThreadTypes[key].name,
             action: "Only"
         });
@@ -70,7 +70,7 @@ const Facets = () => {
             value: "All",
             nonInteraction: true
         });
-        keenEvent("filter", {
+        customEvent("filter", {
             thread: "All",
             action: "All"
         });

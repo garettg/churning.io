@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useContext, createContext, useMemo } from "react";
-import {format, subDays} from "date-fns";
+import {subDays} from "date-fns";
 import { isEmpty } from "underscore";
 
 import {Config} from "../../app.config";
-import {compress, decompress, gaEvent, keenEvent} from "./Utils";
+import {compress, decompress} from "./Utils";
 import { PushshiftAPI } from "./Api";
-import {GaDateFormat, KeywordsRegex} from "./Constants";
 
 const api = new PushshiftAPI();
 
@@ -85,13 +84,13 @@ const SearchContextProvider = (props) => {
         if (!isEmpty(localStorageOptions)) {
             // Load stored form data if exists
             setOptions({...defaultOptions, ...localStorageOptions});
-            console.log("Loaded options from local storage");
+            console.log("[local storage] options: loaded");
         }
 
         if (window.location.hash) {
             const formData = decompress(window.location.hash.slice(1));
             loadSavedState(formData, true);
-            console.log("Loaded state from location.hash");
+            console.log("[location hash] state: loaded");
             // Remove hash now that we have the data
             history.replaceState(null, null, " ");
             return;
@@ -101,7 +100,7 @@ const SearchContextProvider = (props) => {
         if (!isEmpty(localStorageData)) {
             // Load stored form data if exists
             loadSavedState(localStorageData);
-            console.log("Loaded state from local storage");
+            console.log("[local storage] state: loaded");
         }
     }, []);
 
@@ -153,45 +152,6 @@ const SearchContextProvider = (props) => {
         if (resetFilters) {
             Object.keys(threadFilters).map(thread => threadFilters[thread] = true);
         }
-
-        for (const [key, value] of Object.entries(state)) {
-            if (value !== "") {
-                let eventValue = value;
-
-                if (key === "selectionRange" && state.time === "") {
-                    eventValue = `${format(value.startDate, GaDateFormat)} - ${format(value.endDate, GaDateFormat)}`
-                }
-                if (key === "selectionRange" && state.time !== "") {
-                    continue;
-                }
-
-                gaEvent("search", {
-                    category: "Search",
-                    label: key,
-                    value: eventValue,
-                    nonInteraction: true
-                });
-
-                if (key === "query") {
-                    let keywords = value.replace(KeywordsRegex, ' ').replace(/\s\s+/g, ' ').trim().toLowerCase().split(" ");
-                    keywords.map(term => {
-                        gaEvent("search", {
-                            category: "Search",
-                            label: "keyword",
-                            value: term,
-                            nonInteraction: true
-                        });
-                    })
-                }
-            }
-        }
-
-        let eventData = Object.assign({}, state, {
-            selectionRange: state.time === "" ? `${format(state.selectionRange.startDate, GaDateFormat)} - ${format(state.selectionRange.endDate, GaDateFormat)}`: "",
-            keywords: state.query.replace(KeywordsRegex, ' ').replace(/\s\s+/g, ' ').trim().toLowerCase().split(" ")
-        });
-
-        keenEvent("search", eventData);
 
         refetch();
     }

@@ -4,13 +4,14 @@ import {Alert, Button} from "flowbite-react";
 import {FaBookOpen} from "react-icons/fa";
 import {HiEye} from "react-icons/hi2";
 
-import {Suggestions} from "../utils/Constants";
-import {testMatches, gaEvent, keenEvent} from "../utils/Utils";
+import {KeywordsRegex, Suggestions} from "../utils/Constants";
+import {testMatches, gaEvent, customEvent} from "../utils/Utils";
 import {useSearchContext} from "../utils/Context";
 
 const Suggestion = (props) => {
     const {
-        options
+        options,
+        totalCount
     } = useSearchContext();
 
     const onClick = (name, query) => {
@@ -20,9 +21,11 @@ const Suggestion = (props) => {
             value: query,
             nonInteraction: true
         });
-        keenEvent("suggestion", {
+        customEvent("suggestion", {
             suggest: name,
-            query: query
+            query: query,
+            keywords: query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').toLowerCase(),
+            resultCount: totalCount
         });
     }
 

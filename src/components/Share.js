@@ -5,18 +5,19 @@ import toast, { Toaster } from "react-hot-toast";
 import classNames from "classnames";
 import {FiShare} from "react-icons/fi";
 import {MdOutlineClose} from "react-icons/md";
-import {format} from "date-fns";
+import {differenceInDays, endOfDay, startOfDay, toDate, parseISO} from "date-fns";
 
 import styles from "../styles/Share.module.css";
 
 import {useSearchContext} from "../utils/Context";
-import {decompress, gaEvent, keenEvent} from "../utils/Utils";
-import {GaDateFormat} from "../utils/Constants";
+import {decompress, gaEvent, customEvent} from "../utils/Utils";
+import {KeywordsRegex} from "../utils/Constants";
 
 // https://dev.to/franciscomendes10866/how-to-create-a-notificationtoast-using-react-and-tailwind-545o
 const Share = () => {
     const {
-        shareUrl
+        shareUrl,
+        totalCount
     } = useSearchContext();
 
     const onSuccess = () => {
@@ -51,11 +52,14 @@ const Share = () => {
             nonInteraction: true
         });
 
-        let eventData = Object.assign({}, formData, {
-            selectionRange: formData.time === "" ? `${format(formData.selectionRange.startDate, GaDateFormat)} - ${format(formData.selectionRange.endDate, GaDateFormat)}`: "",
+        let {selectionRange: _, ...rest} = formData;
+        let eventData = Object.assign({}, rest, {
+            time: formData.time !== "" ? formData.time: (differenceInDays(endOfDay(toDate(parseISO(formData.selectionRange.endDate))), startOfDay(toDate(parseISO(formData.selectionRange.startDate)))) + 1),
+            keywords: formData.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').toLowerCase(),
+            resultCount: totalCount
         });
 
-        keenEvent("share", eventData);
+        customEvent("share", eventData);
     }
 
     return (

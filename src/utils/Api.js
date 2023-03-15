@@ -1,10 +1,11 @@
 import {useQuery} from "@tanstack/react-query";
 import querystring from "querystring";
 import {isEmpty} from "underscore";
-import { toDate, parseISO, getUnixTime, subDays } from 'date-fns';
+import {toDate, parseISO, getUnixTime, subDays, startOfDay, endOfDay, format, differenceInDays} from 'date-fns';
 
 import {Config} from "../../app.config";
-import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery} from "./Utils";
+import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery, customEvent, gaEvent} from "./Utils";
+import {GaDateFormat, KeywordsRegex} from "./Constants";
 
 export class PushshiftAPI {
     constructUrl(formData, options) {
@@ -33,14 +34,14 @@ export class PushshiftAPI {
 
         if (formData.time !== "") {
             if (formData.time !== "all") {
-                params.after = getUnixTime(subDays((new Date()).setHours(0, 0, 0, 0), parseInt(formData.time)));
+                params.after = getUnixTime(subDays(startOfDay(new Date()), parseInt(formData.time)));
             } else {
                 // Convert subreddit start date to unix time stamp
                 params.after = getUnixTime(toDate(parseISO(Config.appSubredditDate)));
             }
         } else {
-            const startDate = Math.floor(formData.selectionRange.startDate.getTime() / 1000);
-            const endDate = Math.floor(formData.selectionRange.endDate.setHours(23, 59, 59, 999) / 1000);
+            const startDate = getUnixTime(startOfDay(formData.selectionRange.startDate));
+            const endDate = getUnixTime(endOfDay(formData.selectionRange.endDate));
 
             params.after = startDate;
             params.before = endDate;
@@ -81,26 +82,77 @@ export class PushshiftAPI {
         return useQuery(
             ["pushshift", state],
             async () => {
-                const urlProd = this.constructUrl(state, options);
+                const pushshiftUrl = this.constructUrl(state, options);
 
                 localStorage.setItem(Config.appId + "-data", compress(state));
-                console.log("Updated state to local storage");
+                console.log("[local storage] state: updated");
 
-                const dataResults = await this.query(urlProd);
+                try {
+                    const dataResults = await this.query(pushshiftUrl);
 
-                const data = dataResults.sort((a, b) => {
-                    if (order === "asc") {
-                        return a.created_utc - b.created_utc;
-                    } else {
-                        return b.created_utc - a.created_utc;
+                    const data = dataResults.sort((a, b) => {
+                        if (order === "asc") {
+                            return a.created_utc - b.created_utc;
+                        } else {
+                            return b.created_utc - a.created_utc;
+                        }
+                    });
+
+                    for (const datum of data) {
+                        datum.thread = getThreadType(datum.permalink);
                     }
-                });
 
-                for (const datum of data) {
-                    datum.thread = getThreadType(datum.permalink);
+                    for (const [key, value] of Object.entries(state)) {
+                        if (value !== "") {
+                            let eventValue = value;
+
+                            if (key === "selectionRange" && state.time === "") {
+                                eventValue = `${format(value.startDate, GaDateFormat)} - ${format(value.endDate, GaDateFormat)}`
+                            }
+                            if (key === "selectionRange" && state.time !== "") {
+                                continue;
+                            }
+
+                            gaEvent("search", {
+                                category: "Search",
+                                label: key,
+                                value: eventValue,
+                                nonInteraction: true
+                            });
+
+                            if (key === "query") {
+                                let keywords = value.replace(KeywordsRegex, ' ').replace(/\s\s+/g, ' ').trim().toLowerCase().split(" ");
+                                keywords.map(term => {
+                                    gaEvent("search", {
+                                        category: "Search",
+                                        label: "keyword",
+                                        value: term,
+                                        nonInteraction: true
+                                    });
+                                })
+                            }
+                        }
+                    }
+
+                    let {selectionRange: _, ...rest} = state;
+                    let eventData = Object.assign({}, rest, {
+                        time: rest.time !== "" ? rest.time : (differenceInDays(endOfDay(state.selectionRange.endDate), startOfDay(state.selectionRange.startDate)) + 1),
+                        keywords: state.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').trim().toLowerCase(),
+                        resultCount: data.length
+                    });
+
+                    customEvent("search", eventData);
+
+                    return data;
+                } catch (error) {
+                    customEvent("error", {
+                        datetime: format(new Date(), `${GaDateFormat} HH:mm:ss z`),
+                        type: "search",
+                        error: error
+                    });
+
+                    throw error;
                 }
-
-                return data;
             },
             {
                 cacheTime: 0,

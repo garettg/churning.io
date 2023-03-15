@@ -122,6 +122,7 @@ export const Acronyms = {
     "us bank": "usb",
     "capital one": "c1",
     "barclays": "barclay",
+    "wells fargo": "wf",
     "cash back": "cb",
     "direct deposit": "dd",
     "data point": "dp",

@@ -7,6 +7,11 @@ module.exports = {
         "./src/**/*.{js,ts,jsx,tsx}",
         'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
     ],
+    safelist: [
+        'xl:grid-cols-1',
+        'xl:grid-cols-2',
+        'xl:grid-cols-3',
+    ],
     theme: {
         container: {
             center: true,

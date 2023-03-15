@@ -1,7 +1,6 @@
 import React from 'react';
 import LZString from "lz-string";
 import { event } from "nextjs-google-analytics";
-import KeenTracking from "keen-tracking";
 
 import {Config} from "../../app.config";
 import {ThreadTypes, Acronyms} from "./Constants";
@@ -10,7 +9,7 @@ export const compress = (obj) => {
     try {
         return LZString.compressToEncodedURIComponent(JSON.stringify(obj));
     } catch (e) {
-        console.log("Utils: compress did not happen", "\n", e, "\n", obj);
+        console.warn("[compress] action: warning", "\n", e, "\n", obj);
         return "";
     }
 }
@@ -25,7 +24,7 @@ export const decompress = (string) => {
             return {};
         }
     } catch (e) {
-        console.log("Utils: decompress did not happen", "\n", e, "\n", string);
+        console.warn("[decompress] action: warning", "\n", e, "\n", string);
         return {};
     }
 }
@@ -35,31 +34,21 @@ export const isDevMode = () => {
 }
 
 export const gaEvent = (eventName, eventParams) => {
-    if (!isDevMode()) {
-        event(eventName, eventParams, Config.appAnalyticsId);
+    if (!isDevMode() && Config.enableGaEvents) {
+        event(eventName, eventParams);
     }
 }
 
-export const keenEvent = (eventName, eventData) => {
-    if (!isDevMode()) {
+export const customEvent = (eventName, eventData) => {
+    if (!isDevMode() && window.hasOwnProperty("woopra") && Config.enableCustomEvents) {
         try {
-            const keenClient = new KeenTracking({
-                projectId: Config.keenProjectId,
-                writeKey: Config.keenWriteKey
+            window.woopra.track(eventName, eventData, () => {
+                // handle successful responses
+                console.log(`[event] ${eventName}: success`);
             });
-
-            keenClient
-                .recordEvent(eventName, eventData)
-                .then((response) => {
-                    // handle successful responses
-                    console.log(`[${eventName}] event: success`);
-                })
-                .catch(error => {
-                    // handle errors
-                    console.error(`[${eventName}] event: failure`, error);
-                });
         } catch (error) {
-            console.error(error)
+            // handle errors
+            console.error(`[event] ${eventName}: failure`, `\n`, error);
         }
     }
 }
@@ -111,7 +100,7 @@ export const convertAcronymQuery = (query) => {
     // build regex of all the data
     const acronymRegEx = new RegExp(`\\b(${Object.entries(acronymData).map(entry => `${entry[0]}`).join("|")})\\b`, "gi");
 
-    return query.toLowerCase().replace(acronymRegEx, (match, key) => {
+    return query.toLowerCase().replace(acronymRegEx, match => {
         if (acronymData.hasOwnProperty(match)) {
             let matched = hasWhiteSpace(match) ? `"${match}"` : match;
             let converted = hasWhiteSpace(acronymData[match]) ? `"${acronymData[match]}"` : acronymData[match];
@@ -130,4 +119,27 @@ export const testMatches = (query, matches) => {
             return regEx.test(query.toLowerCase())
         })
     );
+}
+
+export const woopraInitialize = () => {
+    !function () {
+        var t, o, c, e = window, n = document, r = arguments, a = "script",
+            i = ["call", "cancelAction", "config", "identify", "push", "track", "trackClick", "trackForm", "update", "visit"],
+            s = function () {
+                var t, o = this, c = function (t) {
+                    o[t] = function () {
+                        return o._e.push([t].concat(Array.prototype.slice.call(arguments, 0))), o
+                    }
+                };
+                for (o._e = [], t = 0; t < i.length; t++) c(i[t])
+            };
+        for (e.__woo = e.__woo || {}, t = 0; t < r.length; t++) e.__woo[r[t]] = e[r[t]] = e[r[t]] || new s;
+        (o = n.createElement(a)).async = 1, o.src = "https://static.woopra.com/js/w.js", (c = n.getElementsByTagName(a)[0]).parentNode.insertBefore(o, c)
+    }("woopra");
+
+    if (window.hasOwnProperty("woopra")) {
+        window.woopra.config({
+            domain: Config.appDomain
+        });
+    }
 }

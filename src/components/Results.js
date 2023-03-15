@@ -9,7 +9,7 @@ import {TbBrandReddit} from 'react-icons/tb';
 
 import {Config} from "../../app.config";
 import {useSearchContext} from "../utils/Context";
-import {gaEvent, getAuthorData, keenEvent} from "../utils/Utils";
+import {gaEvent, getAuthorData, customEvent} from "../utils/Utils";
 import {LinkClasses, ThreadTypes} from "../utils/Constants";
 import Help from "./Help";
 import Reset from "./Reset";
@@ -29,15 +29,18 @@ const ResultItem = (props) => {
     }, []);
  */
 
-    const handleAuthorClick = (event, author) => {
+    const handleAuthorClick = (event, comment, link) => {
         gaEvent("author", {
             category: "Author",
             label: "author",
-            value: author,
+            value: comment.author,
             nonInteraction: true
         });
-        keenEvent("author", {
-            username: author
+        customEvent("author", {
+            username: comment.author,
+            resultNumber: props.resultNumber,
+            thread: ThreadTypes[comment.thread].name,
+            link: `https://reddit.com${link}`
         })
     }
 
@@ -54,9 +57,9 @@ const ResultItem = (props) => {
             value: comment.author,
             nonInteraction: true
         });
-        keenEvent("result", {
-            resultNumber: props.resultNumber,
+        customEvent("result", {
             author: comment.author,
+            resultNumber: props.resultNumber,
             thread: ThreadTypes[comment.thread].name,
             link: `https://reddit.com${link}`
         });
@@ -108,7 +111,7 @@ const ResultItem = (props) => {
                 <div className="flex flex-wrap items-center gap-3">
                     {authorAvatar}
                     <a href={`${redditDomain}/user/${props.author}`}
-                       onClick={(e) => handleAuthorClick(e, props.author)}
+                       onClick={(e) => handleAuthorClick(e, props, permalink)}
                        className={`font-semibold text-base md:text-lg ${LinkClasses}`}
                        target="_blank">
                         <span className="sr-only">Comment Author:</span> {props.author}
