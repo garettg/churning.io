@@ -136,7 +136,9 @@ export class PushshiftAPI {
 
                     let {selectionRange: _, ...rest} = state;
                     let eventData = Object.assign({}, rest, {
-                        time: rest.time !== "" ? rest.time : (differenceInDays(endOfDay(state.selectionRange.endDate), startOfDay(state.selectionRange.startDate)) + 1),
+                        time: rest.time !== "" ? (
+                            rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.appSubredditDate)))) + 1)
+                        ) : (differenceInDays(endOfDay(state.selectionRange.endDate), startOfDay(state.selectionRange.startDate)) + 1),
                         keywords: state.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').trim().toLowerCase(),
                         resultCount: data.length
                     });
