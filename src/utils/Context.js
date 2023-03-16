@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext, createContext, useMemo } from "react";
-import {subDays} from "date-fns";
+import {differenceInDays, endOfDay, parseISO, startOfDay, subDays, toDate} from "date-fns";
 import { isEmpty } from "underscore";
 
 import {Config} from "../../app.config";
-import {compress, decompress} from "./Utils";
+import {compress, customEvent, decompress} from "./Utils";
 import { PushshiftAPI } from "./Api";
+import {KeywordsRegex} from "./Constants";
 
 const api = new PushshiftAPI();
 
@@ -93,6 +94,15 @@ const SearchContextProvider = (props) => {
             console.log("[location hash] state: loaded");
             // Remove hash now that we have the data
             history.replaceState(null, null, " ");
+
+            let {selectionRange: _, ...rest} = formData;
+            let eventData = Object.assign({}, rest, {
+                time: rest.time !== "" ? (
+                    rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.appSubredditDate)))) + 1)
+                ) : (differenceInDays(endOfDay(formData.selectionRange.endDate), startOfDay(formData.selectionRange.startDate)) + 1),
+                keywords: formData.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').toLowerCase()
+            });
+            customEvent("visit", eventData);
             return;
         }
 

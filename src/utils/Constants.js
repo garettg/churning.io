@@ -173,7 +173,7 @@ export const Suggestions = [
     },
     {
         matches: [
-            "mdd|modified double dip|double dip"
+            "mdd|modified double dip|double dip|modified dd|dd"
         ],
         name: "Modified Double Dip",
         link: "https://www.reddit.com/r/churning/comments/nq1082/the_missing_modified_double_dip_mdd_reference/"

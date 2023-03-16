@@ -12,6 +12,7 @@ import styles from "../styles/Share.module.css";
 import {useSearchContext} from "../utils/Context";
 import {decompress, gaEvent, customEvent} from "../utils/Utils";
 import {KeywordsRegex} from "../utils/Constants";
+import {Config} from "../../app.config";
 
 // https://dev.to/franciscomendes10866/how-to-create-a-notificationtoast-using-react-and-tailwind-545o
 const Share = () => {
@@ -54,7 +55,9 @@ const Share = () => {
 
         let {selectionRange: _, ...rest} = formData;
         let eventData = Object.assign({}, rest, {
-            time: formData.time !== "" ? formData.time: (differenceInDays(endOfDay(toDate(parseISO(formData.selectionRange.endDate))), startOfDay(toDate(parseISO(formData.selectionRange.startDate)))) + 1),
+            time: rest.time !== "" ? (
+                rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.appSubredditDate)))) + 1)
+            ) : (differenceInDays(endOfDay(formData.selectionRange.endDate), startOfDay(formData.selectionRange.startDate)) + 1),
             keywords: formData.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').toLowerCase(),
             resultCount: totalCount
         });
