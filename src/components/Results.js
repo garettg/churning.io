@@ -10,7 +10,7 @@ import {TbBrandReddit} from 'react-icons/tb';
 import {Config} from "../../app.config";
 import {useSearchContext} from "../utils/Context";
 import {gaEvent, getAuthorData, customEvent} from "../utils/Utils";
-import {LinkClasses, ThreadTypes} from "../utils/Constants";
+import {BlockquoteRegEx, LinkClasses, ThreadTypes} from "../utils/Constants";
 import Help from "./Help";
 import Reset from "./Reset";
 import Share from "./Share";
@@ -128,7 +128,7 @@ const ResultItem = (props) => {
                     disallowedElements={['a']}
                     remarkPlugins={[remarkGfm]}
                     unwrapDisallowed>
-                    {props.body}
+                    {props.body.replace(BlockquoteRegEx, "\n\n>")}
                 </ReactMarkdown>
                 </a>
             </div>

@@ -12,7 +12,9 @@ export const SearchRange = {
 
 export const GaDateFormat = "yyyy-MM-dd";
 
-export const KeywordsRegex = /[\"\'\|\(\)*’&]|(\s\,|\,\s|\+|\s\-|\s\%\s|\s\>\s|\s\<\s|\sor\s|\sOR\s|\sand\s|\sAND\s)/gi;
+export const KeywordsRegex = /["'|()\[\]{}*’&,]|(\+|(\s|^)-|(\s|^)%\s|(\s|^)>\s|(\s|^)<\s|(\s|^)or\s|(\s|^)and\s)/gmi;
+
+export const BlockquoteRegEx = /(^|\n\n)&gt;/gmi;
 
 export const LinkClasses = classNames(
     "focus:outline-none",
