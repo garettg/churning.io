@@ -1,5 +1,7 @@
 import React from 'react';
-import {Label, TextInput, Select, Button, Spinner} from "flowbite-react";
+import {Label, TextInput, Select, Button, Spinner, Alert} from "flowbite-react";
+import {IoWarningOutline} from "react-icons/io5";
+import {HiEye} from "react-icons/hi2";
 import {DateRange} from "react-date-range";
 import {parseISO} from 'date-fns';
 import classNames from "classnames";
@@ -17,6 +19,7 @@ const SearchForm = () => {
         time,
         search,
         setState,
+        searched,
         searching,
     } = useSearchContext();
 
@@ -52,6 +55,32 @@ const SearchForm = () => {
     }
 
     let searchButtonDisabled = (query === "" && author === "");
+
+    let searchWarning = !searched && !searching ? (
+        <div className="mt-4">
+            <Alert
+                color="warning"
+                icon={IoWarningOutline}
+                additionalContent={
+                    <>
+                        <div className="mb-3 text-sm">Make sure time range includes dates before May 1. Search will not contain comments posted after May 1.</div>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <Button
+                                color="warning"
+                                href="https://www.reddit.com/r/churning/comments/134h60p/daily_discussion_thread_may_01_2023/jignyu3/"
+                                target="_blank"
+                                size="xs"
+                                pill>
+                                <HiEye className="-ml-0.5 mr-2 h-4 w-4" /> More info
+                            </Button>
+                        </div>
+                    </>
+                }
+                rounded>
+                <h4 className="text-lg font-medium">Search Issue</h4>
+            </Alert>
+        </div>
+    ) : null;
 
     return (
         <form onSubmit={searchSubmit} className="flex flex-col gap-3 lg:gap-4 mt-3 md:mt-4" role="search" aria-label="Search Form">
@@ -129,6 +158,7 @@ const SearchForm = () => {
                     {searchButtonLabel}
                 </Button>
             </div>
+            {searchWarning}
         </form>
     );
 }
