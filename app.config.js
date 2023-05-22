@@ -16,4 +16,5 @@ export const Config = {
     enableAcronymSearch: true, // enable the use of modified queries to include acronyms to broaden search,
     enableGaEvents: true, // enable google analytics
     enableCustomEvents: true, // enable the usage of custom event to Woopra
+    disableSearch: true, // turns off the UI in downtimes
 }
