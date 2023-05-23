@@ -32,6 +32,8 @@ export default function Home() {
                                         "Check back in the next few weeks for updates."</p>
                                     <p className="mt-2">So until further notice, Churning Search is unavailable. Once Pushshift determines/announces their path forward, it will be decided how
                                         Churning Search will proceed. All announcements regarding Churning Search will be posted in the Daily Discussion thread and here.</p>
+                                    <p className="mt-2"><strong className="font-medium">Search Help:</strong> <a href="https://www.google.com/search?q=site%3Areddit.com%2Fr%2Fchurning">Try 
+                                        using google with the "site" operator</a>.</p>
                                 </div>
                                 <div className="flex flex-wrap items-center gap-2">
                                     <Button
