@@ -27,13 +27,14 @@ export default function Home() {
                         icon={IoWarningOutline}
                         additionalContent={
                             <>
-                                <div className="mb-3 text-sm">
+                                <div className="mb-4 text-sm">
                                     <p>Due to Pushshift being cut off from the Reddit API, they have shut off their own API. The only communication at this point from Pushshift is
                                         "Check back in the next few weeks for updates."</p>
                                     <p className="mt-2">So until further notice, Churning Search is unavailable. Once Pushshift determines/announces their path forward, it will be decided how
                                         Churning Search will proceed. All announcements regarding Churning Search will be posted in the Daily Discussion thread and here.</p>
-                                    <p className="mt-2"><strong className="font-medium">Search Help:</strong> <a className="underline" href="https://www.google.com/search?q=site%3Areddit.com%2Fr%2Fchurning">Try 
-                                        using google with the "site" operator</a>.</p>
+                                    <p className="mt-2"><strong className="font-medium">Search Help:</strong> <a className="underline underline-offset-3" href="https://www.google.com/search?q=site%3Areddit.com%2Fr%2Fchurning+intitle%3A%22question+thread%22">Try
+                                        a google search including the following:</a></p>
+                                    <div className="mt-4 text-center"><code>site:reddit.com/r/churning intitle:"question thread"</code></div>
                                 </div>
                                 <div className="flex flex-wrap items-center gap-2">
                                     <Button
