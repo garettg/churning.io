@@ -13,7 +13,7 @@ const SearchForm = () => {
         query,
         author,
         selectionRange,
-        order,
+        sort,
         time,
         search,
         setState,
@@ -108,12 +108,12 @@ const SearchForm = () => {
             </div>
             <div>
                 <div className="lg:mb-1">
-                    <Label htmlFor="order" value="Sort By" />
+                    <Label htmlFor="sort" value="Sort By" />
                 </div>
                 <Select
-                    id="order"
-                    name="order"
-                    value={order}
+                    id="sort"
+                    name="sort"
+                    value={sort}
                     onChange={handleChange}>
                     <option value="desc">Newest</option>
                     <option value="asc">Oldest</option>

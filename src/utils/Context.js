@@ -26,7 +26,7 @@ const defaultState = {
         endDate: new Date(),
         key: "selection"
     },
-    order: "desc"
+    sort: "desc"
 };
 
 const defaultOptions = {

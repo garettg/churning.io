@@ -12,9 +12,9 @@ export const Config = {
     appAuthor: "garettg", // reddit username of app author
     appSubreddit: "churning", // subreddit name
     appSubredditDate: "2012-12-11", // start date of the subreddit
-    defaultTimeRange: 90, // default time range on search (must match one of SearchRange keys)
+    defaultTimeRange: 366, // default time range on search (must match one of SearchRange keys)
     enableAcronymSearch: true, // enable the use of modified queries to include acronyms to broaden search,
     enableGaEvents: true, // enable google analytics
     enableCustomEvents: true, // enable the usage of custom event to Woopra
-    disableSearch: true, // turns off the UI in downtimes
+    disableSearch: false, // turns off the UI in downtimes
 }

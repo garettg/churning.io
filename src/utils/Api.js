@@ -16,12 +16,12 @@ export class PushshiftAPI {
 
         const params = {
             subreddit: subreddit,
-            filter: "permalink,link_id,id,body,author,created_utc,subreddit",
-            sort: "created_utc",
-            html_decode: true,
-            user_removed: true,
-            mod_removed: false,
-            size: 250
+            //filter: "permalink,link_id,id,body,author,created_utc,subreddit",
+            sort_type: "created_utc",
+            //html_decode: true,
+            //user_removed: true,
+            //mod_removed: false,
+            size: 100
         };
 
         if (formData.hasOwnProperty("query") && formData.query) {
@@ -47,13 +47,13 @@ export class PushshiftAPI {
             params.before = endDate;
         }
 
-        if (formData.order) {
-            params.order = formData.order;
+        if (formData.sort) {
+            params.sort = formData.sort;
         }
 
         // For testing error handling
         // return 'https://httpstat.us/521';
-        return `https://api.pushshift.io/reddit/comment/search?${querystring.stringify(params)}`;
+        return `https://api.pullpush.io/reddit/search/comment?${querystring.stringify(params)}`;
     }
 
     async query(url) {
@@ -77,10 +77,10 @@ export class PushshiftAPI {
     }
 
     usePushshiftQuery(state, options) {
-        const { order } = state;
+        const { sort } = state;
 
         return useQuery(
-            ["pushshift", state],
+            ["pullpush", state],
             async () => {
                 const pushshiftUrl = this.constructUrl(state, options);
 
@@ -91,7 +91,7 @@ export class PushshiftAPI {
                     const dataResults = await this.query(pushshiftUrl);
 
                     const data = dataResults.sort((a, b) => {
-                        if (order === "asc") {
+                        if (sort === "asc") {
                             return a.created_utc - b.created_utc;
                         } else {
                             return b.created_utc - a.created_utc;

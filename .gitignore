@@ -22,6 +22,9 @@
 # reports
 /reports
 
+# data
+/data
+
 # debug
 npm-debug.log*
 yarn-debug.log*
