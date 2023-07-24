@@ -16,6 +16,7 @@ import Reset from "./Reset";
 import Share from "./Share";
 import Error from "./Error";
 import Suggestion from "./Suggestion";
+import Announce from "./Announce";
 
 const ResultItem = (props) => {
     const {
@@ -181,7 +182,13 @@ const Results = () => {
     }
 
     if (!searched) {
-        return <Help />;
+        return (
+            <div className="md:pt-6 px-4 md:px-6 lg:px-8 pb-6 w-full">
+                <Announce />
+                <Help />
+            </div>
+
+        );
     } else {
         let resultsContent;
 

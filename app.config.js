@@ -17,4 +17,9 @@ export const Config = {
     enableGaEvents: true, // enable google analytics
     enableCustomEvents: true, // enable the usage of custom event to Woopra
     disableSearch: false, // turns off the UI in downtimes
+    announce: {
+        enable: true,
+        color: "warning", // info, failure, warning, success
+        message: "Because of scheduled API maintenance, search will be unavailable for next couple days."
+    }
 }

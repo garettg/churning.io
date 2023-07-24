@@ -109,7 +109,17 @@ export const FlowbiteTheme = {
     },
     button: {
         color: {
-            teal: 'text-white bg-teal-700 border border-transparent hover:bg-teal-800 focus:ring-4 focus:ring-teal-300 disabled:hover:bg-teal-700 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 dark:disabled:hover:bg-teal-600'
+            teal: 'text-white bg-teal-700 border border-transparent hover:bg-teal-800 focus:ring-4 focus:ring-teal-300 disabled:hover:bg-teal-700 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 dark:disabled:hover:bg-teal-600',
+            blue: 'text-white bg-blue-700 border border-transparent hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 disabled:hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:disabled:hover:bg-blue-600'
+        }
+    },
+    toggleSwitch: {
+        toggle: {
+            checked: {
+                color: {
+                    blue: "bg-blue-700 border-blue-700"
+                }
+            }
         }
     }
 };

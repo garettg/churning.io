@@ -121,6 +121,7 @@ const SearchForm = () => {
             </div>
             <div className="mt-4">
                 <Button
+                    color="blue"
                     disabled={searchButtonDisabled}
                     aria-disabled={searchButtonDisabled}
                     aria-label="Search"

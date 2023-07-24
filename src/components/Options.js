@@ -52,6 +52,7 @@ const Options = () => {
 
     const optionsList = optionAvailable.map((option, index) => (
         <ToggleSwitch
+            color="blue"
             key={index}
             id={option.id}
             name={option.name}
@@ -64,6 +65,7 @@ const Options = () => {
     return (
         <>
             <Button
+                color="blue"
                 size="sm"
                 title={`${Config.appName} Options`}
                 aria-label={`${Config.appName} Options`}
@@ -88,6 +90,7 @@ const Options = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
+                        color="blue"
                         aria-label="Close"
                         onClick={handleClose}
                         fullSized>

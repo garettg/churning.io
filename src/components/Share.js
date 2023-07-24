@@ -71,6 +71,7 @@ const Share = () => {
                 text={shareUrl}
                 onCopy={onSuccess}>
                 <Button
+                    color="blue"
                     size="xs"
                     aria-label="Share Search Results"
                     title="Share Search Results">

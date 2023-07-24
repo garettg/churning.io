@@ -11,6 +11,7 @@ const Reset = () => {
 
     return (
         <Button
+            color="blue"
             size="xs"
             aria-label="Reset Search"
             title="Reset Search"
