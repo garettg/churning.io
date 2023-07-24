@@ -20,6 +20,6 @@ export const Config = {
     announce: {
         enable: true,
         color: "warning", // info, failure, warning, success
-        message: "Because of scheduled API maintenance, search will be unavailable for next couple days."
+        message: "Because of scheduled API maintenance, search will be unavailable until July 28."
     }
 }
