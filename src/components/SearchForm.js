@@ -15,6 +15,7 @@ const SearchForm = () => {
         selectionRange,
         sort,
         time,
+        subreddit,
         search,
         setState,
         searching,
@@ -37,6 +38,12 @@ const SearchForm = () => {
     const timeRangeOptions = Object.entries(SearchRange).map(([key, value], index) => {
         return (
             <option value={key} key={index}>{value}</option>
+        );
+    });
+
+    const subredditOptions = Object.entries(Config.subreddits).map(([key, value], index) => {
+        return (
+            <option value={key} key={index}>{key}</option>
         );
     });
 
@@ -79,6 +86,33 @@ const SearchForm = () => {
                     onChange={handleChange}
                 />
             </div>
+            <div className="grid grid-cols-12 gap-4">
+                <div className="col-span-5">
+                    <div className="lg:mb-1">
+                        <Label htmlFor="sort" value="Sort By" />
+                    </div>
+                    <Select
+                        id="sort"
+                        name="sort"
+                        value={sort}
+                        onChange={handleChange}>
+                        <option value="desc">Newest</option>
+                        <option value="asc">Oldest</option>
+                    </Select>
+                </div>
+                <div className="col-span-7">
+                    <div className="lg:mb-1">
+                        <Label htmlFor="subreddit" value="Subreddit" />
+                    </div>
+                    <Select
+                        id="subreddit"
+                        name="subreddit"
+                        value={subreddit}
+                        onChange={handleChange}>
+                        {subredditOptions}
+                    </Select>
+                </div>
+            </div>
             <div>
                 <div className="lg:mb-1">
                     <Label htmlFor="time" value="Time Range" />
@@ -100,24 +134,11 @@ const SearchForm = () => {
                     editableDateInputs={false}
                     onChange={(item) => handleRangeChange(item)}
                     moveRangeOnFirstSelection={false}
-                    minDate={parseISO(`${Config.appSubredditDate}T00:00:00`)}
+                    minDate={parseISO(`${Config.subreddits[subreddit]}T00:00:00`)}
                     maxDate={new Date()}
                     ranges={[selectionRange]}
                     rangeColors={['#1B5DE7', '#3ecf8e', '#fed14c']}
                 />
-            </div>
-            <div>
-                <div className="lg:mb-1">
-                    <Label htmlFor="sort" value="Sort By" />
-                </div>
-                <Select
-                    id="sort"
-                    name="sort"
-                    value={sort}
-                    onChange={handleChange}>
-                    <option value="desc">Newest</option>
-                    <option value="asc">Oldest</option>
-                </Select>
             </div>
             <div className="mt-4">
                 <Button

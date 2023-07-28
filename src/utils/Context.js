@@ -9,8 +9,8 @@ import {KeywordsRegex} from "./Constants";
 
 const api = new PushshiftAPI();
 
-const idOptions = Config.appId + "-options";
-const idData = Config.appId + "-data";
+const idOptions = Config.id + "-options";
+const idData = Config.id + "-data";
 
 let prefersDarkMode = false;
 if (typeof window !== "undefined") {
@@ -26,14 +26,14 @@ const defaultState = {
         endDate: new Date(),
         key: "selection"
     },
-    sort: "desc"
+    sort: "desc",
+    subreddit: `${Config.defaultSubreddit}`
 };
 
 const defaultOptions = {
     oldReddit: false,
     showDate: false,
     darkMode: prefersDarkMode,
-    addAwardTravel: false,
     showSuggestions: true
 }
 
@@ -98,7 +98,7 @@ const SearchContextProvider = (props) => {
             let {selectionRange: _, ...rest} = formData;
             let eventData = Object.assign({}, rest, {
                 time: rest.time !== "" ? (
-                    rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.appSubredditDate)))) + 1)
+                    rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.subreddits[rest.subreddit])))) + 1)
                 ) : (differenceInDays(endOfDay(formData.selectionRange.endDate), startOfDay(formData.selectionRange.startDate)) + 1),
                 keywords: formData.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').toLowerCase()
             });

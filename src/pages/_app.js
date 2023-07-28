@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }) {
         return (
             <>
                 <Head>
-                    <title>{Config.appName}</title>
+                    <title>{Config.name}</title>
                     <meta charSet="UTF-8"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
                     <meta http-equiv="cache-control" content="max-age=0"/>
@@ -59,7 +59,7 @@ export default function App({ Component, pageProps }) {
                     <link rel="manifest" href="icons/site.webmanifest"/>
                 </Head>
                 <div className="app-root">
-                    <GoogleAnalytics gaMeasurementId={Config.appAnalyticsId} trackPageViews={{ignoreHashChange: true}}/>
+                    <GoogleAnalytics gaMeasurementId={Config.analyticsId} trackPageViews={{ignoreHashChange: true}}/>
                     <QueryClientProvider client={client}>
                         <SearchContextProvider>
                             <ThemeProvider attribute="class">

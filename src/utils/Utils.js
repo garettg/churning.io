@@ -30,7 +30,7 @@ export const decompress = (string) => {
 }
 
 export const isDevMode = () => {
-    return !Config.appHosts.includes(location.hostname);
+    return !Config.hosts.includes(location.hostname);
 }
 
 export const gaEvent = (eventName, eventParams) => {
@@ -74,16 +74,6 @@ export const getThreadType = (permalink) => {
     }
 
     return "";
-}
-
-export const getAuthorData = async (author) => {
-    const response = await fetch(`https://api.reddit.com/user/${author}/about`);
-    if (!response.ok) {
-        const message = `An error has occurred: ${response.status}`;
-        throw new Error(message);
-    }
-    const user = await response.json();
-    return user.data;
 }
 
 export const hasWhiteSpace = (string) => {
@@ -139,7 +129,7 @@ export const woopraInitialize = () => {
 
     if (window.hasOwnProperty("woopra")) {
         window.woopra.config({
-            domain: Config.appDomain
+            domain: Config.domain
         });
     }
 }

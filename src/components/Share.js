@@ -56,7 +56,7 @@ const Share = () => {
         let {selectionRange: _, ...rest} = formData;
         let eventData = Object.assign({}, rest, {
             time: rest.time !== "" ? (
-                rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.appSubredditDate)))) + 1)
+                rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.subreddits[rest.subreddit])))) + 1)
             ) : (differenceInDays(endOfDay(formData.selectionRange.endDate), startOfDay(formData.selectionRange.startDate)) + 1),
             keywords: formData.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').toLowerCase(),
             resultCount: totalCount

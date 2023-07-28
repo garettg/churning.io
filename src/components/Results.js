@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React from "react";
 import {Card, Badge, Spinner, Avatar} from "flowbite-react";
 import PropTypes from "prop-types";
 import {format, formatDistanceToNow} from 'date-fns';
@@ -9,7 +9,7 @@ import {TbBrandReddit} from 'react-icons/tb';
 
 import {Config} from "../../app.config";
 import {useSearchContext} from "../utils/Context";
-import {gaEvent, getAuthorData, customEvent} from "../utils/Utils";
+import {gaEvent, customEvent} from "../utils/Utils";
 import {BlockquoteRegEx, LinkClasses, ThreadTypes} from "../utils/Constants";
 import Help from "./Help";
 import Reset from "./Reset";
@@ -22,13 +22,6 @@ const ResultItem = (props) => {
     const {
         options
     } = useSearchContext();
-
-/*
-    const [authorData, setAuthorData] = useState({});
-    useEffect( () => {
-        getAuthorData(props.author).then(user => setAuthorData(user)).catch(error => console.error(error));
-    }, []);
- */
 
     const handleAuthorClick = (event, comment, link) => {
         gaEvent("author", {
@@ -91,20 +84,11 @@ const ResultItem = (props) => {
         commentPosted = commentFormattedDate;
     }
 
-    let subredditBadge;
-    if (options.addAwardTravel && props.showSub) {
-        subredditBadge = <Badge icon={TbBrandReddit} color="success" size="xs" className="pr-1.5"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
-    }
+    let subredditBadge = <Badge icon={TbBrandReddit} color="success" size="xs" className="pr-1.5"><span className="sr-only">Subreddit:</span> {props.subreddit}</Badge>
 
-    const postedBadge = <Badge icon={ImClock2} color="warning" size="xs" className="pr-1.5" title={commentFormattedDate}><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>
+    let postedBadge = <Badge icon={ImClock2} color="warning" size="xs" className="pr-1.5" title={commentFormattedDate}><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>
 
     let authorAvatar = <Avatar size="xs" img={`https://www.redditstatic.com/avatars/defaults/v2/avatar_default_${Math.floor(Math.random() * 8)}.png`} />
-
-    /*
-    if (authorData.hasOwnProperty("icon_img") && authorData.icon_img) {
-        authorAvatar = <Avatar size="xs" img={authorData.icon_img.replace(/&amp;/g, "&")} />
-    }
-    */
 
     return (
         <Card>
@@ -150,7 +134,6 @@ ResultItem.propTypes = {
     permalink: PropTypes.string,
     thread: PropTypes.string,
     subreddit: PropTypes.string,
-    showSub: PropTypes.bool.isRequired,
     resultNumber: PropTypes.number
 }
 
@@ -203,9 +186,8 @@ const Results = () => {
                 </div>
         } else {
             if (comments.length !== 0) {
-                const subs = Array.from(new Set(comments.map((c) => c.subreddit)));
                 resultsContent = [
-                    comments.map((comment, index) => <ResultItem key={index} {...comment} showSub={subs.includes('awardtravel')} resultNumber={(index+1)} />),
+                    comments.map((comment, index) => <ResultItem key={index} {...comment} resultNumber={(index+1)} />),
                     <div key={9999} className="font-semibold text-center my-4">
                         End of Results
                     </div>
@@ -232,12 +214,12 @@ const Results = () => {
                 </main>
                 <div id="results-footer" className="flex justify-between items-center px-4 py-2 border-t border-gray-200 dark:border-gray-700 text-center text-xs bg-blue-100 dark:bg-slate-800">
                     <div>
-                        Maintained by <a href={`https://${options.oldReddit ? 'old' : 'www'}.reddit.com/user/${Config.appAuthor}`}
+                        Maintained by <a href={`https://${options.oldReddit ? 'old' : 'www'}.reddit.com/user/${Config.author}`}
                                          target="_blank"
-                                         className={LinkClasses}>{Config.appAuthor}</a>
+                                         className={LinkClasses}>{Config.author}</a>
                     </div>
                     <div>
-                        <a href={`https://${options.oldReddit ? 'old' : 'www'}.reddit.com/message/compose/?to=${Config.appAuthor}&subject=${Config.appName.replace(/\s+/g, '+')}`}
+                        <a href={`https://${options.oldReddit ? 'old' : 'www'}.reddit.com/message/compose/?to=${Config.author}&subject=${Config.name.replace(/\s+/g, '+')}`}
                            target="_blank"
                            className={LinkClasses}>PM with comments, suggestions, issues</a>
                     </div>

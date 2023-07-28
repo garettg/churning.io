@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Button, Modal, ToggleSwitch} from 'flowbite-react';
 import {TbAdjustmentsHorizontal} from "react-icons/tb";
-import { useTheme } from 'next-themes'
+import { useTheme } from 'next-themes';
 
 import {Config} from "../../app.config";
 import {useSearchContext} from "../utils/Context";
@@ -15,14 +15,13 @@ const Options = () => {
 
     const [mounted, setMounted] = useState(false);
     const [show, setShow] = useState(false);
-
     const { theme, setTheme } = useTheme()
 
     useEffect(() => setMounted(true), []);
     if (!mounted) return null;
 
     const handleClose = () => {
-        localStorage.setItem(Config.appId + "-options", compress(options));
+        localStorage.setItem(Config.id + "-options", compress(options));
         setShow(false);
     }
     const toggleShow = () => setShow((s) => !s);
@@ -46,8 +45,7 @@ const Options = () => {
         {id:'dark-mode', label: "Dark Mode", name:"darkMode", checked: options.darkMode},
         {id:'old-reddit', label: "Old Reddit", name:"oldReddit", checked: options.oldReddit},
         {id:'show-date', label: "Show Date", name:"showDate", checked: options.showDate},
-        {id:'show-suggestions', label: "Show Suggestions", name: "showSuggestions", checked: options.showSuggestions},
-        {id:'add-award-travel', label: "Add Award Travel", name: "addAwardTravel", checked: options.addAwardTravel}
+        {id:'show-suggestions', label: "Show Suggestions", name: "showSuggestions", checked: options.showSuggestions}
     ];
 
     const optionsList = optionAvailable.map((option, index) => (
@@ -67,8 +65,8 @@ const Options = () => {
             <Button
                 color="blue"
                 size="sm"
-                title={`${Config.appName} Options`}
-                aria-label={`${Config.appName} Options`}
+                title={`${Config.name} Options`}
+                aria-label={`${Config.name} Options`}
                 aria-haspopup={true}
                 onClick={toggleShow}>
                 <TbAdjustmentsHorizontal className="h-5 w-5" />
@@ -79,7 +77,7 @@ const Options = () => {
                 onClose={handleClose}
                 size="sm">
                 <Modal.Header id="options-modal">
-                    {Config.appName} Options
+                    {Config.name} Options
                 </Modal.Header>
                 <Modal.Body>
                     <form className="">

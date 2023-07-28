@@ -1,6 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
 import querystring from "querystring";
-import {isEmpty} from "underscore";
 import {toDate, parseISO, getUnixTime, subDays, startOfDay, endOfDay, format, differenceInDays} from 'date-fns';
 
 import {Config} from "../../app.config";
@@ -9,18 +8,9 @@ import {GaDateFormat, KeywordsRegex} from "./Constants";
 
 export class PushshiftAPI {
     constructUrl(formData, options) {
-        let subreddit = Config.appSubreddit;
-        if (!isEmpty(options) && options.hasOwnProperty("addAwardTravel") && options.addAwardTravel) {
-            subreddit = `${Config.appSubreddit},awardtravel`;
-        }
-
         const params = {
-            subreddit: subreddit,
-            //filter: "permalink,link_id,id,body,author,created_utc,subreddit",
+            subreddit: formData.subreddit,
             sort_type: "created_utc",
-            //html_decode: true,
-            //user_removed: true,
-            //mod_removed: false,
             size: 100
         };
 
@@ -37,7 +27,7 @@ export class PushshiftAPI {
                 params.after = getUnixTime(subDays(startOfDay(new Date()), parseInt(formData.time)));
             } else {
                 // Convert subreddit start date to unix time stamp
-                params.after = getUnixTime(toDate(parseISO(Config.appSubredditDate)));
+                params.after = getUnixTime(toDate(parseISO(Config.subreddits[formData.subreddit])));
             }
         } else {
             const startDate = getUnixTime(startOfDay(formData.selectionRange.startDate));
@@ -84,7 +74,7 @@ export class PushshiftAPI {
             async () => {
                 const pushshiftUrl = this.constructUrl(state, options);
 
-                localStorage.setItem(Config.appId + "-data", compress(state));
+                localStorage.setItem(Config.id + "-data", compress(state));
                 console.log("[local storage] state: updated");
 
                 try {
@@ -137,7 +127,7 @@ export class PushshiftAPI {
                     let {selectionRange: _, ...rest} = state;
                     let eventData = Object.assign({}, rest, {
                         time: rest.time !== "" ? (
-                            rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.appSubredditDate)))) + 1)
+                            rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.subreddits[rest.subreddit])))) + 1)
                         ) : (differenceInDays(endOfDay(state.selectionRange.endDate), startOfDay(state.selectionRange.startDate)) + 1),
                         keywords: state.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').trim().toLowerCase(),
                         resultCount: data.length

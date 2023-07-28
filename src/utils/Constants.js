@@ -44,7 +44,7 @@ export const ThreadTypes = {
     "wd": {
         name: "Weekly Discussion",
         color: "pink",
-        regex: /weekly_discussion_thread_/
+        regex: /(weekly_discussion_thread_|weekly_us_churning_)/
     },
     "dd": {
         name: "Daily Discussion",
@@ -59,7 +59,7 @@ export const ThreadTypes = {
     "dp": {
         name: "Data Points",
         color: "cyan",
-        regex: /(data_points_central_|data_points_weekly_|dq_thread_)/
+        regex: /(data_points_central_|data_point_weekly_|data_points_weekly_|dq_thread_)/
     },
     "what": {
         name: "What Card Should I Get",
@@ -85,6 +85,16 @@ export const ThreadTypes = {
         name: "Trip Report/Success",
         color: "lime",
         regex: /(trip_report_and_churning_success_|trip_reports_and_churning_success_|storytime_weekly_|trip_report_weekly_)/
+    },
+    "at": {
+        name: "AwardTravel",
+        color: "info",
+        regex: /(weekly_awardtravel_)/
+    },
+    "win": {
+        name: "Winning",
+        color: "lime",
+        regex: /(winning_thursdays_)/
     }
 }
 
@@ -111,6 +121,24 @@ export const FlowbiteTheme = {
         color: {
             teal: 'text-white bg-teal-700 border border-transparent hover:bg-teal-800 focus:ring-4 focus:ring-teal-300 disabled:hover:bg-teal-700 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 dark:disabled:hover:bg-teal-600',
             blue: 'text-white bg-blue-700 border border-transparent hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 disabled:hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:disabled:hover:bg-blue-600'
+        }
+    },
+    select: {
+        field: {
+            select: {
+                colors: {
+                    gray: 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
+                }
+            }
+        }
+    },
+    textInput: {
+        field: {
+            input: {
+                colors: {
+                    gray: "bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500",
+                }
+            }
         }
     },
     toggleSwitch: {

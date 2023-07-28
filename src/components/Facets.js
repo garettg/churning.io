@@ -123,7 +123,7 @@ const Facets = () => {
 
     return (
         <div role="region" aria-label="Search Result Filters" className="mt-8 md:mt-0 lg:mt-8 md:w-1/2 lg:w-full md:pl-4 lg:pl-0">
-            <div className="mb-1 block flex justify-between items-center">
+            <div className="mb-1 flex justify-between items-center">
                 <Label htmlFor="threads-filter">Threads Filter</Label>
                 {selectAll}
             </div>
