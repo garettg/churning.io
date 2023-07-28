@@ -1,7 +1,7 @@
 {
   "name": "churning.io",
-  "version": "1.4.0",
-  "description": "Churning subreddit search using the Pushshift API",
+  "version": "1.4.1",
+  "description": "Churning subreddit search using the PullPush API",
   "repository": "https://github.com/garettg/churning.io.git",
   "homepage": "https://churning.io",
   "author": "garettg",
