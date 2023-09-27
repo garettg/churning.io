@@ -87,7 +87,7 @@ export const ThreadTypes = {
         regex: /(trip_report_and_churning_success_|trip_reports_and_churning_success_|storytime_weekly_|trip_report_weekly_)/
     },
     "at": {
-        name: "AwardTravel",
+        name: "Award Travel",
         color: "info",
         regex: /(weekly_awardtravel_)/
     },
@@ -152,7 +152,7 @@ export const FlowbiteTheme = {
     }
 };
 
-export const DisqualifyAcronymsCharacters = /[\(\)\|\'\"]/g
+export const DisqualifyAcronymsCharacters = /[\(\)\|\'\"\+]|\sor\s/gi
 
 export const Acronyms = {
     "annual fee": "af",

@@ -1,6 +1,6 @@
 {
   "name": "churning.io",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Churning subreddit search using the PullPush API",
   "repository": "https://github.com/garettg/churning.io.git",
   "homepage": "https://churning.io",
@@ -15,15 +15,15 @@
     "test": "mocha --require @babel/register"
   },
   "dependencies": {
-    "@tailwindcss/forms": "~0.5.4",
-    "@tanstack/react-query": "~4.32.0",
+    "@tailwindcss/forms": "~0.5.6",
+    "@tanstack/react-query": "~4.35.3",
     "classnames": "~2.3.2",
     "date-fns": "~2.30.0",
-    "flowbite": "~1.7.0",
-    "flowbite-react": "~0.5.0",
+    "flowbite": "~1.8.1",
+    "flowbite-react": "~0.6.1",
     "lz-string": "~1.5.0",
     "next": "latest",
-    "next-i18next": "~14.0.0",
+    "next-i18next": "~14.0.3",
     "next-themes": "~0.2.1",
     "nextjs-google-analytics": "~2.3.3",
     "prop-types": "~15.8.1",
@@ -33,23 +33,23 @@
     "react-date-range": "~1.4.0",
     "react-dom": "~18.2.0",
     "react-hot-toast": "~2.4.1",
-    "react-icons": "~4.10.1",
+    "react-icons": "~4.11.0",
     "react-markdown": "~8.0.7",
     "remark-gfm": "~3.0.1",
     "tailwindcss": "~3.3.3",
     "underscore": "~1.13.6"
   },
   "devDependencies": {
-    "@babel/cli": "^7.22.9",
-    "@babel/core": "^7.22.9",
-    "@babel/preset-env": "^7.22.9",
-    "@babel/preset-react": "^7.22.5",
-    "@babel/register": "^7.22.5",
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
+    "@babel/register": "^7.22.15",
     "@rvxlab/tailwind-plugin-ios-full-height": "~1.1.0",
-    "autoprefixer": "~10.4.14",
-    "chai": "~4.3.7",
+    "autoprefixer": "~10.4.16",
+    "chai": "~4.3.9",
     "mocha": "~10.2.0",
-    "postcss": "~8.4.27",
-    "sass": "~1.64.1"
+    "postcss": "~8.4.30",
+    "sass": "~1.68.0"
   }
 }

@@ -54,16 +54,21 @@ export const customEvent = (eventName, eventData) => {
 }
 
 export const fetchWithTimeout = async (resource, options = {}) => {
-    const { timeout = 60000 } = options;
+    try {
+        const { timeout = 60000 } = options;
 
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
-    const response = await fetch(resource, {
-        ...options,
-        signal: controller.signal
-    });
-    clearTimeout(id);
-    return response;
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        const response = await fetch(resource, {
+            ...options,
+            signal: controller.signal
+        });
+        clearTimeout(id);
+        return response;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
 }
 
 export const getThreadType = (permalink) => {
@@ -74,10 +79,6 @@ export const getThreadType = (permalink) => {
     }
 
     return "";
-}
-
-export const hasWhiteSpace = (string) => {
-    return (/\s/).test(string);
 }
 
 export const convertAcronymQuery = (query) => {
@@ -92,10 +93,10 @@ export const convertAcronymQuery = (query) => {
 
     return query.toLowerCase().replace(acronymRegEx, match => {
         if (acronymData.hasOwnProperty(match)) {
-            let matched = hasWhiteSpace(match) ? `"${match}"` : match;
-            let converted = hasWhiteSpace(acronymData[match]) ? `"${acronymData[match]}"` : acronymData[match];
+            let matched = match;
+            let converted = acronymData[match];
 
-            return `(${matched}|${converted})`;
+            return `("${matched}" OR "${converted}")`;
         } else {
             return match;
         }

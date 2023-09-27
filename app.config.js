@@ -17,7 +17,7 @@ export const Config = {
         CanadianAwardTravel: "2018-03-12"
     },
     defaultTimeRange: 366, // default time range on search (must match one of SearchRange keys)
-    enableAcronymSearch: false, // enable the use of modified queries to include acronyms to broaden search,
+    enableAcronymSearch: true, // enable the use of modified queries to include acronyms to broaden search,
     enableGaEvents: true, // enable google analytics
     enableCustomEvents: true, // enable the usage of custom event to Woopra
     disableSearch: false, // turns off the UI in downtimes

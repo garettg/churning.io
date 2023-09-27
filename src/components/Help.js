@@ -16,13 +16,13 @@ const Help = () => {
                         <dl>
                             <dt className="font-bold">Multiple terms (AND operation)</dt>
                             <dd className="pl-4">
-                                <p>To find comments that match two different words, separate using a "+".</p>
-                                <p className="italic">Example: amex+bonus</p>
+                                <p>To find comments that match two different words, separate using a space.</p>
+                                <p className="italic">Example: amex bonus</p>
                             </dd>
                             <dt className="mt-2 font-bold">Multiple terms (OR operation)</dt>
                             <dd className="pl-4">
-                                <p>To find comments that match either of two different words, separate using a "|".</p>
-                                <p className="italic">Example: barclays|citi</p>
+                                <p>To find comments that match either of two different words, separate using "or".</p>
+                                <p className="italic">Example: barclays or citi</p>
                             </dd>
                             <dt className="mt-2 font-bold">Negation</dt>
                             <dd className="pl-4">
@@ -37,7 +37,7 @@ const Help = () => {
                             <dt className="mt-2 font-bold">Combinations</dt>
                             <dd className="pl-4">
                                 <p>You can combine the previous types of operations and group them using parentheses for advanced searching.</p>
-                                <p className="italic">Example: (csp|csr|sapphire) -freedom</p>
+                                <p className="italic">Example: (csp or csr or sapphire) -freedom</p>
                             </dd>
                         </dl>
                     </td>

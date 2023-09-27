@@ -42,7 +42,7 @@ export class PushshiftAPI {
         }
 
         // For testing error handling
-        // return 'https://httpstat.us/521';
+        // return 'https://httpstat.us/503';
         return `https://api.pullpush.io/reddit/search/comment?${querystring.stringify(params)}`;
     }
 
