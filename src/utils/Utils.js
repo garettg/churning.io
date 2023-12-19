@@ -105,7 +105,7 @@ export const convertAcronymQuery = (query) => {
 
 export const testMatches = (query, matches) => {
     return (
-        matches.every(match => {
+        matches.some(match => {
             const regEx = new RegExp(`\\b(${match})\\b`, "gi");
             return regEx.test(query.toLowerCase())
         })
