@@ -14,10 +14,17 @@ const Help = () => {
                     <td className="border px-4 py-2 align-top whitespace-nowrap font-bold border-gray-200 dark:border-gray-700">Search</td>
                     <td className="border px-4 py-2 align-top border-gray-200 dark:border-gray-700">
                         <dl>
-                            <dt className="font-bold">Multiple terms</dt>
+                            <dt className="font-bold">General Advice</dt>
                             <dd className="pl-4">
-                                <p>Using words separated using a space by default is an "OR" operation, results could contain either.</p>
+                                <p>Search queries should be 3 characters long. Common language words could be ignored. Acronyms sometimes do not work, try variations if no results. Variations of words will be found.</p>
+                                <p className="italic">Example: "save" can return results that contain "saving"</p>
+                            </dd>
+                            <dt className="mt-2 font-bold">Multiple terms</dt>
+                            <dd className="pl-4">
+                                <p>Using words separated using a space should be an "AND" search (includes both words)</p>
                                 <p className="italic">Example: chase sapphire</p>
+                                <p>Using words separated with an "OR" should find either</p>
+                                <p className="italic">Example: chase or amex</p>
                             </dd>
                             <dt className="mt-2 font-bold">Negation</dt>
                             <dd className="pl-4">
