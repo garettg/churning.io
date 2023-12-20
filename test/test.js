@@ -24,7 +24,7 @@ const queries = [
     {query:`(ink OR cip OR ciu OR cic) multiple`, convert:`(ink OR cip OR ciu OR cic) multiple`, matches: false},
     {query:`Amex cc 2/90`, convert:`("amex" OR "american express") ("cc" OR "credit card") 2/90`, matches: true},
     {query:`SW CP`, convert:`("sw" OR "southwest") ("cp" OR "companion pass")`, matches: true},
-    {query:`"as cp"`, convert:`"as cp"`, matches: false},
+    {query:`"as cp"`, convert:`"as cp"`, matches: true},
     {query:`amex plat retention -biz`, convert:`("amex" OR "american express") ("plat" OR "platinum") retention -("biz" OR "business")`, matches: false},
     {query:`flyertalk united amex airline credit`, convert:`("flyertalk" OR "ft") ("united" OR "ua") ("amex" OR "american express") airline credit`, matches: false},
     {query:`barclay aa biz`, convert:`("barclay" OR "barclays") ("aa" OR "american airlines") ("biz" OR "business")`, matches: false}
