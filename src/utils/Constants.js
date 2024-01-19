@@ -49,7 +49,7 @@ export const ThreadTypes = {
     "dd": {
         name: "Daily Discussion",
         color: "orange",
-        regex: /(discussion_thread_|daily_discussion_thread_)/
+        regex: /(discussion_thread_|daily_discussion_thread_|news_and_chatter_)/
     },
     "ms": {
         name: "Manufactured Spend",
@@ -209,27 +209,27 @@ export const Suggestions = [
             "cp|companion pass"
         ],
         name: "Southwest Companion Pass",
-        link: "https://www.reddit.com/r/churning/comments/pgph18/2021_southwest_companion_pass_megathread/"
+        link: "https://reddit.com/r/churning/comments/pgph18/2021_southwest_companion_pass_megathread/"
     },
     {
         matches: [
             "mdd|modified double dip|double dip|modified dd|dd"
         ],
         name: "Modified Double Dip",
-        link: "https://www.reddit.com/r/churning/comments/nq1082/the_missing_modified_double_dip_mdd_reference/"
+        link: "https://reddit.com/r/churning/comments/nq1082/the_missing_modified_double_dip_mdd_reference/"
     },
     {
         matches: [
             "sapphire|csr|csp|cs"
         ],
         name: "Chase Sapphire Cards",
-        link: "https://www.reddit.com/user/garettg/comments/u6ss7u/sapphire_fyis/"
+        link: "https://reddit.com/user/garettg/comments/u6ss7u/sapphire_fyis/"
     },
     {
         matches: [
             "1\/90|2\/90|1\/30|2\/30|1\/5|1\/8|2\/65|1\/95|5\/24|1\/24|1\/48"
         ],
         name: "Anti-Churning Rules",
-        link: "https://www.reddit.com/r/churning/comments/819r08/list_of_antichurning_rules/"
+        link: "https://reddit.com/r/churning/wiki/anti-churning_rules"
     }
 ]
