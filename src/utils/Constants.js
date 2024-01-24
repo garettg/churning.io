@@ -49,7 +49,7 @@ export const ThreadTypes = {
     "dd": {
         name: "Daily Discussion",
         color: "orange",
-        regex: /(discussion_thread_|daily_discussion_thread_|news_and_chatter_)/
+        regex: /(discussion_thread_|daily_discussion_thread_|news_and_chatter_|news_and_updates_)/
     },
     "ms": {
         name: "Manufactured Spend",
