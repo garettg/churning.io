@@ -16,8 +16,9 @@ const Help = () => {
                         <dl>
                             <dt className="font-bold">General Advice</dt>
                             <dd className="pl-4">
-                                <p>Search queries should be at least 3 characters long. Common language words could be ignored. Acronyms sometimes do not work, try variations if no results. Variations of words will be found.</p>
+                                <p>Search queries should be at least 3 characters long. Common language words could be ignored. Acronyms of 3 letters or more are more likely to produce results, 2 letter acronyms will most likely be filtered out. Variations and pluralizations of words will be found.</p>
                                 <p className="italic">Example: "save" can return results that contain "saving"</p>
+                                <p className="italic">Example: "bank bonus" can return results that contain "bank", "banks", "bonus", or "bonuses"</p>
                             </dd>
                             <dt className="mt-2 font-bold">Multiple terms</dt>
                             <dd className="pl-4">

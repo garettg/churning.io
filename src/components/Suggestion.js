@@ -34,15 +34,30 @@ const Suggestion = (props) => {
 
         if (matches.length) {
             let suggestionComponents = matches.map((suggestion, index) => {
+                let comments = `Looking for ${suggestion.name} information? Here is a resource that might help.`;
+                if (suggestion.hasOwnProperty("comments") && suggestion.comments.trim() !== "") {
+                    comments = suggestion.comments;
+                }
+
+                let color = "teal";
+                if (suggestion.hasOwnProperty("color") && suggestion.color.trim() !== "") {
+                    color = suggestion.color;
+                }
+
+                let icon = FaBookOpen;
+                if (suggestion.hasOwnProperty("icon") && suggestion.icon) {
+                    icon = suggestion.icon;
+                }
+
                 const additionalContent =
                     <>
-                        <div className="mt-1 mb-3 text-sm">Looking for {suggestion.name} information? Here is a resource that might help.</div>
+                        <div className="mt-1 mb-3 text-sm">{comments}</div>
                         <div className="flex flex-wrap items-center gap-2">
                             <Button
                                 href={suggestion.link}
                                 onClick={() => onClick(suggestion.name, props.query)}
                                 target="_blank"
-                                color="teal"
+                                color={color}
                                 size="xs"
                                 pill>
                                 <HiEye className="-ml-0.5 mr-2 h-4 w-4" /> View more
@@ -53,9 +68,9 @@ const Suggestion = (props) => {
                 return (
                     <Alert
                         key={index}
-                        color="teal"
+                        color={color}
                         withBorderAccent
-                        icon={FaBookOpen}
+                        icon={icon}
                         additionalContent={additionalContent}
                         className="shadow-md"
                     >

@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { FaRegCreditCard, FaPlane, FaBookOpen } from "react-icons/fa";
 
 export const SearchRange = {
     "1": "1 Day",
@@ -113,6 +114,7 @@ export const FlowbiteTheme = {
     alert: {
         root: {
             color: {
+                yellow: 'text-yellow-700 bg-yellow-100 border-yellow-500 dark:bg-yellow-200 dark:text-yellow-800',
                 teal: 'text-teal-700 bg-teal-100 border-teal-500 dark:bg-teal-200 dark:text-teal-800'
             }
         }
@@ -209,27 +211,42 @@ export const Suggestions = [
             "cp|companion pass"
         ],
         name: "Southwest Companion Pass",
-        link: "https://reddit.com/r/churning/comments/pgph18/2021_southwest_companion_pass_megathread/"
+        link: "https://reddit.com/r/churning/comments/1d9wey2/southwest_companion_pass_megathread/",
+        color: "teal",
+        icon: FaPlane
     },
     {
         matches: [
             "mdd|modified double dip|double dip|modified dd|dd"
         ],
         name: "Modified Double Dip",
-        link: "https://reddit.com/r/churning/comments/nq1082/the_missing_modified_double_dip_mdd_reference/"
+        link: "https://reddit.com/r/churning/comments/nq1082/the_missing_modified_double_dip_mdd_reference/",
+        color: "teal"
     },
     {
         matches: [
             "sapphire|csr|csp|cs"
         ],
         name: "Chase Sapphire Cards",
-        link: "https://reddit.com/user/garettg/comments/u6ss7u/sapphire_fyis/"
+        link: "https://reddit.com/user/garettg/comments/u6ss7u/sapphire_fyis/",
+        color: "teal"
     },
     {
         matches: [
             "1\/90|2\/90|1\/30|2\/30|1\/5|1\/8|2\/65|1\/95|5\/24|1\/24|1\/48"
         ],
         name: "Anti-Churning Rules",
-        link: "https://reddit.com/r/churning/wiki/anti-churning_rules"
+        link: "https://reddit.com/r/churning/wiki/anti-churning_rules",
+        color: "teal"
+    },
+    {
+        matches: [
+            "referral|referrals"
+        ],
+        name: "Credit Card Referrals",
+        comments: "Looking for Credit Card Referrals? Here is where you can find them.",
+        link: "https://churning.rankt.com/referrals",
+        color: "yellow",
+        icon: FaRegCreditCard
     }
 ]
