@@ -241,7 +241,7 @@ export const Suggestions = [
     },
     {
         matches: [
-            "referral|referrals"
+            "referral|referrals|refer"
         ],
         name: "Credit Card Referrals",
         comments: "Looking for Credit Card Referrals? Here is where you can find them.",

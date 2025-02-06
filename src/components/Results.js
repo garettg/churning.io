@@ -97,7 +97,7 @@ const ResultItem = (props) => {
                     {authorAvatar}
                     <a href={`${redditDomain}/user/${props.author}`}
                        onClick={(e) => handleAuthorClick(e, props, permalink)}
-                       className={`font-semibold text-base md:text-lg ${LinkClasses}`}
+                       className={`font-semibold text-base no-underline md:text-lg ${LinkClasses}`}
                        target="_blank">
                         <span className="sr-only">Comment Author:</span> {props.author}
                     </a>
@@ -107,7 +107,7 @@ const ResultItem = (props) => {
             <div className="-mx-2 md:mx-0">
                 <a href={commentLink}
                    onClick={(e) => handleResultClick(e, props, permalink)}
-                   className="block text-sm leading-snug reddit-comment text-ellipsis overflow-hidden"
+                   className="block text-sm leading-snug reddit-comment text-ellipsis overflow-hidden no-underline"
                    target="_blank">
                 <ReactMarkdown
                     disallowedElements={['a']}
