@@ -21,6 +21,8 @@
     "date-fns": "~2.30.0",
     "flowbite": "~2.2.1",
     "flowbite-react": "~0.7.2",
+    "html-parse-stringify": "3.0.1",
+    "i18next": "23.16.8",
     "lz-string": "~1.5.0",
     "next": "~13.5.8",
     "next-i18next": "~15.1.1",
@@ -33,11 +35,13 @@
     "react-date-range": "~1.4.0",
     "react-dom": "~18.2.0",
     "react-hot-toast": "~2.4.1",
+    "react-i18next": "13.5.0",
     "react-icons": "~4.12.0",
     "react-markdown": "~9.0.1",
     "remark-gfm": "~4.0.0",
     "tailwindcss": "~3.4.0",
-    "underscore": "~1.13.6"
+    "underscore": "~1.13.6",
+    "void-elements": "3.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.4",
