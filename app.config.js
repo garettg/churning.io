@@ -22,8 +22,8 @@ export const Config = {
     enableCustomEvents: true, // enable the usage of custom event to Woopra
     disableSearch: false, // turns off the UI in downtimes
     announce: {
-        enable: false,
+        enable: true,
         color: "warning", // info, failure, warning, success
-        message: "Because of scheduled API maintenance, search will be unavailable until July 28."
+        message: "PullPush API will be temporarily unavailable until end of May due to essential hardware upgrades and a full reindexing process."
     }
 }
