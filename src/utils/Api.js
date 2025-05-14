@@ -100,7 +100,7 @@ export class PushshiftAPI {
         const { sort } = state;
 
         return useQuery(
-            ["pullpush", state],
+            [Config.api, state],
             async () => {
                 const pushshiftUrl = this.constructUrl(state, options);
 

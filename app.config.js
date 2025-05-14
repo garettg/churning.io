@@ -24,7 +24,7 @@ export const Config = {
     announce: {
         enable: false,
         color: "warning", // info, failure, warning, success
-        message: "PullPush API will be temporarily unavailable until end of May due to essential hardware upgrades and a full reindexing process."
+        message: ""
     },
     api: "arcticshift" // arcticshift // pullpush
 }
