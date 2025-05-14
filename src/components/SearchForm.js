@@ -58,7 +58,7 @@ const SearchForm = () => {
             </>;
     }
 
-    let searchButtonDisabled = (query.length < 3 && author === "");
+    let searchButtonDisabled = (query.length < (Config.enableAcronymSearch ? 2:3) && author === "");
 
     return (
         <form onSubmit={searchSubmit} className="flex flex-col gap-3 lg:gap-4 mt-3 md:mt-4" role="search" aria-label="Search Form">
