@@ -6,44 +6,74 @@ import {Config} from "../../app.config";
 import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery, customEvent, gaEvent} from "./Utils";
 import {GaDateFormat, KeywordsRegex} from "./Constants";
 
+const SearchParameters = {
+    "pullpush": {
+        query: "q",
+        author: "author",
+        subreddit: "subreddit",
+        size: "size",
+        sort_type: "sort_type",
+        before: "before",
+        after: "after",
+        sort: "sort"
+    },
+    "arcticshift": {
+        query: "body",
+        author: "author",
+        subreddit: "subreddit",
+        size: "limit",
+        sort_type: undefined,
+        before: "before",
+        after: "after",
+        sort: "sort"
+    }
+}
+
 export class PushshiftAPI {
     constructUrl(formData, options) {
         const params = {
-            subreddit: formData.subreddit,
-            sort_type: "created_utc",
-            size: 100
+            ...(SearchParameters[Config.api].subreddit && {[SearchParameters[Config.api].subreddit]: formData.subreddit}),
+            ...(SearchParameters[Config.api].sort_type && {[SearchParameters[Config.api].sort_type]: "created_utc"}),
+            ...(SearchParameters[Config.api].size && {[SearchParameters[Config.api].size]: 100}),
         };
 
         if (formData.hasOwnProperty("query") && formData.query) {
-            params.q = Config.enableAcronymSearch ? convertAcronymQuery(formData.query) : formData.query;
+            params[SearchParameters[Config.api].query] = Config.enableAcronymSearch ? convertAcronymQuery(formData.query) : formData.query;
         }
 
         if (formData.hasOwnProperty("author") && formData.author) {
-            params.author = formData.author;
+            params[SearchParameters[Config.api].author] = formData.author;
         }
 
         if (formData.time !== "") {
             if (formData.time !== "all") {
-                params.after = getUnixTime(subDays(startOfDay(new Date()), parseInt(formData.time)));
+                params[SearchParameters[Config.api].after] = getUnixTime(subDays(startOfDay(new Date()), parseInt(formData.time)));
             } else {
                 // Convert subreddit start date to unix time stamp
-                params.after = getUnixTime(toDate(parseISO(Config.subreddits[formData.subreddit])));
+                params[SearchParameters[Config.api].after] = getUnixTime(toDate(parseISO(Config.subreddits[formData.subreddit])));
             }
         } else {
             const startDate = getUnixTime(startOfDay(formData.selectionRange.startDate));
             const endDate = getUnixTime(endOfDay(formData.selectionRange.endDate));
 
-            params.after = startDate;
-            params.before = endDate;
+            params[SearchParameters[Config.api].after] = startDate;
+            params[SearchParameters[Config.api].before] = endDate;
         }
 
         if (formData.sort) {
-            params.sort = formData.sort;
+            params[SearchParameters[Config.api].sort] = formData.sort;
         }
 
         // For testing error handling
         // return 'https://httpstat.us/503';
-        return `https://api.pullpush.io/reddit/search/comment?${querystring.stringify(params)}`;
+        switch (Config.api) {
+            case "arcticshift":
+                return `https://arctic-shift.photon-reddit.com/api/comments/search?${querystring.stringify(params)}`;
+            case "pullpush":
+                return `https://api.pullpush.io/reddit/search/comment?${querystring.stringify(params)}`;
+            default:
+                return `https://api.pullpush.io/reddit/search/comment?${querystring.stringify(params)}`;
+        }
     }
 
     async query(url) {
