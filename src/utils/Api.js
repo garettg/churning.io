@@ -69,7 +69,7 @@ export class PushshiftAPI {
         }
 
         // For testing error handling
-        return 'https://httpstat.us/503';
+        //return 'https://httpstat.us/503';
         switch (Config.api) {
             case "arcticshift":
                 return `https://arctic-shift.photon-reddit.com/api/comments/search?${querystring.stringify(params)}`;
