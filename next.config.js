@@ -13,6 +13,9 @@ const nextConfig = {
     swcMinify: true,
     // i18n,
     productionBrowserSourceMaps: true,
+    experimental: {
+        forceSwcTransforms: true,
+    },
 };
 
 module.exports = nextConfig;
