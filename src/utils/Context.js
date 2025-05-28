@@ -3,7 +3,7 @@ import {differenceInDays, endOfDay, parseISO, startOfDay, subDays, toDate} from 
 import { isEmpty } from "underscore";
 
 import {Config} from "../../app.config";
-import {compress, customEvent, decompress} from "./Utils";
+import {compress, customEvent, decompress, isDevMode} from "./Utils";
 import { PushshiftAPI } from "./Api";
 import {KeywordsRegex} from "./Constants";
 
@@ -85,13 +85,17 @@ const SearchContextProvider = (props) => {
         if (!isEmpty(localStorageOptions)) {
             // Load stored form data if exists
             setOptions({...defaultOptions, ...localStorageOptions});
-            console.log("[local storage] options: loaded");
+            if (isDevMode()) {
+                console.log("[local storage] options: loaded");
+            }
         }
 
         if (window.location.hash) {
             const formData = decompress(window.location.hash.slice(1));
             loadSavedState(formData, true);
-            console.log("[location hash] state: loaded");
+            if (isDevMode()) {
+                console.log("[location hash] state: loaded");
+            }
             // Remove hash now that we have the data
             history.replaceState(null, null, " ");
 
@@ -110,7 +114,9 @@ const SearchContextProvider = (props) => {
         if (!isEmpty(localStorageData)) {
             // Load stored form data if exists
             loadSavedState(localStorageData);
-            console.log("[local storage] state: loaded");
+            if (isDevMode()) {
+                console.log("[local storage] state: loaded");
+            }
         }
     }, []);
 

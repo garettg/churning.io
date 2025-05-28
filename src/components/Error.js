@@ -7,13 +7,16 @@ import {useSearchContext} from "../utils/Context";
 
 const Error = () => {
     const {
-        options
+        options,
+        error
     } = useSearchContext();
 
+    const errorMessage = error.message ?? "An unknown error has occurred. Please try again later.";
+
     const additionalContent =
-        <div className="mt-4 text-red-700 dark:text-red-800">
-            <p className="text-base font-bold mb-3">There is probably an issue with API that provides the search results data.</p>
-            <p className="text-base mb-3">Please try again later.</p>
+        <div className="mt-4 text-red-800 dark:text-red-800">
+            <p className="text-2xl font-bold mb-6">{errorMessage}</p>
+            <p className="text-base mb-3">There is probably an issue with API that provides the search results data.</p>
             <p className="text-base">In the meantime, you can use this <a href={`https://www.google.com/search?q=site:reddit.com/r/${Config.defaultSubreddit}`} className="underline font-semibold" target="_blank">Google search query</a> to help find
                 what you are looking for, just add your search to the existing text that helps narrow the search to the {Config.defaultSubreddit} subreddit.</p>
         </div>
@@ -24,7 +27,7 @@ const Error = () => {
                 color="failure"
                 icon={BiErrorAlt}
                 additionalContent={additionalContent}>
-                <h2 className="text-2xl font-semibold text-red-700 dark:text-red-800">An Error Has Occurred</h2>
+                <h2 className="text-xl font-semibold text-red-800 dark:text-red-800">An Error Has Occurred</h2>
             </Alert>
         </div>
     )

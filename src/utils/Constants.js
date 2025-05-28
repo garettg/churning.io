@@ -114,8 +114,9 @@ export const FlowbiteTheme = {
     alert: {
         root: {
             color: {
-                yellow: 'text-yellow-700 bg-yellow-100 border-yellow-500 dark:bg-yellow-200 dark:text-yellow-800',
-                teal: 'text-teal-700 bg-teal-100 border-teal-500 dark:bg-teal-200 dark:text-teal-800'
+                yellow: 'text-yellow-800 bg-yellow-100 border-yellow-500 dark:bg-yellow-200 dark:text-yellow-800',
+                teal: 'text-teal-800 bg-teal-100 border-teal-500 dark:bg-teal-200 dark:text-teal-800',
+                failure: 'text-red-800 bg-red-100 border-red-500 dark:bg-red-200 dark:text-red-800',
             }
         }
     },

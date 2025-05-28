@@ -3,7 +3,7 @@ import querystring from "querystring";
 import {toDate, parseISO, getUnixTime, subDays, startOfDay, endOfDay, format, differenceInDays} from 'date-fns';
 
 import {Config} from "../../app.config";
-import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery, customEvent, gaEvent} from "./Utils";
+import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery, customEvent, gaEvent, isDevMode} from "./Utils";
 import {GaDateFormat, KeywordsRegex} from "./Constants";
 
 const SearchParameters = {
@@ -15,7 +15,8 @@ const SearchParameters = {
         sort_type: "sort_type",
         before: "before",
         after: "after",
-        sort: "sort"
+        sort: "sort",
+        limit: 100,
     },
     "arcticshift": {
         query: "body",
@@ -25,7 +26,8 @@ const SearchParameters = {
         sort_type: undefined,
         before: "before",
         after: "after",
-        sort: "sort"
+        sort: "sort",
+        limit: 50,
     }
 }
 
@@ -34,7 +36,7 @@ export class PushshiftAPI {
         const params = {
             ...(SearchParameters[Config.api].subreddit && {[SearchParameters[Config.api].subreddit]: formData.subreddit}),
             ...(SearchParameters[Config.api].sort_type && {[SearchParameters[Config.api].sort_type]: "created_utc"}),
-            ...(SearchParameters[Config.api].size && {[SearchParameters[Config.api].size]: 100}),
+            ...(SearchParameters[Config.api].size && {[SearchParameters[Config.api].size]: SearchParameters[Config.api].limit}),
         };
 
         if (formData.hasOwnProperty("query") && formData.query) {
@@ -52,6 +54,8 @@ export class PushshiftAPI {
                 // Convert subreddit start date to unix time stamp
                 params[SearchParameters[Config.api].after] = getUnixTime(toDate(parseISO(Config.subreddits[formData.subreddit])));
             }
+
+            params[SearchParameters[Config.api].before] = getUnixTime(new Date());
         } else {
             const startDate = getUnixTime(startOfDay(formData.selectionRange.startDate));
             const endDate = getUnixTime(endOfDay(formData.selectionRange.endDate));
@@ -65,7 +69,7 @@ export class PushshiftAPI {
         }
 
         // For testing error handling
-        // return 'https://httpstat.us/503';
+        return 'https://httpstat.us/503';
         switch (Config.api) {
             case "arcticshift":
                 return `https://arctic-shift.photon-reddit.com/api/comments/search?${querystring.stringify(params)}`;
@@ -87,12 +91,16 @@ export class PushshiftAPI {
 
             // check for error response
             if (!response.ok) {
-                throw response.statusText;
+                let message = response.statusText ? response.statusText : ( results.error ? results.error : "An unknown error has occurred. Please try again later." );
+                throw new Error(message);
             }
 
             return results.data;
         } catch (error) {
             throw error;
+            if (isDevMode()) {
+                console.error(error);
+            }
         }
     }
 
@@ -105,7 +113,9 @@ export class PushshiftAPI {
                 const pushshiftUrl = this.constructUrl(state, options);
 
                 localStorage.setItem(Config.id + "-data", compress(state));
-                console.log("[local storage] state: updated");
+                if (isDevMode()) {
+                    console.log("[local storage] state: updated");
+                }
 
                 try {
                     const dataResults = await this.query(pushshiftUrl);

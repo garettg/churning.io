@@ -66,7 +66,7 @@ export const fetchWithTimeout = async (resource, options = {}) => {
         clearTimeout(id);
         return response;
     } catch (error) {
-        console.log(error)
+        console.error(error)
         throw error;
     }
 }
