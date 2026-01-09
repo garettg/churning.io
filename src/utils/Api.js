@@ -27,7 +27,7 @@ const SearchParameters = {
         before: "before",
         after: "after",
         sort: "sort",
-        limit: 50,
+        limit: 100,
     }
 }
 
@@ -74,9 +74,9 @@ export class PushshiftAPI {
             case "arcticshift":
                 return `https://arctic-shift.photon-reddit.com/api/comments/search?${querystring.stringify(params)}`;
             case "pullpush":
-                return `https://api.pullpush.io/reddit/search/comment?${querystring.stringify(params)}`;
+                return `https://api.pullpush.io/reddit/search/comment/?${querystring.stringify(params)}`;
             default:
-                return `https://api.pullpush.io/reddit/search/comment?${querystring.stringify(params)}`;
+                return `https://api.pullpush.io/reddit/search/comment/?${querystring.stringify(params)}`;
         }
     }
 

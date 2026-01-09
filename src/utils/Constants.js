@@ -183,7 +183,9 @@ export const Acronyms = {
     "sign up bonus": "sub",
     "business": "biz",
     "credit card": "cc",
+    "credit limit": "cl",
     "platinum": "plat",
+    "alaska":"atmos",
     "delta": "dl",
     "american airlines": "aa",
     "southwest": "sw",
@@ -202,7 +204,11 @@ export const Acronyms = {
     "companion pass": "cp",
     "travelbank": "tb",
     "secure message": "sm",
-    "flyertalk": "ft"
+    "flyertalk": "ft",
+    "popup": "puj",
+    "priority pass": "pp",
+    "thankyou points": "typ",
+    "ultimate rewards": "ur",
 }
 
 export const Suggestions = [
