@@ -11,6 +11,7 @@ const nextConfig = {
     },
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
+    distDir: 'dist',
 };
 
 module.exports = nextConfig;

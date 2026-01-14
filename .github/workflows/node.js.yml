@@ -34,12 +34,12 @@ jobs:
         run: npm test
 
       - name: Build Application 👷
-        run: npm run build && npm run export && touch ./out/.nojekyll
+        run: npm run build && touch ./dist/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FOLDER: out # The folder the action should deploy
+          FOLDER: dist # The folder the action should deploy
           CLEAN: true
           CLEAN-EXCLUDE: CNAME
