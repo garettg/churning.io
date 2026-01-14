@@ -28,7 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Install Packages ⚙️
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Run Tests 🧪
         run: npm test
