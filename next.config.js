@@ -10,12 +10,7 @@ const nextConfig = {
         includePaths: [path.join(__dirname, 'styles')],
     },
     reactStrictMode: true,
-    swcMinify: true,
-    // i18n,
     productionBrowserSourceMaps: true,
-    experimental: {
-        forceSwcTransforms: true,
-    },
 };
 
 module.exports = nextConfig;

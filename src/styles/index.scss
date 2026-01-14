@@ -1,9 +1,10 @@
+@use "sass:meta";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import "~react-date-range/dist/styles.css";
-@import "~react-date-range/dist/theme/default.css";
+@include meta.load-css("react-date-range/dist/styles.css");
+@include meta.load-css("react-date-range/dist/theme/default.css");
 
 body {
     min-width: 320px;
@@ -13,10 +14,10 @@ body {
     text-decoration: none !important;
 }
 
-@import "loader";
-@import "facet";
-@import "custom-date-range";
-@import "reddit-comment";
+@include meta.load-css("loader");
+@include meta.load-css("facet");
+@include meta.load-css("custom-date-range");
+@include meta.load-css("reddit-comment");
 
 input[type="search"]::-webkit-search-cancel-button {
     /* Remove default */
