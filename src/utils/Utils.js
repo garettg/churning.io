@@ -39,20 +39,6 @@ export const gaEvent = (eventName, eventParams) => {
     }
 }
 
-export const customEvent = (eventName, eventData) => {
-    if (!isDevMode() && window.hasOwnProperty("woopra") && Config.enableCustomEvents) {
-        try {
-            window.woopra.track(eventName, eventData, () => {
-                // handle successful responses
-                console.log(`[event] ${eventName}: success`);
-            });
-        } catch (error) {
-            // handle errors
-            console.error(`[event] ${eventName}: failure`, `\n`, error);
-        }
-    }
-}
-
 export const fetchWithTimeout = async (resource, options = {}) => {
     try {
         const { timeout = 60000 } = options;
@@ -110,27 +96,4 @@ export const testMatches = (query, matches) => {
             return regEx.test(query.toLowerCase())
         })
     );
-}
-
-export const woopraInitialize = () => {
-    !function () {
-        var t, o, c, e = window, n = document, r = arguments, a = "script",
-            i = ["call", "cancelAction", "config", "identify", "push", "track", "trackClick", "trackForm", "update", "visit"],
-            s = function () {
-                var t, o = this, c = function (t) {
-                    o[t] = function () {
-                        return o._e.push([t].concat(Array.prototype.slice.call(arguments, 0))), o
-                    }
-                };
-                for (o._e = [], t = 0; t < i.length; t++) c(i[t])
-            };
-        for (e.__woo = e.__woo || {}, t = 0; t < r.length; t++) e.__woo[r[t]] = e[r[t]] = e[r[t]] || new s;
-        (o = n.createElement(a)).async = 1, o.src = "https://static.woopra.com/js/w.js", (c = n.getElementsByTagName(a)[0]).parentNode.insertBefore(o, c)
-    }("woopra");
-
-    if (window.hasOwnProperty("woopra")) {
-        window.woopra.config({
-            domain: Config.domain
-        });
-    }
 }

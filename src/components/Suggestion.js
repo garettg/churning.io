@@ -5,7 +5,7 @@ import {FaBookOpen} from "react-icons/fa";
 import {HiEye} from "react-icons/hi2";
 
 import {KeywordsRegex, Suggestions} from "../utils/Constants";
-import {testMatches, gaEvent, customEvent} from "../utils/Utils";
+import {testMatches, gaEvent} from "../utils/Utils";
 import {useSearchContext} from "../utils/Context";
 
 const Suggestion = (props) => {
@@ -20,12 +20,6 @@ const Suggestion = (props) => {
             label: name,
             value: query,
             nonInteraction: true
-        });
-        customEvent("suggestion", {
-            suggest: name,
-            query: query,
-            keywords: query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').toLowerCase(),
-            resultCount: totalCount
         });
     }
 

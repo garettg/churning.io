@@ -9,7 +9,7 @@ import {TbBrandReddit} from 'react-icons/tb';
 
 import {Config} from "../../app.config";
 import {useSearchContext} from "../utils/Context";
-import {gaEvent, customEvent} from "../utils/Utils";
+import {gaEvent} from "../utils/Utils";
 import {BlockquoteRegEx, LinkClasses, ThreadTypes} from "../utils/Constants";
 import Help from "./Help";
 import Reset from "./Reset";
@@ -30,12 +30,6 @@ const ResultItem = (props) => {
             value: comment.author,
             nonInteraction: true
         });
-        customEvent("author", {
-            username: comment.author,
-            resultNumber: props.resultNumber,
-            thread: ThreadTypes[comment.thread].name,
-            link: `https://reddit.com${link}`
-        })
     }
 
     const handleResultClick = (event, comment, link) => {
@@ -50,12 +44,6 @@ const ResultItem = (props) => {
             label: "author",
             value: comment.author,
             nonInteraction: true
-        });
-        customEvent("result", {
-            author: comment.author,
-            resultNumber: props.resultNumber,
-            thread: ThreadTypes[comment.thread].name,
-            link: `https://reddit.com${link}`
         });
     }
 

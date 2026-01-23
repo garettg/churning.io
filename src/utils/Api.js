@@ -3,7 +3,7 @@ import querystring from "querystring";
 import {toDate, parseISO, getUnixTime, subDays, startOfDay, endOfDay, format, differenceInDays} from 'date-fns';
 
 import {Config} from "../../app.config";
-import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery, customEvent, gaEvent, isDevMode} from "./Utils";
+import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery, gaEvent, isDevMode} from "./Utils";
 import {GaDateFormat, KeywordsRegex} from "./Constants";
 
 const SearchParameters = {
@@ -164,23 +164,13 @@ export class PushshiftAPI {
                         }
                     }
 
-                    let {selectionRange: _, ...rest} = state;
-                    let eventData = Object.assign({}, rest, {
-                        time: rest.time !== "" ? (
-                            rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.subreddits[rest.subreddit])))) + 1)
-                        ) : (differenceInDays(endOfDay(state.selectionRange.endDate), startOfDay(state.selectionRange.startDate)) + 1),
-                        keywords: state.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').trim().toLowerCase(),
-                        resultCount: data.length
-                    });
-
-                    customEvent("search", eventData);
-
                     return data;
                 } catch (error) {
-                    customEvent("error", {
-                        datetime: format(new Date(), `${GaDateFormat} HH:mm:ss z`),
-                        type: "search",
-                        error: error
+                    gaEvent("error", {
+                        category: "Error",
+                        label: "error",
+                        value: error.message,
+                        nonInteraction: true
                     });
 
                     throw error;

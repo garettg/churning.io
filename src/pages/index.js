@@ -9,15 +9,8 @@ import Options from "../components/Options";
 import SearchForm from "../components/SearchForm";
 import Results from "../components/Results";
 import Facets from "../components/Facets";
-import {woopraInitialize} from "../utils/Utils";
 
 export default function Home() {
-    if (Config.enableCustomEvents) {
-        useEffect(() => {
-            woopraInitialize();
-        }, []);
-    }
-
     if (Config.disableSearch) {
         return (
             <div className="container mx-auto text-gray-700 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 dark:text-gray-100 p-4 md:p-8 lg:p-12">

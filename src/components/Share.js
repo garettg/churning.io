@@ -10,7 +10,7 @@ import {differenceInDays, endOfDay, startOfDay, toDate, parseISO} from "date-fns
 import styles from "../styles/Share.module.css";
 
 import {useSearchContext} from "../utils/Context";
-import {decompress, gaEvent, customEvent} from "../utils/Utils";
+import {decompress, gaEvent} from "../utils/Utils";
 import {KeywordsRegex} from "../utils/Constants";
 import {Config} from "../../app.config";
 
@@ -52,17 +52,6 @@ const Share = () => {
             value: formData.query,
             nonInteraction: true
         });
-
-        let {selectionRange: _, ...rest} = formData;
-        let eventData = Object.assign({}, rest, {
-            time: rest.time !== "" ? (
-                rest.time !== "all" ? rest.time : (differenceInDays(endOfDay(new Date()), startOfDay(toDate(parseISO(Config.subreddits[rest.subreddit])))) + 1)
-            ) : (differenceInDays(endOfDay(formData.selectionRange.endDate), startOfDay(formData.selectionRange.startDate)) + 1),
-            keywords: formData.query.replace(KeywordsRegex, ' ').trim().replace(/\s+/g, ',').toLowerCase(),
-            resultCount: totalCount
-        });
-
-        customEvent("share", eventData);
     }
 
     return (
