@@ -76,6 +76,13 @@ const Help = () => {
                         <p>Custom allows a date range to be selected via calendar widget.</p>
                     </td>
                 </tr>
+                <tr>
+                    <td className="border px-4 py-2 align-top whitespace-nowrap font-bold border-gray-200 dark:border-gray-700">Number of Results</td>
+                    <td className="border px-4 py-2 align-top border-gray-200 dark:border-gray-700">
+                        <p>Select the number of results you wish to return. If having issues with the "Timeout. Maybe slow down a bit" error, trying reducing
+                            the number of results returned to improve odds of getting results.</p>
+                    </td>
+                </tr>
             </tbody>
         </table>
     )

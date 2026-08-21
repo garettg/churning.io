@@ -15,6 +15,7 @@ const SearchForm = () => {
         selectionRange,
         sort,
         time,
+        limit,
         subreddit,
         search,
         setState,
@@ -87,7 +88,7 @@ const SearchForm = () => {
                 />
             </div>
             <div className="grid grid-cols-12 gap-4">
-                <div className="col-span-5">
+                <div className="col-span-6">
                     <div className="lg:mb-1">
                         <Label htmlFor="sort" value="Sort By" />
                     </div>
@@ -100,7 +101,7 @@ const SearchForm = () => {
                         <option value="asc">Oldest</option>
                     </Select>
                 </div>
-                <div className="col-span-7">
+                <div className="col-span-6">
                     <div className="lg:mb-1">
                         <Label htmlFor="subreddit" value="Subreddit" />
                     </div>
@@ -113,19 +114,37 @@ const SearchForm = () => {
                     </Select>
                 </div>
             </div>
-            <div>
-                <div className="lg:mb-1">
-                    <Label htmlFor="time" value="Time Range" />
+            <div className="grid grid-cols-12 gap-4">
+                <div className="col-span-6">
+                    <div className="lg:mb-1">
+                        <Label htmlFor="time" value="Time Range" />
+                    </div>
+                    <Select
+                        id="time"
+                        name="time"
+                        value={time}
+                        onChange={handleChange}>
+                        {timeRangeOptions}
+                        <option value="all">All</option>
+                        <option value="">Custom</option>
+                    </Select>
                 </div>
-                <Select
-                    id="time"
-                    name="time"
-                    value={time}
-                    onChange={handleChange}>
-                    {timeRangeOptions}
-                    <option value="all">All</option>
-                    <option value="">Custom</option>
-                </Select>
+                <div className="col-span-6">
+                    <div className="lg:mb-1">
+                        <Label htmlFor="limit" value="Number of Results" />
+                    </div>
+                    <Select
+                        id="limit"
+                        name="limit"
+                        value={limit}
+                        onChange={handleChange}>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </Select>
+                </div>
             </div>
             <div className={classNames('custom-date-range', {"hidden": time !== ""})}>
                 <Label htmlFor="date-range" value="Custom Time Range" className="sr-only" />

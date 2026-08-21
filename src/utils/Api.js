@@ -1,13 +1,26 @@
 import {useQuery} from "@tanstack/react-query";
 import querystring from "querystring";
-import {toDate, parseISO, getUnixTime, subDays, startOfDay, endOfDay, format, differenceInDays} from 'date-fns';
+import {toDate, parseISO, getUnixTime, subDays, startOfDay, endOfDay, format} from 'date-fns';
 
 import {Config} from "../../app.config";
 import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery, gaEvent, isDevMode} from "./Utils";
 import {GaDateFormat, KeywordsRegex} from "./Constants";
 
+export const ApiSources = {
+    PULLPUSH: "pullpush",
+    ARCTICSHIFT: "arcticshift"
+};
+
+export const ApiModes = {
+    AUTO: "auto",
+    ...ApiSources
+};
+
+export const ArcticShiftStartDate = "2025-05-19";
+export const ArcticShiftStartUnix = getUnixTime(startOfDay(parseISO(ArcticShiftStartDate)));
+
 const SearchParameters = {
-    "pullpush": {
+    [ApiSources.PULLPUSH]: {
         query: "q",
         author: "author",
         subreddit: "subreddit",
@@ -17,8 +30,9 @@ const SearchParameters = {
         after: "after",
         sort: "sort",
         limit: 100,
+        url: "https://api.pullpush.io/reddit/search/comment/",
     },
-    "arcticshift": {
+    [ApiSources.ARCTICSHIFT]: {
         query: "body",
         author: "author",
         subreddit: "subreddit",
@@ -28,56 +42,155 @@ const SearchParameters = {
         after: "after",
         sort: "sort",
         limit: 100,
+        url: "https://arctic-shift.photon-reddit.com/api/comments/search",
     }
 }
 
 export class PushshiftAPI {
-    constructUrl(formData, options) {
+    getSearchDateRange(formData) {
+        if (formData.time !== "") {
+            if (formData.time !== "all") {
+                return {
+                    after: getUnixTime(subDays(startOfDay(new Date()), parseInt(formData.time, 10))),
+                    before: getUnixTime(new Date())
+                };
+            }
+
+            return {
+                after: getUnixTime(toDate(parseISO(Config.subreddits[formData.subreddit]))),
+                before: getUnixTime(new Date())
+            };
+        }
+
+        return {
+            after: getUnixTime(startOfDay(formData.selectionRange.startDate)),
+            before: getUnixTime(endOfDay(formData.selectionRange.endDate))
+        };
+    }
+
+    getSearchRequests(formData) {
+        const { after, before } = this.getSearchDateRange(formData);
+
+        if (Config.api === ApiSources.PULLPUSH || Config.api === ApiSources.ARCTICSHIFT) {
+            return [{
+                api: Config.api,
+                after,
+                before
+            }];
+        }
+
+        if (before < ArcticShiftStartUnix) {
+            return [{
+                api: ApiSources.PULLPUSH,
+                after,
+                before
+            }];
+        }
+
+        if (after >= ArcticShiftStartUnix) {
+            return [{
+                api: ApiSources.ARCTICSHIFT,
+                after,
+                before
+            }];
+        }
+
+        return [
+            {
+                api: ApiSources.PULLPUSH,
+                after,
+                before: ArcticShiftStartUnix - 1
+            },
+            {
+                api: ApiSources.ARCTICSHIFT,
+                after: ArcticShiftStartUnix,
+                before
+            }
+        ];
+    }
+
+    constructUrl(formData, options, searchRequest) {
+        const request = searchRequest ?? this.getSearchRequests(formData)[0];
+        const searchParameters = SearchParameters[request.api];
         const params = {
-            ...(SearchParameters[Config.api].subreddit && {[SearchParameters[Config.api].subreddit]: formData.subreddit}),
-            ...(SearchParameters[Config.api].sort_type && {[SearchParameters[Config.api].sort_type]: "created_utc"}),
-            ...(SearchParameters[Config.api].size && {[SearchParameters[Config.api].size]: SearchParameters[Config.api].limit}),
+            ...(searchParameters.subreddit && {[searchParameters.subreddit]: formData.subreddit}),
+            ...(searchParameters.sort_type && {[searchParameters.sort_type]: "created_utc"}),
+            ...(searchParameters.size && {[searchParameters.size]: formData.limit ?? searchParameters.limit}),
         };
 
         if (formData.hasOwnProperty("query") && formData.query) {
-            params[SearchParameters[Config.api].query] = Config.enableAcronymSearch ? convertAcronymQuery(formData.query) : formData.query;
+            params[searchParameters.query] = this.getQuery(formData.query, request.api);
         }
 
         if (formData.hasOwnProperty("author") && formData.author) {
-            params[SearchParameters[Config.api].author] = formData.author;
+            params[searchParameters.author] = formData.author;
         }
 
-        if (formData.time !== "") {
-            if (formData.time !== "all") {
-                params[SearchParameters[Config.api].after] = getUnixTime(subDays(startOfDay(new Date()), parseInt(formData.time)));
-            } else {
-                // Convert subreddit start date to unix time stamp
-                params[SearchParameters[Config.api].after] = getUnixTime(toDate(parseISO(Config.subreddits[formData.subreddit])));
-            }
-
-            params[SearchParameters[Config.api].before] = getUnixTime(new Date());
-        } else {
-            const startDate = getUnixTime(startOfDay(formData.selectionRange.startDate));
-            const endDate = getUnixTime(endOfDay(formData.selectionRange.endDate));
-
-            params[SearchParameters[Config.api].after] = startDate;
-            params[SearchParameters[Config.api].before] = endDate;
-        }
+        params[searchParameters.after] = request.after;
+        params[searchParameters.before] = request.before;
 
         if (formData.sort) {
-            params[SearchParameters[Config.api].sort] = formData.sort;
+            params[searchParameters.sort] = formData.sort;
         }
 
         // For testing error handling
         //return 'https://httpstat.us/503';
-        switch (Config.api) {
-            case "arcticshift":
-                return `https://arctic-shift.photon-reddit.com/api/comments/search?${querystring.stringify(params)}`;
-            case "pullpush":
-                return `https://api.pullpush.io/reddit/search/comment/?${querystring.stringify(params)}`;
-            default:
-                return `https://api.pullpush.io/reddit/search/comment/?${querystring.stringify(params)}`;
+        return `${searchParameters.url}?${querystring.stringify(params)}`;
+    }
+
+    getQuery(query, api) {
+        if (api === ApiSources.PULLPUSH || !Config.enableAcronymSearch) {
+            return query;
         }
+
+        return convertAcronymQuery(query);
+    }
+
+    getCommentKey(comment) {
+        if (comment.id) {
+            return `id:${String(comment.id).replace(/^t1_/, "")}`;
+        }
+
+        if (comment.permalink) {
+            return `permalink:${comment.permalink}`;
+        }
+
+        return `fallback:${comment.author}:${comment.created_utc}:${comment.body}`;
+    }
+
+    getLimit(formData) {
+        const limit = parseInt(formData.limit, 10);
+        return Number.isNaN(limit) ? SearchParameters[ApiSources.PULLPUSH].limit : limit;
+    }
+
+    mergeResults(results, limit, sort) {
+        const commentsByApi = {
+            [ApiSources.PULLPUSH]: [],
+            [ApiSources.ARCTICSHIFT]: []
+        };
+
+        results.forEach((result) => {
+            commentsByApi[result.api].push(...(result.data || []));
+        });
+
+        const commentsByKey = new Map();
+
+        [ApiSources.PULLPUSH, ApiSources.ARCTICSHIFT].forEach((api) => {
+            commentsByApi[api].forEach((comment) => {
+                const key = this.getCommentKey(comment);
+                if (!commentsByKey.has(key)) {
+                    commentsByKey.set(key, comment);
+                }
+            });
+        });
+
+        return Array.from(commentsByKey.values()).sort((a, b) => {
+            if (sort === "asc") {
+                return a.created_utc - b.created_utc;
+            } else {
+                return b.created_utc - a.created_utc;
+            }
+        }).slice(0, limit);
     }
 
     async query(url) {
@@ -107,10 +220,10 @@ export class PushshiftAPI {
     usePushshiftQuery(state, options) {
         const { sort } = state;
 
-        return useQuery(
-            [Config.api, state],
-            async () => {
-                const pushshiftUrl = this.constructUrl(state, options);
+        return useQuery({
+            queryKey: [Config.id, Config.api, "reddit-comments", state],
+            queryFn: async () => {
+                const searchRequests = this.getSearchRequests(state);
 
                 localStorage.setItem(Config.id + "-data", compress(state));
                 if (isDevMode()) {
@@ -118,15 +231,11 @@ export class PushshiftAPI {
                 }
 
                 try {
-                    const dataResults = await this.query(pushshiftUrl);
-
-                    const data = dataResults.sort((a, b) => {
-                        if (sort === "asc") {
-                            return a.created_utc - b.created_utc;
-                        } else {
-                            return b.created_utc - a.created_utc;
-                        }
-                    });
+                    const results = await Promise.all(searchRequests.map(async (searchRequest) => ({
+                        api: searchRequest.api,
+                        data: await this.query(this.constructUrl(state, options, searchRequest))
+                    })));
+                    const data = this.mergeResults(results, this.getLimit(state), sort);
 
                     for (const datum of data) {
                         datum.thread = getThreadType(datum.permalink);
@@ -176,19 +285,15 @@ export class PushshiftAPI {
                     throw error;
                 }
             },
-            {
-                cacheTime: 0,
-                refetchOnMount: false,
-                refetchOnWindowFocus: false,
-                refetchOnReconnect: false,
-                enabled: false, // disable this query from automatically running
-                notifyOnChangeProps: ['data', 'error', 'isLoading', 'fetchStatus'],
-                retry: false, // disable retries for query failure
-                retryOnMount: false,
-                initialData: undefined
-            },
-        );
+            gcTime: 0,
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+            enabled: false, // disable this query from automatically running
+            notifyOnChangeProps: ['data', 'error', 'isLoading', 'fetchStatus'],
+            retry: false, // disable retries for query failure
+            retryOnMount: false,
+            initialData: undefined
+        });
     }
 }
-
-

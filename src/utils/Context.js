@@ -27,6 +27,7 @@ const defaultState = {
         key: "selection"
     },
     sort: "desc",
+    limit: 100,
     subreddit: `${Config.defaultSubreddit}`
 };
 

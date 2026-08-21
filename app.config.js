@@ -25,5 +25,5 @@ export const Config = {
         color: "warning", // info, failure, warning, success
         message: ""
     },
-    api: "arcticshift" // arcticshift // pullpush
+    api: "arcticshift" // auto, pullpush, arcticshift
 }

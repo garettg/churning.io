@@ -1,6 +1,6 @@
 {
   "name": "churning.io",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "Churning subreddit search",
   "repository": "https://github.com/garettg/churning.io.git",
   "homepage": "https://churning.io",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "~0.5.11",
-    "@tanstack/react-query": "~4.36.1",
+    "@tanstack/react-query": "~5.101.4",
     "classnames": "~2.5.1",
     "date-fns": "~4.1.0",
     "flowbite": "~2.2.1",
@@ -29,7 +29,7 @@
     "prop-types": "~15.8.1",
     "querystring": "~0.2.1",
     "react": "19.2.3",
-    "react-copy-to-clipboard": "~5.1.0",
+    "react-copy-to-clipboard": "~5.1.1",
     "react-date-range": "~2.0.1",
     "react-dom": "19.2.3",
     "react-hot-toast": "~2.6.0",
