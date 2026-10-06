@@ -1,15 +1,16 @@
 // import css file
+import "../styles/tailwind.css";
 import "../styles/index.scss";
 
 import React, {useEffect, useState} from "react";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleAnalytics, event } from "nextjs-google-analytics";
-import { ThemeProvider } from 'next-themes';
-import { Flowbite } from "flowbite-react";
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { ThemeProvider as FlowbiteThemeProvider } from "flowbite-react";
 
 import {Config} from "../../app.config";
-import {FlowbiteTheme} from "../utils/Constants";
+import {FlowbiteTheme, FlowbiteThemeApply} from "../utils/Constants";
 import {SearchContextProvider} from "../utils/Context";
 
 export function reportWebVitals({ id, name, label, value }) {
@@ -62,11 +63,11 @@ export default function App({ Component, pageProps }) {
                     <GoogleAnalytics gaMeasurementId={Config.analyticsId} trackPageViews={{ignoreHashChange: true}}/>
                     <QueryClientProvider client={client}>
                         <SearchContextProvider>
-                            <ThemeProvider attribute="class">
-                                <Flowbite theme={{theme: FlowbiteTheme}}>
+                            <NextThemesProvider attribute="class">
+                                <FlowbiteThemeProvider theme={FlowbiteTheme} applyTheme={FlowbiteThemeApply}>
                                     <Component {...pageProps} />
-                                </Flowbite>
-                            </ThemeProvider>
+                                </FlowbiteThemeProvider>
+                            </NextThemesProvider>
                         </SearchContextProvider>
                     </QueryClientProvider>
                 </div>

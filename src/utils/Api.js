@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import querystring from "querystring";
-import {toDate, parseISO, getUnixTime, subDays, startOfDay, endOfDay, format} from 'date-fns';
+import {toDate, parseISO, getUnixTime, subDays, subMonths, startOfDay, endOfDay, format} from 'date-fns';
 
 import {Config} from "../../app.config";
 import {compress, fetchWithTimeout, getThreadType, convertAcronymQuery, gaEvent, isDevMode} from "./Utils";
@@ -18,6 +18,7 @@ export const ApiModes = {
 
 export const ArcticShiftStartDate = "2025-05-19";
 export const ArcticShiftStartUnix = getUnixTime(startOfDay(parseISO(ArcticShiftStartDate)));
+const KarmaPageSize = 100;
 
 const SearchParameters = {
     [ApiSources.PULLPUSH]: {
@@ -30,7 +31,7 @@ const SearchParameters = {
         after: "after",
         sort: "sort",
         limit: 100,
-        url: "https://api.pullpush.io/reddit/search/comment/",
+        url: "https://api.pullpush.io/comment",
     },
     [ApiSources.ARCTICSHIFT]: {
         query: "body",
@@ -46,7 +47,82 @@ const SearchParameters = {
     }
 }
 
-export class PushshiftAPI {
+export class DataAPI {
+    async getSubredditCommentKarma(username, onProgress = () => undefined) {
+        const normalizedUsername = username.trim().replace(/^u\//i, "");
+
+        if (!/^[A-Za-z0-9_-]{3,20}$/.test(normalizedUsername)) {
+            throw new Error("Enter a valid Reddit username.");
+        }
+
+        const subreddit = Config.defaultSubreddit;
+        const after = getUnixTime(subMonths(new Date(), 3));
+        let before = getUnixTime(new Date());
+        let totalScore = 0;
+        let commentCount = 0;
+        let pageCount = 0;
+        const commentIds = new Set();
+
+        while (before > after) {
+            const params = {
+                author: normalizedUsername,
+                subreddit,
+                after,
+                before,
+                limit: KarmaPageSize,
+                sort: "desc",
+            };
+            const url = `https://arctic-shift.photon-reddit.com/api/comments/search?${querystring.stringify(params)}`;
+            const comments = await this.query(url);
+
+            if (!Array.isArray(comments) || comments.length === 0) {
+                break;
+            }
+
+            let oldestCommentTime = before;
+
+            for (const comment of comments) {
+                const commentTime = Number(comment.created_utc);
+                const commentId = comment.id ? String(comment.id) : `${commentTime}:${comment.score}`;
+
+                if (commentIds.has(commentId)) {
+                    continue;
+                }
+
+                commentIds.add(commentId);
+
+                if (comment.subreddit?.toLowerCase() === subreddit.toLowerCase()) {
+                    const score = Number(comment.score);
+                    if (Number.isFinite(score)) {
+                        totalScore += Math.max(score - 1, 0);
+                        commentCount += 1;
+                    }
+                }
+
+                if (Number.isFinite(commentTime)) {
+                    oldestCommentTime = Math.min(oldestCommentTime, commentTime);
+                }
+            }
+
+            pageCount += 1;
+            onProgress({commentCount, pageCount});
+
+            if (comments.length < KarmaPageSize || !Number.isFinite(oldestCommentTime) || oldestCommentTime >= before) {
+                break;
+            }
+
+            before = oldestCommentTime - 1;
+        }
+
+        return {
+            username: normalizedUsername,
+            subreddit,
+            totalScore,
+            commentCount,
+            pageCount
+        };
+    }
+
     getSearchDateRange(formData) {
         if (formData.time !== "") {
             if (formData.time !== "all") {
@@ -204,7 +280,7 @@ export class PushshiftAPI {
 
             // check for error response
             if (!response.ok) {
-                let message = response.statusText ? response.statusText : ( results.error ? results.error : "An unknown error has occurred. Please try again later." );
+                let message = response.statusText ? response.statusText : ( results?.error ? results.error : "An unknown error has occurred. Please try again later." );
                 throw new Error(message);
             }
 
@@ -217,83 +293,84 @@ export class PushshiftAPI {
         }
     }
 
-    usePushshiftQuery(state, options) {
-        const { sort } = state;
+}
 
-        return useQuery({
-            queryKey: [Config.id, Config.api, "reddit-comments", state],
-            queryFn: async () => {
-                const searchRequests = this.getSearchRequests(state);
+export const useDataQuery = (api, state, options) => {
+    const { sort } = state;
 
-                localStorage.setItem(Config.id + "-data", compress(state));
-                if (isDevMode()) {
-                    console.log("[local storage] state: updated");
+    return useQuery({
+        queryKey: [Config.id, Config.api, "reddit-comments", state],
+        queryFn: async () => {
+            const searchRequests = api.getSearchRequests(state);
+
+            localStorage.setItem(Config.id + "-data", compress(state));
+            if (isDevMode()) {
+                console.log("[local storage] state: updated");
+            }
+
+            try {
+                const results = await Promise.all(searchRequests.map(async (searchRequest) => ({
+                    api: searchRequest.api,
+                    data: await api.query(api.constructUrl(state, options, searchRequest))
+                })));
+                const data = api.mergeResults(results, api.getLimit(state), sort);
+
+                for (const datum of data) {
+                    datum.thread = getThreadType(datum.permalink);
                 }
 
-                try {
-                    const results = await Promise.all(searchRequests.map(async (searchRequest) => ({
-                        api: searchRequest.api,
-                        data: await this.query(this.constructUrl(state, options, searchRequest))
-                    })));
-                    const data = this.mergeResults(results, this.getLimit(state), sort);
+                for (const [key, value] of Object.entries(state)) {
+                    if (value !== "") {
+                        let eventValue = value;
 
-                    for (const datum of data) {
-                        datum.thread = getThreadType(datum.permalink);
-                    }
+                        if (key === "selectionRange" && state.time === "") {
+                            eventValue = `${format(value.startDate, GaDateFormat)} - ${format(value.endDate, GaDateFormat)}`
+                        }
+                        if (key === "selectionRange" && state.time !== "") {
+                            continue;
+                        }
 
-                    for (const [key, value] of Object.entries(state)) {
-                        if (value !== "") {
-                            let eventValue = value;
+                        gaEvent("search", {
+                            category: "Search",
+                            label: key,
+                            value: eventValue,
+                            nonInteraction: true
+                        });
 
-                            if (key === "selectionRange" && state.time === "") {
-                                eventValue = `${format(value.startDate, GaDateFormat)} - ${format(value.endDate, GaDateFormat)}`
-                            }
-                            if (key === "selectionRange" && state.time !== "") {
-                                continue;
-                            }
-
-                            gaEvent("search", {
-                                category: "Search",
-                                label: key,
-                                value: eventValue,
-                                nonInteraction: true
-                            });
-
-                            if (key === "query") {
-                                let keywords = value.replace(KeywordsRegex, ' ').replace(/\s\s+/g, ' ').trim().toLowerCase().split(" ");
-                                keywords.map(term => {
-                                    gaEvent("search", {
-                                        category: "Search",
-                                        label: "keyword",
-                                        value: term,
-                                        nonInteraction: true
-                                    });
-                                })
-                            }
+                        if (key === "query") {
+                            let keywords = value.replace(KeywordsRegex, ' ').replace(/\s\s+/g, ' ').trim().toLowerCase().split(" ");
+                            keywords.map(term => {
+                                gaEvent("search", {
+                                    category: "Search",
+                                    label: "keyword",
+                                    value: term,
+                                    nonInteraction: true
+                                });
+                            })
                         }
                     }
-
-                    return data;
-                } catch (error) {
-                    gaEvent("error", {
-                        category: "Error",
-                        label: "error",
-                        value: error.message,
-                        nonInteraction: true
-                    });
-
-                    throw error;
                 }
-            },
-            gcTime: 0,
-            refetchOnMount: false,
-            refetchOnWindowFocus: false,
-            refetchOnReconnect: false,
-            enabled: false, // disable this query from automatically running
-            notifyOnChangeProps: ['data', 'error', 'isLoading', 'fetchStatus'],
-            retry: false, // disable retries for query failure
-            retryOnMount: false,
-            initialData: undefined
-        });
-    }
+
+                return data;
+            } catch (error) {
+                gaEvent("error", {
+                    category: "Error",
+                    label: "error",
+                    value: error.message,
+                    nonInteraction: true
+                });
+
+                throw error;
+            }
+        },
+        gcTime: 0,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        enabled: false, // disable this query from automatically running
+        notifyOnChangeProps: ['data', 'error', 'isLoading', 'fetchStatus'],
+        retry: false, // disable retries for query failure
+        retryOnMount: false,
+        initialData: undefined
+    });
 }

@@ -4,10 +4,10 @@ import { isEmpty } from "underscore";
 
 import {Config} from "../../app.config";
 import {compress, decompress, isDevMode} from "./Utils";
-import { PushshiftAPI } from "./Api";
+import { DataAPI, useDataQuery } from "./Api";
 import {KeywordsRegex} from "./Constants";
 
-const api = new PushshiftAPI();
+const api = new DataAPI();
 
 const idOptions = Config.id + "-options";
 const idData = Config.id + "-data";
@@ -61,7 +61,17 @@ const SearchContextProvider = (props) => {
     const [state, setState] = useState(defaultState);
     const [threadFilters, setThreadFilters] = useState({});
     const [options, setOptions] = useState(defaultOptions);
-    const { refetch, error, data, isRefetching, fetchStatus } = api.usePushshiftQuery(state, options);
+    const { refetch, error, data, isRefetching, fetchStatus } = useDataQuery(api, state, options);
+
+    const search = (resetFilters = false) => {
+        if (resetFilters) {
+            setThreadFilters((prevThreadFilters) => Object.fromEntries(
+                Object.keys(prevThreadFilters).map((thread) => [thread, true])
+            ));
+        }
+
+        refetch();
+    }
 
     const loadSavedState = (formData = {}, shouldSearch = false) => {
         if (!isEmpty(formData)) {
@@ -110,6 +120,8 @@ const SearchContextProvider = (props) => {
                 console.log("[local storage] state: loaded");
             }
         }
+        // Load persisted state once on mount.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -150,18 +162,8 @@ const SearchContextProvider = (props) => {
     let searched = data !== undefined
 
     const reset = () => {
-        searched = false;
         setThreadFilters({});
         setState(defaultState);
-    }
-
-    const search = (resetFilters = false) => {
-        searched = false;
-        if (resetFilters) {
-            Object.keys(threadFilters).map(thread => threadFilters[thread] = true);
-        }
-
-        refetch();
     }
 
     return (

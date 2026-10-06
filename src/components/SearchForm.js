@@ -59,13 +59,13 @@ const SearchForm = () => {
             </>;
     }
 
-    let searchButtonDisabled = (query.length < (Config.enableAcronymSearch ? 2:3) && author === "");
+    let searchButtonDisabled = (query.length < 2 && author === "");
 
     return (
         <form onSubmit={searchSubmit} className="flex flex-col gap-3 lg:gap-4 mt-3 md:mt-4" role="search" aria-label="Search Form">
             <div>
                 <div className="lg:mb-1">
-                    <Label htmlFor="query" value="Search" />
+                    <Label htmlFor="query">Search</Label>
                 </div>
                 <TextInput
                     id="query"
@@ -77,7 +77,7 @@ const SearchForm = () => {
             </div>
             <div>
                 <div className="lg:mb-1">
-                    <Label htmlFor="author" value="Author" />
+                    <Label htmlFor="author">Author</Label>
                 </div>
                 <TextInput
                     id="author"
@@ -90,7 +90,7 @@ const SearchForm = () => {
             <div className="grid grid-cols-12 gap-4">
                 <div className="col-span-6">
                     <div className="lg:mb-1">
-                        <Label htmlFor="sort" value="Sort By" />
+                        <Label htmlFor="sort">Sort By</Label>
                     </div>
                     <Select
                         id="sort"
@@ -103,7 +103,7 @@ const SearchForm = () => {
                 </div>
                 <div className="col-span-6">
                     <div className="lg:mb-1">
-                        <Label htmlFor="subreddit" value="Subreddit" />
+                        <Label htmlFor="subreddit">Subreddit</Label>
                     </div>
                     <Select
                         id="subreddit"
@@ -117,7 +117,7 @@ const SearchForm = () => {
             <div className="grid grid-cols-12 gap-4">
                 <div className="col-span-6">
                     <div className="lg:mb-1">
-                        <Label htmlFor="time" value="Time Range" />
+                        <Label htmlFor="time">Time Range</Label>
                     </div>
                     <Select
                         id="time"
@@ -131,7 +131,7 @@ const SearchForm = () => {
                 </div>
                 <div className="col-span-6">
                     <div className="lg:mb-1">
-                        <Label htmlFor="limit" value="Number of Results" />
+                        <Label htmlFor="limit">Number of Results</Label>
                     </div>
                     <Select
                         id="limit"
@@ -147,7 +147,7 @@ const SearchForm = () => {
                 </div>
             </div>
             <div className={classNames('custom-date-range', {"hidden": time !== ""})}>
-                <Label htmlFor="date-range" value="Custom Time Range" className="sr-only" />
+                <Label htmlFor="date-range" className="sr-only">Custom Time Range</Label>
                 <DateRange
                     id="date-range"
                     editableDateInputs={false}

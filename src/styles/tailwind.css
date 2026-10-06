@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "flowbite-react/plugin/tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "flowbite/plugin";
+@source "../**/*.{js,jsx,ts,tsx}";
+@source "../../node_modules/flowbite-react/dist";
+@source "../../node_modules/flowbite";
+@source inline("xl:grid-cols-1 xl:grid-cols-2 xl:grid-cols-3");
+@config "../../tailwind.config.js";

@@ -1,11 +1,11 @@
 const {assert}  = require('chai');
 const {getUnixTime, endOfDay, parseISO, startOfDay} = require('date-fns');
 const {Config} = require('../app.config');
-const {PushshiftAPI, ApiSources, ApiModes, ArcticShiftStartUnix} = require('../src/utils/Api');
+const {DataAPI, ApiSources, ApiModes, ArcticShiftStartUnix} = require('../src/utils/Api');
 const {convertAcronymQuery, testMatches} = require('../src/utils/Utils');
 const {DisqualifyAcronymsCharacters, Suggestions} = require('../src/utils/Constants');
 
-const api = new PushshiftAPI();
+const api = new DataAPI();
 
 const getCustomRangeFormData = (startDate, endDate) => ({
     query: "amex",

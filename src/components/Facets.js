@@ -28,8 +28,7 @@ const Facets = () => {
     }
 
     const handleChange = (e) => {
-        threadFilters[e.target.name] = e.target.checked;
-        setThreadFilters({...threadFilters});
+        setThreadFilters({...threadFilters, [e.target.name]: e.target.checked});
         gaEvent("filter", {
             category: "Filter",
             label: (e.target.checked ? 'Show' : 'Hide'),
@@ -39,10 +38,9 @@ const Facets = () => {
     }
 
     const handleOnly = (key) => {
-        for (const subkey in threadFilters) {
-            threadFilters[subkey] = subkey === key;
-        }
-        setThreadFilters({...threadFilters});
+        setThreadFilters(Object.fromEntries(
+            Object.keys(threadFilters).map((subkey) => [subkey, subkey === key])
+        ));
         gaEvent("filter", {
             category: "Filter",
             label: "Only",
@@ -52,10 +50,9 @@ const Facets = () => {
     }
 
     const handleAll = () => {
-        for (const key in threadFilters) {
-            threadFilters[key] = true;
-        }
-        setThreadFilters({...threadFilters});
+        setThreadFilters(Object.fromEntries(
+            Object.keys(threadFilters).map((key) => [key, true])
+        ));
         gaEvent("filter", {
             category: "Filter",
             label: "All",

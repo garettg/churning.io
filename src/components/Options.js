@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Modal, ToggleSwitch} from 'flowbite-react';
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader, ToggleSwitch} from 'flowbite-react';
 import {TbAdjustmentsHorizontal} from "react-icons/tb";
 import { useTheme } from 'next-themes';
 
@@ -78,17 +78,17 @@ const Options = () => {
                 aria-labelledby="options-modal"
                 onClose={handleClose}
                 size="sm">
-                <Modal.Header id="options-modal">
+                <ModalHeader id="options-modal">
                     {Config.name} Options
-                </Modal.Header>
-                <Modal.Body>
+                </ModalHeader>
+                <ModalBody>
                     <form className="">
                         <div className="flex flex-col gap-4">
                             {optionsList}
                         </div>
                     </form>
-                </Modal.Body>
-                <Modal.Footer>
+                </ModalBody>
+                <ModalFooter>
                     <Button
                         color="blue"
                         aria-label="Close"
@@ -96,7 +96,7 @@ const Options = () => {
                         fullSized>
                         OK
                     </Button>
-                </Modal.Footer>
+                </ModalFooter>
             </Modal>
         </>
     );

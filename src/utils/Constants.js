@@ -103,11 +103,13 @@ export const FlowbiteTheme = {
     badge: {
         root: {
             color: {
-                fuchsia: 'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-200 dark:text-fuchsia-900 group-hover:bg-fuchsia-200 dark:group-hover:bg-fuchsia-300',
-                orange: 'bg-orange-100 text-orange-800 dark:bg-orange-200 dark:text-orange-900 group-hover:bg-orange-200 dark:group-hover:bg-orange-300',
-                cyan: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-200 dark:text-cyan-900 group-hover:bg-cyan-200 dark:group-hover:bg-cyan-300',
-                stone: 'bg-stone-100 text-stone-800 dark:bg-stone-200 dark:text-stone-900 group-hover:bg-stone-200 dark:group-hover:bg-stone-300',
-                lime: 'bg-lime-100 text-lime-800 dark:bg-lime-200 dark:text-lime-900 group-hover:bg-lime-200 dark:group-hover:bg-lime-300',
+                fuchsia: 'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-200 dark:text-fuchsia-900',
+                orange: 'bg-orange-100 text-orange-800 dark:bg-orange-200 dark:text-orange-900',
+                cyan: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-200 dark:text-cyan-900',
+                stone: 'bg-stone-100 text-stone-800 dark:bg-stone-200 dark:text-stone-900',
+                lime: 'bg-lime-100 text-lime-800 dark:bg-lime-200 dark:text-lime-900',
+                success: 'bg-green-100 text-green-800 dark:bg-green-200 dark:text-green-900',
+                warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-900',
             }
         }
     },
@@ -156,6 +158,22 @@ export const FlowbiteTheme = {
 };
 
 export const DisqualifyAcronymsCharacters = /[\(\)\|\'\"\+]|\sor\s/gi
+
+export const FlowbiteThemeApply = {
+    badge: {
+        root: {
+            color: {
+                fuchsia: "replace",
+                orange: "replace",
+                cyan: "replace",
+                stone: "replace",
+                lime: "replace",
+                success: "replace",
+                warning: "replace"
+            }
+        }
+    }
+};
 
 export const Acronyms = {
     "annual fee": "af",

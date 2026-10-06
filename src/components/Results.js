@@ -76,7 +76,8 @@ const ResultItem = (props) => {
 
     let postedBadge = <Badge icon={ImClock2} color="warning" size="xs" className="pr-1.5" title={commentFormattedDate}><span className="sr-only">Comment Posted:</span> {commentPosted}</Badge>
 
-    let authorAvatar = <Avatar size="xs" img={`https://www.redditstatic.com/avatars/defaults/v2/avatar_default_${Math.floor(Math.random() * 8)}.png`} />
+    const avatarSeed = Array.from(props.author || props.id || "").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    let authorAvatar = <Avatar size="xs" img={`https://www.redditstatic.com/avatars/defaults/v2/avatar_default_${avatarSeed % 8}.png`} />
 
     return (
         <Card>
