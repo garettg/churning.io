@@ -73,7 +73,7 @@ export class DataAPI {
                 sort: "desc",
                 fields: "id,score,created_utc"
             };
-            const url = `https://arctic-shift.photon-reddit.com/api/comments/search?${querystring.stringify(params)}`;
+            const url = `${SearchParameters[ApiSources.ARCTICSHIFT].url}?${querystring.stringify(params)}`;
             const comments = await this.query(url);
 
             if (!Array.isArray(comments) || comments.length === 0) {
