@@ -71,6 +71,7 @@ export class DataAPI {
                 before,
                 limit: KarmaPageSize,
                 sort: "desc",
+                fields: "id,score,created_utc"
             };
             const url = `https://arctic-shift.photon-reddit.com/api/comments/search?${querystring.stringify(params)}`;
             const comments = await this.query(url);
@@ -91,12 +92,10 @@ export class DataAPI {
 
                 commentIds.add(commentId);
 
-                if (comment.subreddit?.toLowerCase() === subreddit.toLowerCase()) {
-                    const score = Number(comment.score);
-                    if (Number.isFinite(score)) {
-                        totalScore += Math.max(score - 1, 0);
-                        commentCount += 1;
-                    }
+                const score = Number(comment.score);
+                if (Number.isFinite(score)) {
+                    totalScore += Math.max(score - 1, 0);
+                    commentCount += 1;
                 }
 
                 if (Number.isFinite(commentTime)) {
